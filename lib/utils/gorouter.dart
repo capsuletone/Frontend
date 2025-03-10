@@ -18,12 +18,12 @@ class AppRouter {
         GoRoute(
           path: '/',
           name: 'HomeScreen',
-          builder: (state, _) => HomeScreen(),
+          builder: (state, _) => HomePage(),
         ),
-        GoRoute(
-          path: '/scan',
-          name: ' TextRecognitionScreen',
-          builder: (state, _) => CameraScreen(),
-        ),
+        // GoRoute(
+        //   path: '/scan',
+        //   name: ' TextRecognitionScreen',
+        //   builder: (state, _) => CameraScreen(),
+        // ),
       ];
 }
