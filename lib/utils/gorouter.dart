@@ -1,9 +1,10 @@
-import 'package:capsuleton_flutter/screen/root_screen.dart';
+import 'package:capsuleton_flutter/screens/capsule_detail_screen.dart';
+import 'package:capsuleton_flutter/screens/root_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../screen/login_screen.dart';
-import '../screen/splash_screen.dart';
-import '../screen/home_screen.dart';
+import '../screens/login_screen.dart';
+import '../screens/splash_screen.dart';
+import '../screens/home_screen.dart';
 
 class AppRouter {
   final GoRouter _router;
@@ -31,15 +32,22 @@ class AppRouter {
           builder: (_, state) => LoginScreen(),
         ),
         _createRoute(
-          path: RoutePaths.root,
-          name: RouteNames.root,
-          builder: (_, state) => RootTab(),
-        ),
-        _createRoute(
-          path: RoutePaths.home,
-          name: RouteNames.home,
-          builder: (_, state) => HomeScreen(),
-        ),
+            path: RoutePaths.root,
+            name: RouteNames.root,
+            builder: (_, state) => RootTab(),
+            routes: [
+              _createRoute(
+                  path: RoutePaths.home,
+                  name: RouteNames.home,
+                  builder: (_, state) => HomeScreen(),
+                  routes: [
+                    _createRoute(
+                      path: RoutePaths.detail,
+                      name: RouteNames.detail,
+                      builder: (_, state) => CapsuleDetailScreen(),
+                    ),
+                  ]),
+            ]),
       ];
 
   static GoRoute _createRoute({
@@ -62,6 +70,7 @@ class RoutePaths {
   static const login = '/login';
   static const home = '/home';
   static const root = '/root';
+  static const detail = '/detail';
 }
 
 // 라우트 이름 상수를 정의
@@ -70,4 +79,5 @@ class RouteNames {
   static const login = 'LoginScreen';
   static const home = 'HomeScreen';
   static const root = 'RootScreen';
+  static const detail = 'CapsuleDetailScreen';
 }

@@ -95,32 +95,32 @@ class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(
-                    Icons.redeem_outlined, // 원하는 아이콘 설정 (예: 설정 아이콘)
+                    Icons.calendar_month, // 원하는 아이콘 설정 (예: 설정 아이콘)
 
                     size: 25 * pixel, // 크기 설정
                     color: Color(0x7F191F28), // 색상 적용 (#4E5968)
                   ),
                   activeIcon: Icon(
-                    Icons.redeem_outlined, // 원하는 아이콘 설정 (예: 설정 아이콘)
+                    Icons.calendar_month, // 원하는 아이콘 설정 (예: 설정 아이콘)
                     size: 25 * pixel, // 크기 설정
                   ),
-                  label: '상점',
+                  label: '달력',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(
-                    Icons.router_outlined, // 원하는 아이콘 설정 (예: 설정 아이콘)
+                    Icons.recommend_outlined, // 원하는 아이콘 설정 (예: 설정 아이콘)
                     size: 25 * pixel, // 크기 설정
                     color: Color(0x7F191F28), // 색상 적용 (#4E5968)
                     // 색상 적용 (#4E5968)
                   ),
                   activeIcon: Icon(
-                    Icons.router_outlined, // 원하는 아이콘 설정 (예: 설정 아이콘)
+                    Icons.recommend_outlined, // 원하는 아이콘 설정 (예: 설정 아이콘)
 
                     size: 25 * pixel, // 크기 설정
 
                     // 색상 적용 (#4E5968)
                   ),
-                  label: '제품',
+                  label: '추천',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(
