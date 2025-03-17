@@ -3,6 +3,8 @@ import 'package:capsuleton_flutter/screens/root_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../screens/login_screen.dart';
+import '../screens/prescription_edit_screen.dart';
+import '../screens/register_screen.dart';
 import '../screens/splash_screen.dart';
 import '../screens/home_screen.dart';
 
@@ -14,7 +16,7 @@ class AppRouter {
       : navigatorKey = GlobalKey<NavigatorState>(), // NavigatorKey 초기화
         _router = GoRouter(
           navigatorKey: GlobalKey<NavigatorState>(),
-          initialLocation: RoutePaths.root,
+          initialLocation: RoutePaths.splash,
           routes: _buildRoutes(),
         );
 
@@ -32,6 +34,11 @@ class AppRouter {
           builder: (_, state) => LoginScreen(),
         ),
         _createRoute(
+          path: RoutePaths.register,
+          name: RoutePaths.register,
+          builder: (state, _) => RegisterScreen(),
+        ),
+        _createRoute(
             path: RoutePaths.root,
             name: RouteNames.root,
             builder: (_, state) => RootTab(),
@@ -41,6 +48,11 @@ class AppRouter {
                   name: RouteNames.home,
                   builder: (_, state) => HomeScreen(),
                   routes: [
+                    _createRoute(
+                      path: RoutePaths.preescriptionEdit,
+                      name: RoutePaths.preescriptionEdit,
+                      builder: (state, _) => PrescriptionEditScreen(),
+                    ),
                     _createRoute(
                       path: RoutePaths.detail,
                       name: RouteNames.detail,
@@ -68,16 +80,20 @@ class AppRouter {
 class RoutePaths {
   static const splash = '/';
   static const login = '/login';
+  static const register = '/register';
   static const home = '/home';
   static const root = '/root';
   static const detail = '/detail';
+  static const preescriptionEdit = '/prescriptionEdit';
 }
 
 // 라우트 이름 상수를 정의
 class RouteNames {
   static const splash = 'SplashScreen';
   static const login = 'LoginScreen';
+  static const register = 'RegisterScreen';
   static const home = 'HomeScreen';
   static const root = 'RootScreen';
   static const detail = 'CapsuleDetailScreen';
+  static const preescriptionEdit = 'PrescriptionEditScreen';
 }

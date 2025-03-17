@@ -14,16 +14,15 @@ class LoginButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pixel = MediaQuery.of(context).size.width / 393 * 0.97;
+    final pixel = MediaQuery.of(context).size.width / 375 * 0.97;
 
     return GestureDetector(
       onTap: onTap,
       child: Container(
         width: 298 * pixel,
-        height: 25 * pixel,
+        height: 40 * pixel,
         decoration: BoxDecoration(
           color: Colors.green,
-          borderRadius: BorderRadius.circular(8),
         ),
         child: Center(
           child: child ??

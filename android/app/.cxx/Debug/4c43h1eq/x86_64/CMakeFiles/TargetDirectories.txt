@@ -1,0 +1,2 @@
+/Users/jw/Documents/gupachi/capsuleton_flutter/android/app/.cxx/Debug/4c43h1eq/x86_64/CMakeFiles/edit_cache.dir
+/Users/jw/Documents/gupachi/capsuleton_flutter/android/app/.cxx/Debug/4c43h1eq/x86_64/CMakeFiles/rebuild_cache.dir

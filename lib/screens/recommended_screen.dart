@@ -35,8 +35,6 @@ class _RecommendedScreenState extends State<RecommendedScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [Center(child: Text("추천 화면"))])));
 
-      // 600보다 작으면 스크롤 적용
-
       return SingleChildScrollView(
           physics: isScrollable ? null : NeverScrollableScrollPhysics(),
           child: ConstrainedBox(

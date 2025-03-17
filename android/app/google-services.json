@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "992379674943",
+    "project_id": "capsulton",
+    "storage_bucket": "capsulton.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:992379674943:android:1b1ec888f45b409ecaf38a",
+        "android_client_info": {
+          "package_name": "com.example.capsuleton_flutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-01EzYq2K9lL2NtjzBecMvv5X1Fv8iqY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

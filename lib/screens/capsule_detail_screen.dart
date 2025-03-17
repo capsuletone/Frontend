@@ -12,13 +12,11 @@ class CapsuleDetailScreen extends StatefulWidget {
 class _CapsuleDetailScreenState extends State<CapsuleDetailScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     final pixel = MediaQuery.of(context).size.width / 375 * 0.97;
-    final arguments =
-        ModalRoute.of(context)?.settings.arguments as Map<String, String>;
+
     return Scaffold(
         backgroundColor: Colors.white,
         body: Padding(
@@ -26,6 +24,7 @@ class _CapsuleDetailScreenState extends State<CapsuleDetailScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                SizedBox(height: 54 * pixel),
                 Container(
                   height: 40.0 * pixel, // AppBar 높이
 

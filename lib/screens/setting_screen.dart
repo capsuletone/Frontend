@@ -1,8 +1,10 @@
 import 'dart:io';
+import 'package:capsuleton_flutter/auth/component/logout_component.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../auth/component/service_logout_component.dart';
 import '../component/setting_component.dart';
 import '../component/setting_line_component.dart';
 
@@ -60,7 +62,18 @@ class _SettingScreenState extends State<SettingScreen> {
                         ),
                         SettingBox(
                           onTap: () => {
-                            context.go('/root/setting/settingNickname'),
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Dialog(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.circular(20 * pixel),
+                                  ),
+                                  child: AccountLogout(),
+                                );
+                              },
+                            ),
                           },
                           settingText: "로그아웃",
                         ),
@@ -74,7 +87,18 @@ class _SettingScreenState extends State<SettingScreen> {
                         settingLine(pixel),
                         SettingBox(
                           onTap: () => {
-                            context.go('/root/setting/settingAccount'),
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Dialog(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.circular(20 * pixel),
+                                  ),
+                                  child: ServiceLogout(),
+                                );
+                              },
+                            ),
                           },
                           settingText: "회원탈퇴",
                         ),

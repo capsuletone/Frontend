@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../component/home_capsule_time_component.dart';
 import '../component/home_header_component.dart';
 import '../component/home_qrcode_scan_component.dart';
@@ -37,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(
                           height: 50 * pixel,
                         ),
-                        homeheader(pixel),
+                        homeheader(pixel, context),
                         SizedBox(
                           height: 34 * pixel,
                         ),
@@ -45,7 +46,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(
                           height: 20 * pixel,
                         ),
-                        homeQrcodeScanContainer(pixel),
+                        homeQrcodeScanContainer(() {
+                          context.go('/root/home/prescriptionEdit');
+                        }, pixel),
                       ])));
 
           // 600보다 작으면 스크롤 적용

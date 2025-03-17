@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../auth/component/login_button.dart';
@@ -62,81 +61,104 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final pixel = MediaQuery.of(context).size.width / 375 * 0.97;
 
-    return GestureDetector(onTap: () {
-      FocusScope.of(context).unfocus(); // 포커스 해제 및 키보드 내리기
-    }, child: Scaffold(body: LayoutBuilder(builder: (context, constraints) {
-      final isScrollable = constraints.maxHeight < 600;
-      final screenWidth = MediaQuery.of(context).size.width; // 화면 너비
-      final isTablet = screenWidth >= 768; // 아이패드 여부 판단
+    return GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus(); // 포커스 해제 및 키보드 내리기
+        },
+        child: Scaffold(
+            backgroundColor: Colors.green[100],
+            body: LayoutBuilder(builder: (context, constraints) {
+              final isScrollable = constraints.maxHeight < 600;
+              final screenWidth = MediaQuery.of(context).size.width; // 화면 너비
+              final isTablet = screenWidth >= 768; // 아이패드 여부 판단
 
-      final content = Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/icons/backgroud_icon.png'),
-              fit: BoxFit.cover, // 이미지를 화면에 맞게 채우되 비율 유지
-            ),
-          ),
-          child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 33 * pixel),
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                        child: Column(
-                      children: [
-                        if (!isTablet &&
-                            !isScrollable) // isScrollable이 false일 때만 SizedBox 적용
-                          SizedBox(
-                            height: 239 * pixel,
-                          ),
-                        Image.asset(
-                          'assets/icons/logo_icon.png',
-                          width: 200 * pixel,
-                          height: 152.78 * pixel,
-                          fit: BoxFit.contain,
-                        ),
-                      ],
-                    )),
-                    SizedBox(
-                      height: 20 * pixel,
-                    ),
-                    LoginTextField(
-                      controller: emailController,
-                      hintText: 'Email',
-                      obscureText: false,
-                    ),
-                    SizedBox(height: 10 * pixel),
-                    LoginTextField(
-                      controller: passwordController,
-                      hintText: 'Password',
-                      obscureText: true,
-                    ),
-                    SizedBox(
-                      height: 10 * pixel,
-                    ),
-                    LoginButton(
-                      text: _isLoading ? "" : "Sign In",
-                      onTap: _isLoading ? null : signUserIn,
-                      child: _isLoading
-                          ? CircularProgressIndicator(color: Colors.white)
-                          : null,
-                    ),
-                    SizedBox(
-                      height: 29 * pixel,
-                    ),
-                  ])));
+              final content = Container(
+                  child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 33 * pixel),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                                child: Column(
+                              children: [
+                                if (!isTablet &&
+                                    !isScrollable) // isScrollable이 false일 때만 SizedBox 적용
+                                  SizedBox(
+                                    height: 239 * pixel,
+                                  ),
+                                Icon(
+                                  Icons.medication, // 원하는 아이콘 설정
+                                  size: 200 * pixel, // 크기 조절
+                                  color: Colors.white, // 색상 지정
+                                )
+                              ],
+                            )),
+                            SizedBox(
+                              height: 100 * pixel,
+                            ),
+                            LoginTextField(
+                              controller: emailController,
+                              hintText: '이메일',
+                              obscureText: false,
+                            ),
+                            SizedBox(
+                              height: 20 * pixel,
+                            ),
+                            LoginTextField(
+                              controller: passwordController,
+                              hintText: '비밀번호',
+                              obscureText: true,
+                            ),
+                            SizedBox(
+                              height: 20 * pixel,
+                            ),
+                            LoginButton(
+                              text: _isLoading ? "" : "로그인",
+                              onTap: _isLoading ? null : signUserIn,
+                              child: _isLoading
+                                  ? CircularProgressIndicator(
+                                      color: Colors.green)
+                                  : null,
+                            ),
+                            SizedBox(
+                              height: 40 * pixel,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  '로그인 정보가 없으면?',
+                                  style: TextStyle(color: Colors.grey[700]),
+                                ),
+                                const SizedBox(width: 4),
+                                GestureDetector(
+                                  onTap: () {
+                                    context.go(
+                                        '/register'); // Here we use context.go() instead of Navigator
+                                  },
+                                  child: const Text(
+                                    '회원가입',
+                                    style: TextStyle(
+                                      color: Colors.green,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 40 * pixel,
+                            ),
+                          ])));
 
-      // 600보다 작으면 스크롤 적용
-
-      return SingleChildScrollView(
-          physics: isScrollable ? null : NeverScrollableScrollPhysics(),
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              minHeight: constraints.maxHeight,
-            ),
-            child: content,
-          ));
-    })));
+              return SingleChildScrollView(
+                  physics: isScrollable ? null : NeverScrollableScrollPhysics(),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: constraints.maxHeight,
+                    ),
+                    child: content,
+                  ));
+            })));
   }
 }
