@@ -1,8 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'provider/tablet_provider.dart';
 import 'utils/gorouter.dart';
 import 'firebase_options.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,9 +14,12 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(
-    MyApp(router: appRouter.router),
-  );
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (BuildContext context) => TabletProvider())
+    ],
+    child: MyApp(router: appRouter.router),
+  ));
 }
 
 class MyApp extends StatelessWidget {

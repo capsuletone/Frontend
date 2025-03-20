@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+
+import '../provider/tablet_provider.dart';
 
 class CapsuleDetailScreen extends StatefulWidget {
   final Function()? onTap;
@@ -15,94 +18,117 @@ class _CapsuleDetailScreenState extends State<CapsuleDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final pixel = MediaQuery.of(context).size.width / 375 * 0.97;
-
     return Scaffold(
-        backgroundColor: Colors.white,
-        body: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 54 * pixel),
-                Container(
-                  height: 40.0 * pixel, // AppBar 높이
+      appBar: AppBar(title: Text("약 정보")),
+      body: FutureBuilder(
+        future: Provider.of<TabletProvider>(context, listen: false)
+            .loadTablets('아스피린'),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
 
-                  color: Colors.white, // 배경색
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start, // 양쪽 정렬
-                    crossAxisAlignment: CrossAxisAlignment.center, // 수직 가운데 정렬
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          context.go('/root'); // 뒤로가기 동작
-                        },
-                        child: Icon(
-                          Icons.arrow_back_ios,
-                          size: 23.0 * pixel, // 아이콘 크기
-                          color: Colors.black, // 아이콘 색상
-                        ),
+          return SingleChildScrollView(child: Consumer<TabletProvider>(
+            builder: (context, provider, child) {
+              final tablet = provider.tablet;
+
+              if (tablet == null) {
+                return Center(child: Text("약 정보를 찾을 수 없습니다."));
+              }
+
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // 약 이름
+                    Text(
+                      tablet.itemName ?? '알 수 없는 약',
+                      style:
+                          TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 16),
+
+                    // 약 이미지 (예시 이미지)
+                    Center(
+                      child: Image.asset(
+                        'assets/test.jpg', // 예시 이미지
+                        height: 200,
+                        fit: BoxFit.cover,
                       ),
-                    ],
-                  ),
-                ),
-                // 음식 이름
-                Text(
-                  '약 이름',
-                  style: TextStyle(
-                      fontSize: 28 * pixel, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 16),
+                    ),
+                    SizedBox(height: 16),
 
-                // 음식 이미지
-                Center(
-                  child: Image.asset(
-                    'assets/test.jpg', // 예시 이미지 URL
-                    height: 200,
+                    // 약 성분
+                    Text(
+                      '약 성분',
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      tablet.efcyQesitm ?? '정보 없음',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    SizedBox(height: 16),
 
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                SizedBox(height: 16),
+                    // 사용법
+                    Text(
+                      '사용법',
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      tablet.useMethodQesitm ?? '정보 없음',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    SizedBox(height: 16),
 
-                // 음식 소개 제목
-                Text(
-                  '약 성분',
-                  style: TextStyle(
-                      fontSize: 22 * pixel, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 8 * pixel),
-                Text(
-                  '이 음식은 고급 재료로 만들어져 맛과 영양이 풍부한 음식입니다. 고소하고 부드러운 맛이 특징으로, 누구나 좋아할 만한 메뉴입니다.',
-                  style: TextStyle(fontSize: 16 * pixel),
-                ),
-                SizedBox(height: 16 * pixel),
+                    // 주의사항(경고)
+                    Text(
+                      '주의사항 (경고)',
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      tablet.atpnWarnQesitm ?? '정보 없음',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    SizedBox(height: 16),
 
-                // 음식 특징 제목
-                Text(
-                  '설명',
-                  style: TextStyle(
-                      fontSize: 22 * pixel, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 8 * pixel),
-                Text(
-                  '1. 신선한 재료 사용\n2. 간편하게 조리 가능\n3. 모든 연령대가 좋아하는 맛',
-                  style: TextStyle(fontSize: 16 * pixel),
-                ),
-                SizedBox(height: 16 * pixel),
+                    // 주의사항
+                    Text(
+                      '주의사항',
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      tablet.atpnQesitm ?? '정보 없음',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    SizedBox(height: 16),
 
-                // 음식 주의사항 제목
-                Text(
-                  '주의사항',
-                  style: TextStyle(
-                      fontSize: 22 * pixel, fontWeight: FontWeight.bold),
+                    // 상호작용 (주의해야 할 약 또는 음식)
+                    Text(
+                      '상호작용 (주의해야 할 약 또는 음식)',
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      tablet.intrcQesitm ?? '정보 없음',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ],
                 ),
-                SizedBox(height: 8 * pixel),
-                Text(
-                  '1. 알레르기가 있을 수 있는 재료가 포함될 수 있습니다.\n2. 너무 많이 섭취하지 마세요.',
-                  style: TextStyle(fontSize: 16 * pixel),
-                ),
-              ],
-            )));
+              );
+            },
+          ));
+        },
+      ),
+    );
   }
 }
