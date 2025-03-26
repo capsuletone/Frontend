@@ -103,7 +103,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                 // logo
                 const Icon(
-                  Icons.lock,
+                  Icons.gesture,
                   size: 100,
                   color: Colors.green,
                 ),
@@ -112,7 +112,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                 // Let's create an account for you
                 Text(
-                  'Let\'s create an account for you!',
+                  '캡슐톤에 로그인해,다양한 정보를 만나보세요!',
                   style: TextStyle(
                     color: Colors.grey[700],
                     fontSize: 16,
@@ -124,7 +124,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 // email textfield
                 LoginTextField(
                   controller: emailController,
-                  hintText: 'Email',
+                  hintText: '이메일',
                   obscureText: false,
                 ),
 
@@ -133,7 +133,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 // password textfield
                 LoginTextField(
                   controller: passwordController,
-                  hintText: 'Password',
+                  hintText: '비밀번호',
                   obscureText: true,
                 ),
 
@@ -142,7 +142,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 // confirm password textfield
                 LoginTextField(
                   controller: confirmpasswordController,
-                  hintText: 'Confirm Password',
+                  hintText: '비밀번호 확인',
                   obscureText: true,
                 ),
 
@@ -150,7 +150,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                 // sign in button
                 LoginButton(
-                  text: _isLoading ? "" : "Sign Up", // 로딩 중이면 텍스트를 숨깁니다.
+                  text: _isLoading ? "" : "회원가입", // 로딩 중이면 텍스트를 숨깁니다.
                   onTap: _isLoading ? null : signUserUp, // 로딩 중이면 버튼을 비활성화합니다.
                   child: _isLoading
                       ? const CircularProgressIndicator(color: Colors.white)
@@ -163,7 +163,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Already have an account?',
+                      '이미 로그인 정보가 있나요?',
                       style: TextStyle(color: Colors.grey[700]),
                     ),
                     const SizedBox(width: 4),
@@ -172,7 +172,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         context.go('/login');
                       },
                       child: const Text(
-                        'Login now',
+                        '로그인',
                         style: TextStyle(
                           color: Colors.blue,
                           fontWeight: FontWeight.bold,

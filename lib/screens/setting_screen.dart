@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../auth/component/service_logout_component.dart';
+import '../component/highlight_text_component.dart';
 import '../component/setting_component.dart';
 import '../component/setting_line_component.dart';
 
@@ -41,25 +42,7 @@ class _SettingScreenState extends State<SettingScreen> {
                         SizedBox(
                           height: 54 * pixel,
                         ),
-                        Container(
-                          height: 40.0 * pixel,
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  "설정",
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 25 * pixel,
-                                    fontFamily: 'Pretendard',
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        highlightText(pixel, context, "마이페이지"),
                         SettingBox(
                           onTap: () => {
                             showDialog(

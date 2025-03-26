@@ -46,9 +46,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(
                           height: 20 * pixel,
                         ),
-                        homeQrcodeScanContainer(() {
-                          context.go('/root/home/prescriptionEdit');
-                        }, pixel),
                       ])));
 
           // 600보다 작으면 스크롤 적용

@@ -3,7 +3,9 @@ import 'package:capsuleton_flutter/screens/root_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../screens/login_screen.dart';
+import '../screens/prescription_screen.dart';
 import '../screens/prescription_edit_screen.dart';
+import '../screens/prescription_result_screen.dart';
 import '../screens/register_screen.dart';
 import '../screens/splash_screen.dart';
 import '../screens/home_screen.dart';
@@ -49,15 +51,27 @@ class AppRouter {
                   builder: (_, state) => HomeScreen(),
                   routes: [
                     _createRoute(
-                      path: RoutePaths.preescriptionEdit,
-                      name: RoutePaths.preescriptionEdit,
-                      builder: (state, _) => PrescriptionEditScreen(),
-                    ),
-                    _createRoute(
                       path: RoutePaths.detail,
                       name: RouteNames.detail,
                       builder: (_, state) => CapsuleDetailScreen(),
                     ),
+                  ]),
+              _createRoute(
+                  path: RoutePaths.preescriptionAdd,
+                  name: RoutePaths.preescriptionAdd,
+                  builder: (state, _) => PrescriptionAddScreen(),
+                  routes: [
+                    _createRoute(
+                        path: RoutePaths.preescriptionResult,
+                        name: RoutePaths.preescriptionResult,
+                        builder: (state, _) => PrescriptionResultScreen(),
+                        routes: [
+                          _createRoute(
+                            path: RoutePaths.preescriptionEdit,
+                            name: RoutePaths.preescriptionEdit,
+                            builder: (state, _) => PrescriptionEditScreen(),
+                          )
+                        ])
                   ]),
             ]),
       ];
@@ -84,6 +98,8 @@ class RoutePaths {
   static const home = '/home';
   static const root = '/root';
   static const detail = '/detail';
+  static const preescriptionAdd = '/preescriptionAdd';
+  static const preescriptionResult = '/preescriptionResult';
   static const preescriptionEdit = '/prescriptionEdit';
 }
 
@@ -95,5 +111,7 @@ class RouteNames {
   static const home = 'HomeScreen';
   static const root = 'RootScreen';
   static const detail = 'CapsuleDetailScreen';
+  static const preescriptionAdd = 'preescriptionAddScreen';
+  static const preescriptionResult = 'preescriptionResultScreen';
   static const preescriptionEdit = 'PrescriptionEditScreen';
 }

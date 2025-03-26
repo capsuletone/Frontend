@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-Widget homeQrcodeScanContainer(GestureTapCallback? onTap, double pixel) {
+Widget homeQrcodeScanContainer(
+    GestureTapCallback? onTap, double pixel, Color? bgColor, String text) {
   double widthSize = 500 * pixel;
   double heightSize = 300 * pixel;
   double fontSize = 24.0 * pixel; // 글자 크기 설정
@@ -12,10 +13,10 @@ Widget homeQrcodeScanContainer(GestureTapCallback? onTap, double pixel) {
         width: widthSize, // 가로 500
         height: heightSize, // 세로 300
         padding: EdgeInsets.all(16 * pixel),
-        color: Colors.grey[300], // 배경 색 (light gray)
+        color: bgColor,
         child: Center(
           child: Text(
-            '처방전 스캔',
+            text,
             style: TextStyle(
               fontSize: 24, // 텍스트 크기
               fontWeight: FontWeight.bold, // 텍스트 두께

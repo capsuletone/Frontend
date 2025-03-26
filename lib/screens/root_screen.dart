@@ -1,3 +1,4 @@
+import 'package:capsuleton_flutter/screens/prescription_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'calander_screen.dart';
@@ -25,8 +26,9 @@ class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
 
   // 각 페이지를 관리할 리스트
   static List<Widget> _pages = <Widget>[
-    HomeScreen(),
     CalanderScreen(), //캘린더 스크린
+    PrescriptionAddScreen(),
+    HomeScreen(),
     RecommendedScreen(), //추천 스크린
     SettingScreen(),
   ];
@@ -82,19 +84,6 @@ class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
               items: <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
                   icon: Icon(
-                    Icons.home_outlined, // 원하는 아이콘 설정 (예: 설정 아이콘)
-                    size: 25 * pixel,
-                    color: Color(0x7F191F28), // 크기 설정
-                    // 색상 적용 (#4E5968)
-                  ),
-                  activeIcon: Icon(
-                    Icons.home_outlined, // 원하는 아이콘 설정 (예: 설정 아이콘)
-                    size: 25 * pixel, // 크기 설정
-                  ),
-                  label: '홈',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(
                     Icons.calendar_month, // 원하는 아이콘 설정 (예: 설정 아이콘)
 
                     size: 25 * pixel, // 크기 설정
@@ -105,6 +94,32 @@ class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
                     size: 25 * pixel, // 크기 설정
                   ),
                   label: '달력',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.camera_alt, // 원하는 아이콘 설정 (예: 설정 아이콘)
+
+                    size: 25 * pixel, // 크기 설정
+                    color: Color(0x7F191F28), // 색상 적용 (#4E5968)
+                  ),
+                  activeIcon: Icon(
+                    Icons.camera_alt, // 원하는 아이콘 설정 (예: 설정 아이콘)
+                    size: 25 * pixel, // 크기 설정
+                  ),
+                  label: '추가',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.home_outlined, // 원하는 아이콘 설정 (예: 설정 아이콘)
+                    size: 25 * pixel,
+                    color: Color(0x7F191F28), // 크기 설정
+                    // 색상 적용 (#4E5968)
+                  ),
+                  activeIcon: Icon(
+                    Icons.home_outlined, // 원하는 아이콘 설정 (예: 설정 아이콘)
+                    size: 25 * pixel, // 크기 설정
+                  ),
+                  label: '홈',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(
