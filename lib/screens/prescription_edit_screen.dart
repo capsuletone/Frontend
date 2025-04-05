@@ -35,7 +35,6 @@ class _PrescriptionEditScreenState extends State<PrescriptionEditScreen> {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: 54 * pixel),
                         Container(
                           height: 40.0 * pixel, // AppBar 높이
 
