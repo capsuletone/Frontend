@@ -1,9 +1,8 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
+import '../provider/date_provider.dart';
 
 class CalanderScreen extends StatefulWidget {
   final Function()? onTap;
@@ -22,11 +21,48 @@ class _CalanderScreenState extends State<CalanderScreen> {
   DateTime kLastDay = DateTime(2028, 12, 31);
   DateTime? _selectedDay;
   bool _isLoading = false;
+  late final ValueNotifier<List> _selectedEvents;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
+    _selectedDay = _focusedDay;
+    _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
+  }
+
+  void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
+    if (!isSameDay(_selectedDay, selectedDay)) {
+      setState(() {
+        _selectedDay = selectedDay;
+        _focusedDay = focusedDay;
+      });
+      _selectedEvents.value = _getEventsForDay(selectedDay);
+    }
+  }
+
+  List _getEventsForDay(DateTime day) {
+    String dayT = DateFormat('yy/MM/dd').format(day);
+    Map<String, dynamic> events = context.read<EventsProvider>().getEvents();
+    return events[dayT] ?? [];
+  }
 
   @override
   Widget build(BuildContext context) {
     final pixel = MediaQuery.of(context).size.width / 375 * 0.97;
+    final eventProvider = Provider.of<EventsProvider>(context, listen: false);
+    eventProvider.setEvents(DateTime(2025, 4, 1), '약1', 0);
+    eventProvider.setEvents(DateTime(2025, 4, 23), '약1', 1);
 
+    // 4월 5일 이벤트 추가
+    eventProvider.setEvents(DateTime(2025, 4, 5), '약2', 2);
+
+    // 4월 10일 이벤트 추가
+    eventProvider.setEvents(DateTime(2025, 4, 10), '약3', 3);
+
+    // 4월 12일 이벤트 추가
+    eventProvider.setEvents(DateTime(2025, 4, 12), '약4', 4);
     return GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus(); // 포커스 해제 및 키보드 내리기
@@ -53,9 +89,9 @@ class _CalanderScreenState extends State<CalanderScreen> {
                                 headerMargin:
                                     EdgeInsets.only(bottom: 20 * pixel),
                                 titleTextStyle: TextStyle(
-                                    color: Colors.white, fontSize: 20 * pixel),
+                                    color: Colors.white, fontSize: 20),
                                 decoration: BoxDecoration(
-                                    color: Colors.green[300],
+                                    color: Colors.teal,
                                     borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(10),
                                       topRight: Radius.circular(10),
@@ -75,13 +111,15 @@ class _CalanderScreenState extends State<CalanderScreen> {
                               ),
                               rowHeight: 60 * pixel,
                               locale: 'ko-KR',
-                              firstDay: kFirstDay,
-                              lastDay: kLastDay,
+                              firstDay: DateTime.utc(2010, 10, 16),
+                              lastDay: DateTime.utc(2030, 3, 14),
                               focusedDay: _focusedDay,
                               calendarFormat: _calendarFormat,
                               selectedDayPredicate: (day) {
                                 return isSameDay(_selectedDay, day);
                               },
+                              onDaySelected: _onDaySelected,
+                              eventLoader: _getEventsForDay,
                               calendarStyle: CalendarStyle(
                                 markersAlignment: Alignment.bottomCenter,
                                 canMarkersOverflow: true,
@@ -104,37 +142,18 @@ class _CalanderScreenState extends State<CalanderScreen> {
                                     return ListView.builder(
                                         shrinkWrap: true,
                                         scrollDirection: Axis.horizontal,
-                                        itemCount: events.length,
+                                        itemCount: 1,
                                         itemBuilder: (context, index) {
                                           Map key = iconEvents[index];
-                                          if (key['iconIndex'] == 1) {
-                                            return Container(
-                                                margin: EdgeInsets.only(
-                                                    top: 40 * pixel),
-                                                child: Icon(
-                                                  size: 20 * pixel,
-                                                  Icons.pets_outlined,
-                                                  color: Colors.purpleAccent,
-                                                ));
-                                          } else if (key['iconIndex'] == 2) {
-                                            return Container(
-                                                margin: EdgeInsets.only(
-                                                    top: 40 * pixel),
-                                                child: Icon(
-                                                  size: 20 * pixel,
-                                                  Icons.rice_bowl_outlined,
-                                                  color: Colors.teal,
-                                                ));
-                                          } else if (key['iconIndex'] == 3) {
-                                            return Container(
-                                                margin: EdgeInsets.only(
-                                                    top: 40 * pixel),
-                                                child: Icon(
-                                                  size: 20 * pixel,
-                                                  Icons.water_drop_outlined,
-                                                  color: Colors.redAccent,
-                                                ));
-                                          }
+
+                                          return Container(
+                                              margin: EdgeInsets.only(
+                                                  top: 40 * pixel),
+                                              child: Icon(
+                                                size: 14 * pixel,
+                                                Icons.circle,
+                                                color: Colors.green[500],
+                                              ));
                                         });
                                   }
                                 },
@@ -164,6 +183,43 @@ class _CalanderScreenState extends State<CalanderScreen> {
                                 _focusedDay = focusedDay;
                               },
                             ),
+                            Container(
+                                height: 300 * pixel,
+                                child: ValueListenableBuilder<List>(
+                                    valueListenable: _selectedEvents,
+                                    builder: (context, value, _) {
+                                      return ListView.builder(
+                                          itemCount: value.length < 2
+                                              ? value.length
+                                              : 1,
+                                          itemBuilder: (context, index) {
+                                            Map event_icon_index = value[index];
+                                            return Container(
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: 12.0,
+                                                vertical: 4.0,
+                                              ),
+                                              decoration: BoxDecoration(
+                                                border: Border.all(),
+                                                borderRadius:
+                                                    BorderRadius.circular(12.0),
+                                              ),
+                                              child: ListTile(
+                                                onLongPress: () {
+                                                  setState(() {
+                                                    context
+                                                        .read<EventsProvider>()
+                                                        .deleteEvents(
+                                                            _selectedDay, 0);
+                                                  });
+                                                },
+                                                title: Text(
+                                                    '${event_icon_index['contents']}'),
+                                              ),
+                                            );
+                                          });
+                                    }))
                           ])));
 
               // 600보다 작으면 스크롤 적용

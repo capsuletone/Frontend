@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:intl/date_symbol_data_local.dart';
+import 'provider/date_provider.dart';
 import 'provider/tablet_provider.dart';
 import 'utils/gorouter.dart';
 import 'firebase_options.dart';
@@ -16,8 +17,11 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await initializeDateFormatting();
+
   runApp(MultiProvider(
     providers: [
+      ChangeNotifierProvider(
+          create: (BuildContext context) => EventsProvider()),
       ChangeNotifierProvider(create: (BuildContext context) => TabletProvider())
     ],
     child: MyApp(router: appRouter.router),
