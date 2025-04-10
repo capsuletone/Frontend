@@ -1,10 +1,10 @@
 import 'dart:io';
-import 'package:capsuleton_flutter/auth/component/logout_component.dart';
+import 'package:capsuleton_flutter/component/auth_logout_component.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../auth/component/service_logout_component.dart';
+import '../component/service_logout_component.dart';
 import '../component/highlight_text_component.dart';
 import '../component/setting_component.dart';
 import '../component/setting_line_component.dart';

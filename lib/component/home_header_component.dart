@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../auth/component/logout_component.dart';
+import 'auth_logout_component.dart';
 
 Widget homeheader(double pixel, BuildContext context) {
   double fontSize = 24.0 * pixel; // 글자 크기 설정

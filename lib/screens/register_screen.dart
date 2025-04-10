@@ -1,9 +1,11 @@
+import 'package:capsuleton_flutter/repository/register_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../auth/component/login_button.dart';
-import '../auth/component/login_text_field.dart';
-import '../auth/component/show_error_message.dart';
+import '../component/auth_login_button.dart';
+import '../component/auth_login_text_field.dart';
+import '../component/show_error_message.dart';
+import '../database/register_database.dart';
 
 class RegisterScreen extends StatefulWidget {
   final Function()? onTap;
@@ -15,8 +17,10 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   // text editing controllers
+  final registerRepository = RegisterRepository();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final userNameController = TextEditingController();
   final confirmpasswordController = TextEditingController();
   bool _isLoading = false; // 로딩 상태를 추적하는 변수
 
@@ -25,6 +29,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     // 입력 유효성 검사 추가
     if (emailController.text.isEmpty ||
         passwordController.text.isEmpty ||
+        userNameController.text.isEmpty ||
         confirmpasswordController.text.isEmpty) {
       ShowErrorMessage(context: context, message: 'Please fill in all fields.')
           .show();
@@ -55,12 +60,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
         email: emailController.text,
         password: passwordController.text,
       );
-      //add user detial
-      //addUserDetails(emailController.text.trim());
+      final register = Register(
+        userid: userNameController.text,
+        password: passwordController.text,
+        username: userNameController.text,
+        registerdate: DateTime.now(),
+      );
+      registerRepository.registerUser(register);
       context.go('/');
       // 회원 가입 성공 후 EntryScreen으로 이동
     } on FirebaseAuthException catch (e) {
-      // 이곳에서 다양한 FirebaseAuthException 코드를 처리합니다.
       String message;
       switch (e.code) {
         case 'email-already-in-use':
@@ -129,7 +138,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
 
                 const SizedBox(height: 10),
-
+                LoginTextField(
+                  controller: userNameController,
+                  hintText: '닉네임',
+                  obscureText: false,
+                ),
+                const SizedBox(height: 10),
                 // password textfield
                 LoginTextField(
                   controller: passwordController,
