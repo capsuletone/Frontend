@@ -1,10 +1,12 @@
 import 'package:capsuleton_flutter/database/register_database.dart';
+import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import '../database/register_response_database.dart';
 import '../utils/endpoint.dart';
+import 'package:go_router/go_router.dart';
 
 class RegisterRepository {
-  Future<void> registerUser(Register registerData) async {
+  Future<void> registerUser(Register registerData, BuildContext context) async {
     final ApiResponse response = await apiCall(
       'register', // 예시 엔드포인트
       method: 'POST',
@@ -21,6 +23,7 @@ class RegisterRepository {
 
     if (result.result == "OK") {
       print("회원가입 성공 🎉");
+      context.go('/login');
     } else {
       print("회원가입 실패 ❌: ${result.result}");
     }

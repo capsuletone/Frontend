@@ -32,18 +32,6 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
 
-    if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
-        .hasMatch(emailController.text)) {
-      // 이메일 형식이 올바르지 않으면 에러 메시지를 표시합니다.
-      ShowErrorMessage(
-        context: context,
-        message: 'Please enter a valid email address.',
-      ).show();
-    }
-    setState(() {
-      _isLoading = true;
-    });
-
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text,
@@ -51,9 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
       final loginData = Login(
           userid: emailController.text, password: passwordController.text);
-      loginRepository.loginUser(loginData);
-
-      context.go('/');
+      loginRepository.loginUser(loginData, context);
     } on FirebaseAuthException catch (e) {
       ShowErrorMessage(context: context, message: e.code).show();
     } finally {

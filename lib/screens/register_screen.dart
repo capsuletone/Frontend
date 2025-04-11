@@ -36,22 +36,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       return;
     }
 
-    if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}")
-        .hasMatch(emailController.text)) {
-      ShowErrorMessage(
-              context: context, message: 'Please enter a valid email address.')
-          .show();
-      return;
-    }
-
-    if (passwordController.text.length < 6) {
-      ShowErrorMessage(
-              context: context,
-              message: 'Password must be at least 6 characters.')
-          .show();
-      return;
-    }
-
     setState(() {
       _isLoading = true; // 로딩 상태 관리를 위한 상태 변수 설정
     });
@@ -66,28 +50,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
         username: userNameController.text,
         registerdate: DateTime.now(),
       );
-      registerRepository.registerUser(register);
+      registerRepository.registerUser(register, context);
       context.go('/');
       // 회원 가입 성공 후 EntryScreen으로 이동
-    } on FirebaseAuthException catch (e) {
-      String message;
-      switch (e.code) {
-        case 'email-already-in-use':
-          message = 'The email address is already in use by another account.';
-          break;
-        case 'invalid-email':
-          message = 'The email address is not valid.';
-          break;
-        case 'operation-not-allowed':
-          message = 'Email/password accounts are not enabled.';
-          break;
-        case 'weak-password':
-          message = 'The password is too weak.';
-          break;
-        default:
-          message = 'An unexpected error occurred. Please try again later.';
-      }
-      ShowErrorMessage(context: context, message: message).show();
+    } catch (e) {
+      print("에러 발생 $e");
     } finally {
       if (mounted) {
         // 위젯이 여전히 마운트되어 있는지 확인

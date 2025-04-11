@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart'; // Firebase Auth import
 
-const BASE_URL = "http://localhost:8080";
+const BASE_URL = "http://10.0.2.2:8080";
 
 class ApiResponse {
   final dynamic data;
