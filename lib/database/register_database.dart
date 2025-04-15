@@ -2,7 +2,7 @@ class Register {
   String? userid;
   String? password;
   String? username;
-  DateTime? registerdate;
+  String? registerdate;
 
   Register({this.userid, this.password, this.username, this.registerdate});
 
@@ -24,5 +24,3 @@ class Register {
     };
   }
 }
-
-

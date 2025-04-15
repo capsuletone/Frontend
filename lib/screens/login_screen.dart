@@ -33,10 +33,6 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text,
-        password: passwordController.text,
-      );
       final loginData = Login(
           userid: emailController.text, password: passwordController.text);
       loginRepository.loginUser(loginData, context);

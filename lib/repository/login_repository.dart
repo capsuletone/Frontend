@@ -21,11 +21,28 @@ class LoginRepository {
     final result = LoginResponseDatabase.fromJson(response.data);
 
     if (result.result != false) {
-      print("회원가입 성공 🎉");
-      context.go('/home');
-    } else {
-      print("회원가입 실패 ❌: ${result.result}");
+      print("로그인 성공");
       context.go('/root');
+    } else {
+      print("로그인 실패 ❌: ${result.result}");
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("로그인 실패"),
+            content: Text("입력 정보를 확인하고 다시 시도하십시요"),
+            actions: [
+              TextButton(
+                child: Text("확인"),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          );
+        },
+      );
+      context.go('/login');
     }
   }
 }

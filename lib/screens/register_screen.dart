@@ -29,10 +29,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     // 입력 유효성 검사 추가
     if (emailController.text.isEmpty ||
         passwordController.text.isEmpty ||
-        userNameController.text.isEmpty ||
-        confirmpasswordController.text.isEmpty) {
-      ShowErrorMessage(context: context, message: 'Please fill in all fields.')
-          .show();
+        userNameController.text.isEmpty) {
+      ShowErrorMessage(context: context, message: '모든 칸을 작성 완료하십시요.').show();
       return;
     }
 
@@ -48,13 +46,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
         registerdate: DateFormat('yyyy-MM-dd').format(DateTime.now()),
       );
       registerRepository.registerUser(register, context);
-
-      // 회원 가입 성공 후 EntryScreen으로 이동
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("회원가입 성공"),
+            content: Text("로그인을 위해 로그인 화면으로 이동합니다."),
+            actions: [
+              TextButton(
+                child: Text("확인"),
+                onPressed: () {
+                  context.go('/login');
+                },
+              ),
+            ],
+          );
+        },
+      );
     } catch (e) {
       print("에러 발생 $e");
     } finally {
       if (mounted) {
-        // 위젯이 여전히 마운트되어 있는지 확인
         setState(() {
           _isLoading = false; // 로딩 상태 관리를 위한 상태 변수 설정
         });
@@ -97,31 +109,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 // email textfield
                 LoginTextField(
                   controller: emailController,
-                  hintText: '이메일',
+                  hintText: '아이디',
                   obscureText: false,
                 ),
 
                 const SizedBox(height: 10),
-                LoginTextField(
-                  controller: userNameController,
-                  hintText: '닉네임',
-                  obscureText: false,
-                ),
-                const SizedBox(height: 10),
-                // password textfield
                 LoginTextField(
                   controller: passwordController,
                   hintText: '비밀번호',
                   obscureText: true,
                 ),
-
                 const SizedBox(height: 10),
-
-                // confirm password textfield
                 LoginTextField(
-                  controller: confirmpasswordController,
-                  hintText: '비밀번호 확인',
-                  obscureText: true,
+                  controller: userNameController,
+                  hintText: '닉네임',
+                  obscureText: false,
                 ),
 
                 const SizedBox(height: 25),
