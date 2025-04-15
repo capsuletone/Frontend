@@ -8,7 +8,7 @@ import 'package:go_router/go_router.dart';
 class RegisterRepository {
   Future<void> registerUser(Register registerData, BuildContext context) async {
     final ApiResponse response = await apiCall(
-      'register', // 예시 엔드포인트
+      'register',
       method: 'POST',
       body: registerData.toJson(),
     );

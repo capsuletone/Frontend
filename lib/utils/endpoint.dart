@@ -21,7 +21,7 @@ Future<ApiResponse> apiCall(
   try {
     // Uri 생성 시 params 포함
     final url =
-        Uri.parse('$BASE_URL/$endpoint/').replace(queryParameters: params);
+        Uri.parse('$BASE_URL/$endpoint').replace(queryParameters: params);
 
     // Firebase 토큰 가져오기
 

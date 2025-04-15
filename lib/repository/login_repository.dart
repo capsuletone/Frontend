@@ -8,7 +8,7 @@ import '../utils/endpoint.dart';
 class LoginRepository {
   Future<void> loginUser(Login loginData, BuildContext context) async {
     final ApiResponse response = await apiCall(
-      'login', // 예시 엔드포인트
+      'login',
       method: 'POST',
       body: loginData.toJson(),
     );

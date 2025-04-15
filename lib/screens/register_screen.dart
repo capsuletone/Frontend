@@ -1,5 +1,4 @@
 import 'package:capsuleton_flutter/repository/register_repository.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../component/auth_login_button.dart';
@@ -40,10 +39,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       _isLoading = true; // 로딩 상태 관리를 위한 상태 변수 설정
     });
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: emailController.text,
-        password: passwordController.text,
-      );
       final register = Register(
         userid: userNameController.text,
         password: passwordController.text,
@@ -51,7 +46,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         registerdate: DateTime.now(),
       );
       registerRepository.registerUser(register, context);
-      context.go('/');
+
       // 회원 가입 성공 후 EntryScreen으로 이동
     } catch (e) {
       print("에러 발생 $e");
