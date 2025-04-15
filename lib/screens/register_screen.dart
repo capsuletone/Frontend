@@ -1,6 +1,7 @@
 import 'package:capsuleton_flutter/repository/register_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import '../component/auth_login_button.dart';
 import '../component/auth_login_text_field.dart';
 import '../component/show_error_message.dart';
@@ -38,12 +39,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
     setState(() {
       _isLoading = true; // 로딩 상태 관리를 위한 상태 변수 설정
     });
+
     try {
       final register = Register(
         userid: userNameController.text,
         password: passwordController.text,
         username: userNameController.text,
-        registerdate: DateTime.now(),
+        registerdate: DateFormat('yyyy-MM-dd').format(DateTime.now()),
       );
       registerRepository.registerUser(register, context);
 
