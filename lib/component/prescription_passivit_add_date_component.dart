@@ -16,7 +16,7 @@ class DateEditPopupContainer extends StatelessWidget {
       children: [
         Container(
           width: 377 * pixel,
-          height: 284 * pixel,
+          height: 290 * pixel,
           decoration: ShapeDecoration(
             color: Colors.grey[300],
             shape: RoundedRectangleBorder(
@@ -41,6 +41,7 @@ class DateEditPopupContainer extends StatelessWidget {
                 child: CupertinoDatePicker(
                   mode: CupertinoDatePickerMode.date, // 날짜 선택 모드
                   initialDateTime: _selectedDate ?? DateTime.now(),
+
                   onDateTimeChanged: (DateTime newDate) {
                     _selectedDate = newDate;
                   },
@@ -99,9 +100,6 @@ class DateEditPopupContainer extends StatelessWidget {
                   )),
             ],
           ),
-        ),
-        SizedBox(
-          height: 36 * pixel,
         ),
       ],
     );

@@ -46,23 +46,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         registerdate: DateFormat('yyyy-MM-dd').format(DateTime.now()),
       );
       registerRepository.registerUser(register, context);
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("회원가입 성공"),
-            content: Text("로그인을 위해 로그인 화면으로 이동합니다."),
-            actions: [
-              TextButton(
-                child: Text("확인"),
-                onPressed: () {
-                  context.go('/login');
-                },
-              ),
-            ],
-          );
-        },
-      );
     } catch (e) {
       print("에러 발생 $e");
     } finally {

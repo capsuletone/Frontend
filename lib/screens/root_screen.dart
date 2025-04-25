@@ -15,8 +15,8 @@ class RootTab extends StatefulWidget {
 
 class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
   //late TabController _controller;
-  int _selectedIndex = 0; // 현재 선택된 메뉴 인덱스
-  int _selectedRootIndex = 0;
+
+  int _selectedRootIndex = 2;
   bool _isOverlayVisible = true; // 초기 상태: Overlay 표시
 
   @override
@@ -35,7 +35,6 @@ class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
       _selectedRootIndex = index;
     });
 

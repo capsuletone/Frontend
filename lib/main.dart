@@ -1,7 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'provider/date_provider.dart';
 import 'provider/tablet_provider.dart';
@@ -11,7 +12,15 @@ import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  CupertinoApp(
+      locale: Locale('ko', 'KR'), // 한국어 설정
+      localizationsDelegates: const [
+        DefaultCupertinoLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('ko', 'KR'),
+      ]);
   final appRouter = AppRouter();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

@@ -23,7 +23,42 @@ class RegisterRepository {
 
     if (result.result == "OK") {
       print("회원가입 성공 🎉");
-      context.go('/login');
+      return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("회원가입 성공"),
+            content: Text("로그인을 위해 로그인 화면으로 이동합니다."),
+            actions: [
+              TextButton(
+                child: Text("확인"),
+                onPressed: () {
+                  context.go('/login');
+                },
+              ),
+            ],
+          );
+        },
+      );
+    } else if (result.result == "이미 등록된 ID입니다") {
+      print("회원가입 실패 ❌");
+      return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("회원가입 실패"),
+            content: Text("이미 등록된 ID입니다"),
+            actions: [
+              TextButton(
+                child: Text("확인"),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          );
+        },
+      );
     } else {
       print("회원가입 실패 ❌: ${result.result}");
     }

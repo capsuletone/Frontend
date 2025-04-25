@@ -3,9 +3,8 @@ import 'package:capsuleton_flutter/screens/root_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../screens/login_screen.dart';
+import '../screens/prescription_manually_screen.dart';
 import '../screens/prescription_screen.dart';
-import '../screens/prescription_edit_screen.dart';
-import '../screens/prescription_result_screen.dart';
 import '../screens/register_screen.dart';
 import '../screens/splash_screen.dart';
 import '../screens/home_screen.dart';
@@ -62,16 +61,10 @@ class AppRouter {
                   builder: (state, _) => PrescriptionAddScreen(),
                   routes: [
                     _createRoute(
-                        path: RoutePaths.preescriptionResult,
-                        name: RoutePaths.preescriptionResult,
-                        builder: (state, _) => PrescriptionResultScreen(),
-                        routes: [
-                          _createRoute(
-                            path: RoutePaths.preescriptionEdit,
-                            name: RoutePaths.preescriptionEdit,
-                            builder: (state, _) => PrescriptionEditScreen(),
-                          )
-                        ])
+                      path: RoutePaths.prescriptionManually,
+                      name: RouteNames.prescriptionManually,
+                      builder: (_, state) => PrescriptionManuallyScreen(),
+                    ),
                   ]),
             ]),
       ];
@@ -101,6 +94,7 @@ class RoutePaths {
   static const preescriptionAdd = '/preescriptionAdd';
   static const preescriptionResult = '/preescriptionResult';
   static const preescriptionEdit = '/prescriptionEdit';
+  static const prescriptionManually = '/prescriptionManually';
 }
 
 // 라우트 이름 상수를 정의
@@ -114,4 +108,5 @@ class RouteNames {
   static const preescriptionAdd = 'preescriptionAddScreen';
   static const preescriptionResult = 'preescriptionResultScreen';
   static const preescriptionEdit = 'PrescriptionEditScreen';
+  static const prescriptionManually = 'PrescriptionManuallyScreen';
 }

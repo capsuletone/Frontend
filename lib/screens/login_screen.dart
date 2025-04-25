@@ -1,4 +1,6 @@
 import 'package:capsuleton_flutter/database/login_database.dart';
+import 'package:capsuleton_flutter/database/requestuser_request_database.dart';
+import 'package:capsuleton_flutter/repository/requestUser_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../component/auth_login_button.dart';
@@ -18,6 +20,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final loginRepository = LoginRepository();
+  final requestRepository = RequestuserRepository();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   bool _isLoading = false;
@@ -36,6 +39,8 @@ class _LoginScreenState extends State<LoginScreen> {
       final loginData = Login(
           userid: emailController.text, password: passwordController.text);
       loginRepository.loginUser(loginData, context);
+      final reuqestData = RequestuserRequestDatabase(userid: "james");
+      requestRepository.requestUser(reuqestData, context);
     } on FirebaseAuthException catch (e) {
       ShowErrorMessage(context: context, message: e.code).show();
     } finally {

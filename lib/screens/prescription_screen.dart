@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../component/date_picker_popup_component.dart';
 import 'package:intl/intl.dart';
-
 import '../component/highlight_text_component.dart';
 import '../component/home_qrcode_scan_component.dart';
 
@@ -48,8 +46,8 @@ class _PrescriptionAddScreenState extends State<PrescriptionAddScreen> {
                           height: 20 * pixel,
                         ),
                         homeQrcodeScanContainer(() {
-                          context
-                              .go('/root/preescriptionAdd/preescriptionResult');
+                          context.go(
+                              '/root/preescriptionAdd/prescriptionManually');
                         }, pixel, Colors.green[400], "수동으로 약 추가"),
                       ]));
 
