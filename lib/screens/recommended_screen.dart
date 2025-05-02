@@ -1,8 +1,3 @@
-import 'dart:io';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -18,8 +13,8 @@ class _RecommendedScreenState extends State<RecommendedScreen> {
   List<String> _symptoms = ['콧물', '가래', '기침', '목 아픔', '두통', '발열'];
   List<String> _selectedSymptoms = [];
   bool _isLoading = false;
-  String _responseText = '';
   String _errorMessage = '';
+  Map<String, dynamic>? _parsedJson;
 
   void _toggleSymptom(String symptom) {
     setState(() {
@@ -41,13 +36,12 @@ class _RecommendedScreenState extends State<RecommendedScreen> {
 
     setState(() {
       _isLoading = true;
-      _responseText = 'AI 가이드라인을 요청 중입니다...';
+      _parsedJson = null;
       _errorMessage = '';
     });
 
     final String symptomsData = _selectedSymptoms.join(', ');
-    // Android Studio 에뮬레이터에서 로컬 Spring Boot 서버에 접근하기 위한 IP 주소
-    final Uri uri = Uri.parse('http://10.0.2.2:8080/chat');
+    final Uri uri = Uri.parse('http://10.0.2.2:8080/chat'); // Emulator 전용 IP
 
     try {
       final response = await http.post(
@@ -57,20 +51,37 @@ class _RecommendedScreenState extends State<RecommendedScreen> {
       );
 
       if (response.statusCode == 200) {
-        setState(() {
-          _isLoading = false;
-          _responseText = response.body;
-        });
+        final cleaned = response.body.trim();
+
+        // ''' 또는 ```json 제거
+        final cleanedJson = cleaned
+            .replaceAll("'''", '')
+            .replaceAll('```json', '')
+            .replaceAll('```', '')
+            .trim();
+
+        try {
+          final parsed = json.decode(cleanedJson);
+          setState(() {
+            _isLoading = false;
+            _parsedJson = parsed;
+          });
+        } catch (e) {
+          setState(() {
+            _isLoading = false;
+            _errorMessage = 'JSON 파싱 실패: $e';
+          });
+        }
       } else {
         setState(() {
           _isLoading = false;
-          _responseText = 'AI 응답을 받는 데 실패했습니다. (HTTP 상태 코드: ${response.statusCode})\n${response.body}';
+          _errorMessage = '서버 오류: ${response.statusCode}';
         });
       }
     } catch (error) {
       setState(() {
         _isLoading = false;
-        _responseText = '네트워크 오류가 발생했습니다: $error';
+        _errorMessage = '네트워크 오류: $error';
       });
     }
   }
@@ -80,13 +91,9 @@ class _RecommendedScreenState extends State<RecommendedScreen> {
     final pixel = MediaQuery.of(context).size.width / 375 * 0.97;
 
     return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-      },
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('증상 선택 & AI 가이드'),
-        ),
+        appBar: AppBar(title: const Text('증상 선택 & AI 가이드')),
         body: SingleChildScrollView(
           padding: EdgeInsets.all(30 * pixel),
           child: Column(
@@ -105,7 +112,7 @@ class _RecommendedScreenState extends State<RecommendedScreen> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: isSelected ? Colors.blue : Colors.white,
                       foregroundColor: isSelected ? Colors.white : Colors.blue,
-                      side: BorderSide(color: Colors.blue),
+                      side: const BorderSide(color: Colors.blue),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                     ),
                     child: Text(symptom),
@@ -131,22 +138,17 @@ class _RecommendedScreenState extends State<RecommendedScreen> {
                     : const Text('증상 전송 및 AI 가이드 받기', style: TextStyle(fontSize: 16)),
               ),
               SizedBox(height: 30 * pixel),
-              Text(
-                'AI 가이드라인:',
-                style: TextStyle(fontSize: 16 * pixel, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 10 * pixel),
-              Text(
-                _responseText,
-                style: TextStyle(fontSize: 14 * pixel),
-              ),
+              if (_parsedJson != null) ...[
+                _buildGuidelines(_parsedJson!['guideline']),
+                SizedBox(height: 20 * pixel),
+                _buildMedicines(_parsedJson!['medicines']),
+                SizedBox(height: 20 * pixel),
+                _buildNote(_parsedJson!['note'], _parsedJson!['additional_warning'] ?? ""),
+              ],
               if (_errorMessage.isNotEmpty) ...[
                 SizedBox(height: 20 * pixel),
-                Text(
-                  '오류:',
-                  style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
-                ),
-                Text(_errorMessage, style: TextStyle(color: Colors.red)),
+                Text('오류:', style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
+                Text(_errorMessage, style: const TextStyle(color: Colors.red)),
               ],
             ],
           ),
@@ -154,4 +156,83 @@ class _RecommendedScreenState extends State<RecommendedScreen> {
       ),
     );
   }
+
+  Widget _buildGuidelines(List<dynamic> guidelines) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text('생활 가이드라인', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        ...guidelines.map((g) => Padding(
+          padding: const EdgeInsets.symmetric(vertical: 2.0),
+          child: Text("• $g"),
+        )),
+      ],
+    );
+  }
+
+  Widget _buildMedicines(List<dynamic> medicines) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text('추천 약품', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        ...medicines.map((m) => Card(
+          margin: const EdgeInsets.symmetric(vertical: 6),
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(m['name'], style: const TextStyle(fontWeight: FontWeight.bold)),
+                Text("설명: ${m['description']}"),
+                Text("복용 방법: ${m['usage']}"),
+                Text("주의사항: ${m['caution']}"),
+                Text("추천도: ${m['confidence']}"),
+              ],
+            ),
+          ),
+        )),
+      ],
+    );
+  }
+
+  Widget _buildNote(String note, String additionalWarning) {
+    final isWarning = additionalWarning.trim().isNotEmpty;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text('주의사항 및 진료 권고', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        const SizedBox(height: 8),
+        if (isWarning)
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.amber[100],
+              border: Border.all(color: Colors.orange),
+              borderRadius: BorderRadius.circular(6),
+            ),
+            padding: const EdgeInsets.all(12),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Icon(Icons.warning_amber_rounded, color: Colors.orange, size: 24),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    additionalWarning,
+                    style: const TextStyle(
+                      color: Colors.black87,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )
+        else
+          Text(note),
+      ],
+    );
+  }
+
 }
