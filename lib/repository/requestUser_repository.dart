@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../database/requestuser_request_database.dart';
-import '../database/requestuser_response_extentions_database.dart';
+
 import '../utils/endpoint.dart';
 
 class RequestuserRepository {
@@ -17,8 +17,6 @@ class RequestuserRepository {
       return;
     }
 
-    final result =
-        RequestuserResponseExtentionsDatabase.fromJson(response.data);
-    print("사용자 데이터 : $result");
+    print('${response.data}');
   }
 }

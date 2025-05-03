@@ -4,8 +4,9 @@ class RegisterResponseDatabase {
   RegisterResponseDatabase({this.result});
 
   factory RegisterResponseDatabase.fromJson(Map<String, dynamic> json) {
+    final dynamic result = json['result'];
     return RegisterResponseDatabase(
-      result: json['result'],
+      result: result is String ? result : result.toString(),
     );
   }
 

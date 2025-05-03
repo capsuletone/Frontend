@@ -5,7 +5,7 @@ class RequestuserRequestDatabase {
 
   factory RequestuserRequestDatabase.fromJson(Map<String, dynamic> json) {
     return RequestuserRequestDatabase(
-      userid: json['result'],
+      userid: json['userid'],
     );
   }
 

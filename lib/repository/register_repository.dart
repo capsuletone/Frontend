@@ -4,6 +4,7 @@ import 'package:path/path.dart';
 import '../database/register_response_database.dart';
 import '../utils/endpoint.dart';
 import 'package:go_router/go_router.dart';
+import 'dart:convert'; // for utf8
 
 class RegisterRepository {
   Future<void> registerUser(Register registerData, BuildContext context) async {

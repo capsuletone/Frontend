@@ -39,7 +39,8 @@ class _LoginScreenState extends State<LoginScreen> {
       final loginData = Login(
           userid: emailController.text, password: passwordController.text);
       loginRepository.loginUser(loginData, context);
-      final reuqestData = RequestuserRequestDatabase(userid: "james");
+      final reuqestData =
+          RequestuserRequestDatabase(userid: emailController.text);
       requestRepository.requestUser(reuqestData, context);
     } on FirebaseAuthException catch (e) {
       ShowErrorMessage(context: context, message: e.code).show();

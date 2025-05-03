@@ -40,7 +40,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     try {
       final register = Register(
-        userid: userNameController.text,
+        userid: emailController.text,
         password: passwordController.text,
         username: userNameController.text,
         registerdate: DateFormat('yyyy-MM-dd').format(DateTime.now()),

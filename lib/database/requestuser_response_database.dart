@@ -2,7 +2,7 @@ class Medicine {
   final String medicineName;
   final String time;
   final int totalDays;
-  final DateTime date;
+  final String date;
 
   Medicine(
       {required this.medicineName,
