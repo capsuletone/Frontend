@@ -6,6 +6,7 @@ import '../screens/login_screen.dart';
 import '../screens/prescription_manually_screen.dart';
 import '../screens/prescription_screen.dart';
 import '../screens/register_screen.dart';
+import '../screens/scan_camera_screen.dart';
 import '../screens/splash_screen.dart';
 import '../screens/home_screen.dart';
 
@@ -52,7 +53,9 @@ class AppRouter {
                     _createRoute(
                       path: RoutePaths.detail,
                       name: RouteNames.detail,
-                      builder: (_, state) => CapsuleDetailScreen(),
+                      builder: (_, state) => CapsuleDetailScreen(
+                        itemName: '',
+                      ),
                     ),
                   ]),
               _createRoute(
@@ -60,6 +63,11 @@ class AppRouter {
                   name: RoutePaths.preescriptionAdd,
                   builder: (state, _) => PrescriptionAddScreen(),
                   routes: [
+                    _createRoute(
+                      path: RoutePaths.camera,
+                      name: RouteNames.camera,
+                      builder: (_, state) => CameraScreen(),
+                    ),
                     _createRoute(
                       path: RoutePaths.prescriptionManually,
                       name: RouteNames.prescriptionManually,
@@ -91,6 +99,7 @@ class RoutePaths {
   static const home = '/home';
   static const root = '/root';
   static const detail = '/detail';
+  static const camera = '/camera';
   static const preescriptionAdd = '/preescriptionAdd';
   static const preescriptionResult = '/preescriptionResult';
   static const preescriptionEdit = '/prescriptionEdit';
@@ -105,6 +114,7 @@ class RouteNames {
   static const home = 'HomeScreen';
   static const root = 'RootScreen';
   static const detail = 'CapsuleDetailScreen';
+  static const camera = 'CameraScreen';
   static const preescriptionAdd = 'preescriptionAddScreen';
   static const preescriptionResult = 'preescriptionResultScreen';
   static const preescriptionEdit = 'PrescriptionEditScreen';

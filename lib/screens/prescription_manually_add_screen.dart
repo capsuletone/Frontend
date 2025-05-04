@@ -349,7 +349,7 @@ class _AddMedicineItemScreenState extends State<AddMedicineItemScreen> {
                                 debugPrint('복용 시작 일: $startDate');
 
                                 final newItem = SaveUserDatabase(
-                                  userid: 'abc', // 실제 사용자 ID 있으면 대체
+                                  userid: 'greed', // 실제 사용자 ID 있으면 대체
                                   diseaseCode: diseaseCode,
                                   medicineName: medicineName,
                                   time: time,

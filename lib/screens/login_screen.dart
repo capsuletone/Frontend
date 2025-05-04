@@ -7,7 +7,6 @@ import '../component/auth_login_button.dart';
 import '../component/auth_login_text_field.dart';
 import '../component/show_error_message.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import '../repository/login_repository.dart';
 
 class LoginScreen extends StatefulWidget {

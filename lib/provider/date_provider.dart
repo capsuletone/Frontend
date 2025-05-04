@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class EventsProvider extends ChangeNotifier {
-  DateTime? day;
   Map<String, dynamic> events = {};
 
   loadEvents(Map<String, dynamic> a) {
@@ -17,24 +16,31 @@ class EventsProvider extends ChangeNotifier {
     return events;
   }
 
-  setEvents(day, contents, iconIndex) {
-    String dayData = DateFormat('yy/MM/dd').format(day);
-    Map<String, dynamic> eventsContents = {
-      "iconIndex": iconIndex,
-      "contents": '$contents'
-    };
-    if (events.containsKey(dayData)) {
-      if (events[dayData]!.length < 3) {
-        events[dayData]!.add(eventsContents);
+  void setEvents(DateTime startDay, String contents, int cycle) {
+    for (int i = 0; i < cycle - 1; i++) {
+      DateTime currentDay = startDay.add(Duration(days: i));
+      String dayData = DateFormat('yy/MM/dd').format(currentDay);
+
+      Map<String, dynamic> eventsContents = {
+        "iconIndex": 0, // 필요시 다르게 처리 가능
+        "contents": contents,
+      };
+
+      if (events.containsKey(dayData)) {
+        List eventList = events[dayData]!;
+
+        // 같은 contents가 이미 있는지 체크
+        bool alreadyExists =
+            eventList.any((event) => event['contents'] == contents);
+
+        if (!alreadyExists && eventList.length < 7) {
+          eventList.add(eventsContents);
+        }
       } else {
-        return '초과';
+        events[dayData] = [eventsContents];
       }
-    } else {
-      List eventsList = [];
-      Map<String, dynamic> selectedEvents = {dayData: eventsList};
-      eventsList.add(eventsContents);
-      events.addAll(selectedEvents);
     }
+
     notifyListeners();
   }
 

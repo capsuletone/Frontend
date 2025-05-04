@@ -1,10 +1,9 @@
-import 'package:capsuleton_flutter/database/register_database.dart';
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
-import '../database/register_response_database.dart';
-import '../utils/endpoint.dart';
 import 'package:go_router/go_router.dart';
-import 'dart:convert'; // for utf8
+
+import '../database/register_database.dart';
+import '../utils/endpoint.dart';
 
 class RegisterRepository {
   Future<void> registerUser(Register registerData, BuildContext context) async {
@@ -16,13 +15,15 @@ class RegisterRepository {
 
     if (response.errorMessage != null) {
       print('API Error: ${response.errorMessage}');
-      // 여기에 실패 처리 로직 (예: 사용자에게 알림)
       return;
     }
 
-    final result = RegisterResponseDatabase.fromJson(response.data);
+    final decoded = utf8.decode(response.data);
+    final result = jsonDecode(decoded);
 
-    if (result.result == "OK") {
+    print("서버 응답 result: ${result['result']}");
+
+    if (result['result'] == "OK") {
       print("회원가입 성공 🎉");
       return showDialog(
         context: context,
@@ -34,6 +35,7 @@ class RegisterRepository {
               TextButton(
                 child: Text("확인"),
                 onPressed: () {
+                  Navigator.pop(context);
                   context.go('/login');
                 },
               ),
@@ -41,8 +43,8 @@ class RegisterRepository {
           );
         },
       );
-    } else if (result.result == "이미 등록된 ID입니다") {
-      print("회원가입 실패 ❌");
+    } else if (result['result'] == "이미 등록된 ID입니다") {
+      print("회원가입 실패 ❌: 중복 ID");
       return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -61,7 +63,7 @@ class RegisterRepository {
         },
       );
     } else {
-      print("회원가입 실패 ❌: ${result.result}");
+      print("회원가입 실패 ❌: ${result['result']}");
     }
   }
 }

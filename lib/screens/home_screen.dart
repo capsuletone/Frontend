@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import '../component/home_capsule_time_component.dart';
 import '../component/home_header_component.dart';
 import '../component/home_qrcode_scan_component.dart';
+import '../provider/user_data_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   final Function()? onTap;
@@ -20,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final pixel = MediaQuery.of(context).size.width / 375 * 0.97;
-
+    final diseaseList = Provider.of<UserDiseaseProvider>(context).diseaseData;
     return Scaffold(
         backgroundColor: Colors.white,
         body: LayoutBuilder(builder: (context, constraints) {
@@ -42,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(
                           height: 34 * pixel,
                         ),
-                        homeCapsuleTimeContainer(pixel),
+                        homeCapsuleTimeContainer(pixel, diseaseList),
                         SizedBox(
                           height: 20 * pixel,
                         ),

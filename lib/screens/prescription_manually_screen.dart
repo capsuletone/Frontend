@@ -11,6 +11,7 @@ class PrescriptionManuallyScreen extends StatefulWidget {
 
 class _PrescriptionScreenState extends State<PrescriptionManuallyScreen> {
   List<SaveUserDatabase> items = [];
+
   final saveUserRepository = SaveuserdataRepository();
   // 항목 추가 함수
   void addItem(SaveUserDatabase item) {

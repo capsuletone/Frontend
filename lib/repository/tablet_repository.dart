@@ -1,7 +1,6 @@
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:xml2json/xml2json.dart';
-
 import '../database/tablet_database.dart';
 
 class TabletRepository {
@@ -26,9 +25,7 @@ class TabletRepository {
       Map<String, dynamic> jsonResult = convert.json.decode(json);
       final jsonEv = jsonResult['response']['body']['items'];
 
-      // 데이터가 존재하면
       if (jsonEv['item'] != null) {
-        // item이 List가 아닌 경우에도 대응
         dynamic itemData = jsonEv['item'];
 
         if (itemData is List) {

@@ -26,9 +26,7 @@ Future<ApiResponse> apiCall(
     // Firebase 토큰 가져오기
 
     // 기본 헤더에 Authorization 추가
-    final headers = {
-      'Content-Type': 'application/json; charset=UTF-8',
-    };
+    final headers = {'Content-Type': 'application/json; charset=UTF-8'};
 
     http.Response response;
 

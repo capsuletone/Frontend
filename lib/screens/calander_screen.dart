@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
+import '../component/calander_color_mark.dart';
 import '../provider/date_provider.dart';
+import '../provider/user_data_provider.dart';
 
 class CalanderScreen extends StatefulWidget {
   final Function()? onTap;
@@ -51,18 +53,27 @@ class _CalanderScreenState extends State<CalanderScreen> {
   @override
   Widget build(BuildContext context) {
     final pixel = MediaQuery.of(context).size.width / 375 * 0.97;
+
     final eventProvider = Provider.of<EventsProvider>(context, listen: false);
-    eventProvider.setEvents(DateTime(2025, 4, 1), '약1', 0);
-    eventProvider.setEvents(DateTime(2025, 4, 23), '약1', 1);
+    final diseaseList = Provider.of<UserDiseaseProvider>(context).diseaseData;
 
-    // 4월 5일 이벤트 추가
-    eventProvider.setEvents(DateTime(2025, 4, 5), '약2', 2);
+    for (var disease in diseaseList) {
+      for (var med in disease.medicines!) {
+        if (med.date != '') {
+          DateTime startDate = DateTime.parse(med.date);
+          int cycle = med.totalDays;
+          String medicineName = med.medicineName;
 
-    // 4월 10일 이벤트 추가
-    eventProvider.setEvents(DateTime(2025, 4, 10), '약3', 3);
+          // ✅ 주기만큼 반복하면서 setEvents
+          for (int i = 0; i < cycle; i++) {
+            DateTime day = startDate.add(Duration(days: i));
+            eventProvider.setEvents(
+                day, medicineName, med.totalDays); // iconIndex는 임의로 0
+          }
+        }
+      }
+    }
 
-    // 4월 12일 이벤트 추가
-    eventProvider.setEvents(DateTime(2025, 4, 12), '약4', 4);
     return GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus(); // 포커스 해제 및 키보드 내리기
@@ -75,152 +86,155 @@ class _CalanderScreenState extends State<CalanderScreen> {
               final isTablet = screenWidth >= 768; // 아이패드 여부 판단
 
               final content = Container(
-                  child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 33 * pixel),
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              height: 50 * pixel,
+                  padding: EdgeInsets.symmetric(horizontal: 33 * pixel),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 40 * pixel),
+                        TableCalendar(
+                          headerStyle: HeaderStyle(
+                            headerMargin: EdgeInsets.only(bottom: 10 * pixel),
+                            titleTextStyle: TextStyle(
+                                color: Colors.white, fontSize: 20 * pixel),
+                            decoration: BoxDecoration(
+                              color: Colors.green[300],
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10),
+                                topRight: Radius.circular(10),
+                              ),
                             ),
-                            TableCalendar(
-                              headerStyle: HeaderStyle(
-                                headerMargin:
-                                    EdgeInsets.only(bottom: 20 * pixel),
-                                titleTextStyle: TextStyle(
-                                    color: Colors.white, fontSize: 20),
-                                decoration: BoxDecoration(
-                                    color: Colors.teal,
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(10),
-                                      topRight: Radius.circular(10),
-                                    )),
-                                formatButtonVisible: false,
-                                titleCentered: true,
-                                leftChevronIcon: Icon(
-                                  Icons.chevron_left,
-                                  color: Colors.white,
-                                  size: 28,
-                                ),
-                                rightChevronIcon: Icon(
-                                  Icons.chevron_right,
-                                  color: Colors.white,
-                                  size: 28,
-                                ),
-                              ),
-                              rowHeight: 60 * pixel,
-                              locale: 'ko-KR',
-                              firstDay: DateTime.utc(2010, 10, 16),
-                              lastDay: DateTime.utc(2030, 3, 14),
-                              focusedDay: _focusedDay,
-                              calendarFormat: _calendarFormat,
-                              selectedDayPredicate: (day) {
-                                return isSameDay(_selectedDay, day);
-                              },
-                              onDaySelected: _onDaySelected,
-                              eventLoader: _getEventsForDay,
-                              calendarStyle: CalendarStyle(
-                                markersAlignment: Alignment.bottomCenter,
-                                canMarkersOverflow: true,
-                                markersMaxCount: 2,
-                                markersAnchor: 0.7,
-                                todayDecoration: BoxDecoration(
-                                  color: Color(0xff93bebd),
-                                  shape: BoxShape.circle,
-                                ),
-                                selectedDecoration: BoxDecoration(
-                                  color: Colors.teal,
-                                  shape: BoxShape.circle,
-                                ),
-                                weekendTextStyle: TextStyle(color: Colors.red),
-                              ),
-                              calendarBuilders: CalendarBuilders(
-                                markerBuilder: (context, day, events) {
-                                  if (events.isNotEmpty) {
-                                    List iconEvents = events;
-                                    return ListView.builder(
-                                        shrinkWrap: true,
-                                        scrollDirection: Axis.horizontal,
-                                        itemCount: 1,
-                                        itemBuilder: (context, index) {
-                                          Map key = iconEvents[index];
+                            formatButtonVisible: false,
+                            titleCentered: true,
+                            leftChevronIcon: Icon(
+                              Icons.chevron_left,
+                              color: Colors.white,
+                              size: 28 * pixel,
+                            ),
+                            rightChevronIcon: Icon(
+                              Icons.chevron_right,
+                              color: Colors.white,
+                              size: 28 * pixel,
+                            ),
+                          ),
+                          rowHeight: 80 * pixel,
+                          locale: 'ko-KR',
+                          firstDay: DateTime.utc(2010, 10, 16),
+                          lastDay: DateTime.utc(2030, 3, 14),
+                          focusedDay: _focusedDay,
+                          calendarFormat: _calendarFormat,
+                          selectedDayPredicate: (day) =>
+                              isSameDay(_selectedDay, day),
+                          onDaySelected: _onDaySelected,
+                          eventLoader: _getEventsForDay,
+                          calendarStyle: CalendarStyle(
+                            markersAlignment: Alignment.bottomCenter,
+                            canMarkersOverflow: true,
+                            markersMaxCount: 2,
+                            markersAnchor: 0.7,
+                            todayDecoration: BoxDecoration(
+                              color: Color(0xff93bebd),
+                              shape: BoxShape.circle,
+                            ),
+                            selectedDecoration: BoxDecoration(
+                              color: Colors.teal,
+                              shape: BoxShape.circle,
+                            ),
+                            weekendTextStyle: TextStyle(color: Colors.red),
+                          ),
+                          calendarBuilders: CalendarBuilders(
+                            markerBuilder: (context, day, events) {
+                              if (events.isNotEmpty) {
+                                List eventList = events;
 
-                                          return Container(
-                                              margin: EdgeInsets.only(
-                                                  top: 40 * pixel),
-                                              child: Icon(
-                                                size: 14 * pixel,
-                                                Icons.circle,
-                                                color: Colors.green[500],
-                                              ));
-                                        });
-                                  }
-                                },
-                                dowBuilder: (context, day) {
-                                  if (day.weekday == DateTime.saturday ||
-                                      day.weekday == DateTime.sunday) {
-                                    final text = DateFormat.E('ko').format(day);
-                                    return Center(
-                                      child: Text(
-                                        text,
-                                        style: TextStyle(color: Colors.red),
+                                return Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children:
+                                      List.generate(eventList.length, (index) {
+                                    Map event = eventList[
+                                        index]; // { iconIndex, contents }
+
+                                    return Container(
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 1.5),
+                                      child: Icon(
+                                        Icons.circle,
+                                        size: 6 * pixel, // 점 크기
+                                        color:
+                                            getColorByIndex(event['iconIndex']),
                                       ),
                                     );
-                                  }
-                                },
-                              ),
-                              onFormatChanged: (format) {
-                                if (_calendarFormat != format) {
-                                  // Call `setState()` when updating calendar format
-                                  setState(() {
-                                    _calendarFormat = format;
-                                  });
-                                }
-                              },
-                              onPageChanged: (focusedDay) {
-                                // No need to call `setState()` here
-                                _focusedDay = focusedDay;
-                              },
-                            ),
-                            Container(
-                                height: 300 * pixel,
-                                child: ValueListenableBuilder<List>(
-                                    valueListenable: _selectedEvents,
-                                    builder: (context, value, _) {
-                                      return ListView.builder(
-                                          itemCount: value.length < 2
-                                              ? value.length
-                                              : 1,
-                                          itemBuilder: (context, index) {
-                                            Map event_icon_index = value[index];
-                                            return Container(
-                                              margin:
-                                                  const EdgeInsets.symmetric(
-                                                horizontal: 12.0,
-                                                vertical: 4.0,
-                                              ),
-                                              decoration: BoxDecoration(
-                                                border: Border.all(),
-                                                borderRadius:
-                                                    BorderRadius.circular(12.0),
-                                              ),
-                                              child: ListTile(
-                                                onLongPress: () {
-                                                  setState(() {
-                                                    context
-                                                        .read<EventsProvider>()
-                                                        .deleteEvents(
-                                                            _selectedDay, 0);
-                                                  });
-                                                },
-                                                title: Text(
-                                                    '${event_icon_index['contents']}'),
-                                              ),
-                                            );
-                                          });
-                                    }))
-                          ])));
+                                  }),
+                                );
+                              }
+                              return null;
+                            },
+                            dowBuilder: (context, day) {
+                              // 요일 텍스트의 크기와 위치를 조정
+                              final text = DateFormat.E('ko').format(day);
+                              return Center(
+                                child: Text(
+                                  text,
+                                  style: TextStyle(
+                                    color: day.weekday == DateTime.saturday ||
+                                            day.weekday == DateTime.sunday
+                                        ? Colors.red
+                                        : Colors.black,
+                                    fontSize: 12 * pixel, // 텍스트 크기 조정
+                                    fontWeight: FontWeight.bold, // 볼드 스타일
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                          onFormatChanged: (format) {
+                            if (_calendarFormat != format) {
+                              // Call `setState()` when updating calendar format
+                              setState(() {
+                                _calendarFormat = format;
+                              });
+                            }
+                          },
+                          onPageChanged: (focusedDay) {
+                            // No need to call `setState()` here
+                            _focusedDay = focusedDay;
+                          },
+                        ),
+                        Container(
+                            height: 300 * pixel,
+                            child: ValueListenableBuilder<List>(
+                                valueListenable: _selectedEvents,
+                                builder: (context, value, _) {
+                                  return ListView.builder(
+                                      itemCount: value.length,
+                                      itemBuilder: (context, index) {
+                                        Map event_icon_index = value[index];
+                                        return Container(
+                                          margin: const EdgeInsets.symmetric(
+                                            horizontal: 12.0,
+                                            vertical: 4.0,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            border: Border.all(),
+                                            borderRadius:
+                                                BorderRadius.circular(12.0),
+                                          ),
+                                          child: ListTile(
+                                            onLongPress: () {
+                                              setState(() {
+                                                context
+                                                    .read<EventsProvider>()
+                                                    .deleteEvents(
+                                                        _selectedDay, 0);
+                                              });
+                                            },
+                                            title: Text(
+                                                '${event_icon_index['contents']}'),
+                                          ),
+                                        );
+                                      });
+                                }))
+                      ]));
 
               // 600보다 작으면 스크롤 적용
 
