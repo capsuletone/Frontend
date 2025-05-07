@@ -8,6 +8,11 @@ class EventsProvider extends ChangeNotifier {
     events.addAll(a);
   }
 
+  void clearEvents() {
+    events.clear();
+    notifyListeners();
+  }
+
   removeEvents() {
     events.clear();
   }
@@ -17,8 +22,9 @@ class EventsProvider extends ChangeNotifier {
   }
 
   void setEvents(DateTime startDay, String contents, int cycle) {
-    for (int i = 0; i < cycle - 1; i++) {
-      DateTime currentDay = startDay.add(Duration(days: i));
+    for (int i = 0; i < cycle; i++) {
+      DateTime currentDay =
+          startDay.add(Duration(days: i)); // 시작일 기준으로 cycle만큼 반복
       String dayData = DateFormat('yy/MM/dd').format(currentDay);
 
       Map<String, dynamic> eventsContents = {
@@ -29,7 +35,7 @@ class EventsProvider extends ChangeNotifier {
       if (events.containsKey(dayData)) {
         List eventList = events[dayData]!;
 
-        // 같은 contents가 이미 있는지 체크
+        // 이미 같은 내용이 있는지 체크
         bool alreadyExists =
             eventList.any((event) => event['contents'] == contents);
 
@@ -41,7 +47,7 @@ class EventsProvider extends ChangeNotifier {
       }
     }
 
-    notifyListeners();
+    notifyListeners(); // 이벤트 리스트가 변경된 후 알림
   }
 
   deleteEvents(selectedDay, index) {

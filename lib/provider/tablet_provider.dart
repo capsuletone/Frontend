@@ -4,8 +4,7 @@ import '../database/tablet_database.dart';
 import '../repository/tablet_repository.dart';
 
 class TabletProvider extends ChangeNotifier {
-
-  TabletRepository _TabletRepository = TabletRepository();
+  final TabletRepository _TabletRepository = TabletRepository();
   Tablet? _tablet; // 단일 약품 정보 저장
   Tablet? get tablet => _tablet;
 

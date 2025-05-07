@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import '../component/prescription_passivit_add_date_component.dart';
+import '../provider/email_provider.dart';
 
 class AddMedicineItemScreen extends StatefulWidget {
   final Function()? onTap;
@@ -16,18 +18,22 @@ class AddMedicineItemScreen extends StatefulWidget {
 class _AddMedicineItemScreenState extends State<AddMedicineItemScreen> {
   String? _storedTotalDays;
   String? _formattedDate;
-  TextEditingController _diseaseCodecontroller = TextEditingController(); //질병코드
-  TextEditingController _medicineNamecontroller = TextEditingController(); //약이름
-  TextEditingController _timecontroller = TextEditingController(); //허루 복용 시간
-  TextEditingController _totalDayscontroller = TextEditingController(); //복용 주기
-  TextEditingController _dateCodecontroller = TextEditingController(); //시작일
+  final TextEditingController _diseaseCodecontroller =
+      TextEditingController(); //질병코드
+  final TextEditingController _medicineNamecontroller =
+      TextEditingController(); //약이름
+  final TextEditingController _timecontroller =
+      TextEditingController(); //허루 복용 시간
+  final TextEditingController _totalDayscontroller =
+      TextEditingController(); //복용 주기
+  final TextEditingController _dateCodecontroller =
+      TextEditingController(); //시작일
 
   @override
   Widget build(BuildContext context) {
     final pixel = MediaQuery.of(context).size.width / 375 * 0.97;
-    if (_formattedDate == null) {
-      _formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    }
+    _formattedDate ??= DateFormat('yyyy-MM-dd').format(DateTime.now());
+    final email = context.read<EmailProvider>().email;
     if (_dateCodecontroller.text == '') {
       _dateCodecontroller.text =
           DateFormat('yyyy-MM-dd').format(DateTime.now());
@@ -98,11 +104,11 @@ class _AddMedicineItemScreenState extends State<AddMedicineItemScreen> {
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
-                              Container(
+                              SizedBox(
                                   width: 250 * pixel,
                                   child: TextField(
                                     controller: _diseaseCodecontroller,
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                       labelText: 'ex) R51',
                                       border: OutlineInputBorder(),
                                     ),
@@ -123,11 +129,11 @@ class _AddMedicineItemScreenState extends State<AddMedicineItemScreen> {
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
-                              Container(
+                              SizedBox(
                                   width: 250 * pixel,
                                   child: TextField(
                                     controller: _medicineNamecontroller,
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                       labelText: 'ex) 타이레놀',
                                       border: OutlineInputBorder(),
                                     ),
@@ -152,11 +158,11 @@ class _AddMedicineItemScreenState extends State<AddMedicineItemScreen> {
                                 SizedBox(
                                   width: 30 * pixel,
                                 ),
-                                Container(
+                                SizedBox(
                                     width: 250 * pixel,
                                     child: TextField(
                                       controller: _timecontroller,
-                                      decoration: InputDecoration(
+                                      decoration: const InputDecoration(
                                         labelText: 'ex) 아침,점심,져녁',
                                         border: OutlineInputBorder(),
                                       ),
@@ -180,7 +186,7 @@ class _AddMedicineItemScreenState extends State<AddMedicineItemScreen> {
                                 SizedBox(
                                   width: 30 * pixel,
                                 ),
-                                Container(
+                                SizedBox(
                                   width: 250 * pixel,
                                   child: TextField(
                                     controller: _totalDayscontroller,
@@ -190,7 +196,7 @@ class _AddMedicineItemScreenState extends State<AddMedicineItemScreen> {
                                       FilteringTextInputFormatter
                                           .digitsOnly, // 숫자만 허용
                                     ],
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                       labelText: 'ex) 3일',
                                       border: OutlineInputBorder(),
                                     ),
@@ -238,9 +244,9 @@ class _AddMedicineItemScreenState extends State<AddMedicineItemScreen> {
                                       backgroundColor: Colors.transparent,
                                       builder: (BuildContext context) {
                                         return Container(
-                                          padding: EdgeInsets.symmetric(
+                                          padding: const EdgeInsets.symmetric(
                                               vertical: 20),
-                                          decoration: BoxDecoration(
+                                          decoration: const BoxDecoration(
                                             color: Colors.transparent,
                                             borderRadius: BorderRadius.vertical(
                                               top: Radius.circular(16),
@@ -286,7 +292,7 @@ class _AddMedicineItemScreenState extends State<AddMedicineItemScreen> {
                                           _formattedDate ??
                                               '날짜 선택', // ✅ null-safe 처리
                                           style: TextStyle(
-                                            color: Color(0xFF191F35),
+                                            color: const Color(0xFF191F35),
                                             fontSize: 18 * pixel,
                                             fontFamily: 'Pretendard',
                                             fontWeight: FontWeight.w600,
@@ -295,7 +301,7 @@ class _AddMedicineItemScreenState extends State<AddMedicineItemScreen> {
                                         Icon(
                                           Icons.keyboard_arrow_down_outlined,
                                           size: 20 * pixel,
-                                          color: Color(0xff6B7684),
+                                          color: const Color(0xff6B7684),
                                         ),
                                       ],
                                     ),
@@ -349,7 +355,7 @@ class _AddMedicineItemScreenState extends State<AddMedicineItemScreen> {
                                 debugPrint('복용 시작 일: $startDate');
 
                                 final newItem = SaveUserDatabase(
-                                  userid: 'greed', // 실제 사용자 ID 있으면 대체
+                                  userid: email, // 실제 사용자 ID 있으면 대체
                                   diseaseCode: diseaseCode,
                                   medicineName: medicineName,
                                   time: time,
@@ -361,7 +367,7 @@ class _AddMedicineItemScreenState extends State<AddMedicineItemScreen> {
                               },
                               child: Container(
                                   width: double.infinity,
-                                  padding: EdgeInsets.all(16),
+                                  padding: const EdgeInsets.all(16),
                                   color: Colors.green[400],
                                   child: Text('완료',
                                       textAlign: TextAlign.center,
@@ -375,7 +381,9 @@ class _AddMedicineItemScreenState extends State<AddMedicineItemScreen> {
                       ]));
 
               return SingleChildScrollView(
-                  physics: isScrollable ? null : NeverScrollableScrollPhysics(),
+                  physics: isScrollable
+                      ? null
+                      : const NeverScrollableScrollPhysics(),
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
                       minHeight: constraints.maxHeight,

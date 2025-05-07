@@ -8,7 +8,8 @@ class PetSexEditPopupContainer extends StatefulWidget {
   final void Function(String) onSelected;
   final String selectedGender; // 현재 선택된 성별을 전달받음
 
-  PetSexEditPopupContainer({
+  const PetSexEditPopupContainer({
+    super.key,
     required this.onSelected,
     required this.selectedGender, // 선택된 값 반영
   });
@@ -79,7 +80,7 @@ class _PetSexEditPopupContainerState extends State<PetSexEditPopupContainer> {
                               fontWeight: FontWeight.bold,
                               color: selectedText == text
                                   ? Colors.black
-                                  : Color(0x7F191F28),
+                                  : const Color(0x7F191F28),
                             ),
                           ),
                         ),

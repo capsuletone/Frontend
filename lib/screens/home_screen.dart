@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../component/home_capsule_time_component.dart';
 import '../component/home_header_component.dart';
 import '../component/home_qrcode_scan_component.dart';
+import '../provider/email_provider.dart';
 import '../provider/user_data_provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -17,12 +18,13 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  bool _isLoading = false;
+  final bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     final pixel = MediaQuery.of(context).size.width / 375 * 0.97;
     final diseaseList = Provider.of<UserDiseaseProvider>(context).diseaseData;
+    final email = context.read<EmailProvider>().email;
     return Scaffold(
         backgroundColor: Colors.white,
         body: LayoutBuilder(builder: (context, constraints) {
@@ -40,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(
                           height: 50 * pixel,
                         ),
-                        homeheader(pixel, context),
+                        homeheader(pixel, context, email),
                         SizedBox(
                           height: 34 * pixel,
                         ),
@@ -53,7 +55,8 @@ class _HomeScreenState extends State<HomeScreen> {
           // 600보다 작으면 스크롤 적용
 
           return SingleChildScrollView(
-              physics: isScrollable ? null : NeverScrollableScrollPhysics(),
+              physics:
+                  isScrollable ? null : const NeverScrollableScrollPhysics(),
               child: ConstrainedBox(
                 constraints: BoxConstraints(
                   minHeight: constraints.maxHeight,

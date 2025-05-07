@@ -24,14 +24,12 @@ class RequestuserRepository {
       final resultList = jsonList
           .map((e) => RequestuserResponseExtentionsDatabase.fromJson(e))
           .toList();
-      if (resultList != null) {
-        Provider.of<UserDiseaseProvider>(context, listen: false)
-            .setDiseaseData(resultList);
-        for (var item in resultList) {
-          print('질병 코드: ${item.diseaseCode}');
-          for (var med in item.medicines ?? []) {
-            print('💊 ${med.medicineName} / ${med.time} / ${med.totalDays}일');
-          }
+      Provider.of<UserDiseaseProvider>(context, listen: false)
+          .setDiseaseData(resultList);
+      for (var item in resultList) {
+        print('질병 코드: ${item.diseaseCode}');
+        for (var med in item.medicines ?? []) {
+          print('💊 ${med.medicineName} / ${med.time} / ${med.totalDays}일');
         }
       }
 

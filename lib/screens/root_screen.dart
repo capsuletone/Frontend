@@ -7,6 +7,8 @@ import 'recommended_screen.dart';
 import 'setting_screen.dart';
 
 class RootTab extends StatefulWidget {
+  const RootTab({super.key});
+
   // 카메라 리스트에서 원하는 카메라 가져옴
 
   @override
@@ -17,7 +19,7 @@ class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
   //late TabController _controller;
 
   int _selectedRootIndex = 2;
-  bool _isOverlayVisible = true; // 초기 상태: Overlay 표시
+  final bool _isOverlayVisible = true; // 초기 상태: Overlay 표시
 
   @override
   void initState() {
@@ -25,12 +27,12 @@ class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
   }
 
   // 각 페이지를 관리할 리스트
-  static List<Widget> _pages = <Widget>[
-    CalanderScreen(), //캘린더 스크린
-    PrescriptionAddScreen(),
-    HomeScreen(),
-    RecommendedScreen(), //추천 스크린
-    SettingScreen(),
+  static final List<Widget> _pages = <Widget>[
+    const CalanderScreen(), //캘린더 스크린
+    const PrescriptionAddScreen(),
+    const HomeScreen(),
+    const RecommendedScreen(), //추천 스크린
+    const SettingScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -53,7 +55,7 @@ class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
             ),
           ],
         ),
-        bottomNavigationBar: Container(
+        bottomNavigationBar: SizedBox(
           height: 83 * pixel,
           child: Theme(
             data: Theme.of(context).copyWith(
@@ -64,18 +66,19 @@ class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
               currentIndex: _selectedRootIndex,
               onTap: _onItemTapped,
               type: BottomNavigationBarType.fixed, // 배경색 변경 방지
-              selectedItemColor: Color(0xFF191F28), // 선택된 아이콘 및 텍스트 색상
-              unselectedItemColor: Color(0x7F191F28), // 비활성화된 아이콘 및 텍스트 색상
+              selectedItemColor: const Color(0xFF191F28), // 선택된 아이콘 및 텍스트 색상
+              unselectedItemColor:
+                  const Color(0x7F191F28), // 비활성화된 아이콘 및 텍스트 색상
               elevation: 0,
               backgroundColor: Colors.white, // ✅ 배경색을 확실히 적용
               selectedLabelStyle: TextStyle(
-                color: Color(0xFF191F28),
+                color: const Color(0xFF191F28),
                 fontSize: 10 * pixel,
                 fontFamily: 'Pretendard',
                 fontWeight: FontWeight.w500,
               ),
               unselectedLabelStyle: TextStyle(
-                color: Color(0x7F191F28),
+                color: const Color(0x7F191F28),
                 fontSize: 10 * pixel,
                 fontFamily: 'Pretendard',
                 fontWeight: FontWeight.w500,
@@ -86,7 +89,7 @@ class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
                     Icons.calendar_month, // 원하는 아이콘 설정 (예: 설정 아이콘)
 
                     size: 25 * pixel, // 크기 설정
-                    color: Color(0x7F191F28), // 색상 적용 (#4E5968)
+                    color: const Color(0x7F191F28), // 색상 적용 (#4E5968)
                   ),
                   activeIcon: Icon(
                     Icons.calendar_month, // 원하는 아이콘 설정 (예: 설정 아이콘)
@@ -99,7 +102,7 @@ class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
                     Icons.camera_alt, // 원하는 아이콘 설정 (예: 설정 아이콘)
 
                     size: 25 * pixel, // 크기 설정
-                    color: Color(0x7F191F28), // 색상 적용 (#4E5968)
+                    color: const Color(0x7F191F28), // 색상 적용 (#4E5968)
                   ),
                   activeIcon: Icon(
                     Icons.camera_alt, // 원하는 아이콘 설정 (예: 설정 아이콘)
@@ -111,7 +114,7 @@ class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
                   icon: Icon(
                     Icons.home_outlined, // 원하는 아이콘 설정 (예: 설정 아이콘)
                     size: 25 * pixel,
-                    color: Color(0x7F191F28), // 크기 설정
+                    color: const Color(0x7F191F28), // 크기 설정
                     // 색상 적용 (#4E5968)
                   ),
                   activeIcon: Icon(
@@ -124,7 +127,7 @@ class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
                   icon: Icon(
                     Icons.recommend_outlined, // 원하는 아이콘 설정 (예: 설정 아이콘)
                     size: 25 * pixel, // 크기 설정
-                    color: Color(0x7F191F28), // 색상 적용 (#4E5968)
+                    color: const Color(0x7F191F28), // 색상 적용 (#4E5968)
                     // 색상 적용 (#4E5968)
                   ),
                   activeIcon: Icon(
@@ -140,7 +143,7 @@ class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
                   icon: Icon(
                     Icons.account_circle_outlined, // 원하는 아이콘 설정 (예: 설정 아이콘)
                     size: 25 * pixel, // 크기 설정
-                    color: Color(0x7F191F28), // 색상 적용 (#4E5968)
+                    color: const Color(0x7F191F28), // 색상 적용 (#4E5968)
                   ),
                   activeIcon: Icon(
                     Icons.account_circle_outlined, // 원하는 아이콘 설정 (예: 설정 아이콘)

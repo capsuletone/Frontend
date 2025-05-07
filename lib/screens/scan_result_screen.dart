@@ -5,7 +5,7 @@ import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart
 
 class TextRecognitionScreen extends StatefulWidget {
   final File imageFile;
-  TextRecognitionScreen({required this.imageFile});
+  const TextRecognitionScreen({super.key, required this.imageFile});
 
   @override
   _TextRecognitionScreenState createState() => _TextRecognitionScreenState();
@@ -39,16 +39,16 @@ class _TextRecognitionScreenState extends State<TextRecognitionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('텍스트 인식')),
+      appBar: AppBar(title: const Text('텍스트 인식')),
       body: Column(
         children: [
           Image.file(widget.imageFile),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: Text(
               _recognizedText,
-              style: TextStyle(fontSize: 16),
+              style: const TextStyle(fontSize: 16),
             ),
           ),
         ],

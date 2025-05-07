@@ -22,7 +22,7 @@ class _CalanderScreenState extends State<CalanderScreen> {
   DateTime kFirstDay = DateTime(2022, 01, 01);
   DateTime kLastDay = DateTime(2028, 12, 31);
   DateTime? _selectedDay;
-  bool _isLoading = false;
+  final bool _isLoading = false;
   late final ValueNotifier<List> _selectedEvents;
 
   @override
@@ -57,20 +57,21 @@ class _CalanderScreenState extends State<CalanderScreen> {
     final eventProvider = Provider.of<EventsProvider>(context, listen: false);
     final diseaseList = Provider.of<UserDiseaseProvider>(context).diseaseData;
 
+    DateTime stripTime(DateTime date) =>
+        DateTime(date.year, date.month, date.day);
+
+    eventProvider.clearEvents(); // <-- 이 함수가 eventProvider에 있어야 함
     for (var disease in diseaseList) {
       for (var med in disease.medicines!) {
         if (med.date != '') {
-          DateTime startDate = DateTime.parse(med.date);
           int cycle = med.totalDays;
           String medicineName = med.medicineName;
+          DateTime startDate = stripTime(DateTime.parse(med.date));
 
-          // ✅ 주기만큼 반복하면서 setEvents
-          for (int i = 0; i < cycle; i++) {
-            DateTime day = startDate.add(Duration(days: i));
-            eventProvider.setEvents(
-                day, medicineName, med.totalDays); // iconIndex는 임의로 0
-          }
+          eventProvider.setEvents(
+              startDate, medicineName, cycle); // iconIndex는 임의로 0
         }
+        print("현재 사용자 ${diseaseList.length}");
       }
     }
 
@@ -99,7 +100,7 @@ class _CalanderScreenState extends State<CalanderScreen> {
                                 color: Colors.white, fontSize: 20 * pixel),
                             decoration: BoxDecoration(
                               color: Colors.green[300],
-                              borderRadius: BorderRadius.only(
+                              borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(10),
                                 topRight: Radius.circular(10),
                               ),
@@ -127,7 +128,7 @@ class _CalanderScreenState extends State<CalanderScreen> {
                               isSameDay(_selectedDay, day),
                           onDaySelected: _onDaySelected,
                           eventLoader: _getEventsForDay,
-                          calendarStyle: CalendarStyle(
+                          calendarStyle: const CalendarStyle(
                             markersAlignment: Alignment.bottomCenter,
                             canMarkersOverflow: true,
                             markersMaxCount: 2,
@@ -155,8 +156,8 @@ class _CalanderScreenState extends State<CalanderScreen> {
                                         index]; // { iconIndex, contents }
 
                                     return Container(
-                                      margin:
-                                          EdgeInsets.symmetric(horizontal: 1.5),
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 1.5),
                                       child: Icon(
                                         Icons.circle,
                                         size: 6 * pixel, // 점 크기
@@ -200,7 +201,7 @@ class _CalanderScreenState extends State<CalanderScreen> {
                             _focusedDay = focusedDay;
                           },
                         ),
-                        Container(
+                        SizedBox(
                             height: 300 * pixel,
                             child: ValueListenableBuilder<List>(
                                 valueListenable: _selectedEvents,
@@ -208,7 +209,7 @@ class _CalanderScreenState extends State<CalanderScreen> {
                                   return ListView.builder(
                                       itemCount: value.length,
                                       itemBuilder: (context, index) {
-                                        Map event_icon_index = value[index];
+                                        Map eventIconIndex = value[index];
                                         return Container(
                                           margin: const EdgeInsets.symmetric(
                                             horizontal: 12.0,
@@ -229,7 +230,7 @@ class _CalanderScreenState extends State<CalanderScreen> {
                                               });
                                             },
                                             title: Text(
-                                                '${event_icon_index['contents']}'),
+                                                '${eventIconIndex['contents']}'),
                                           ),
                                         );
                                       });
@@ -239,7 +240,9 @@ class _CalanderScreenState extends State<CalanderScreen> {
               // 600보다 작으면 스크롤 적용
 
               return SingleChildScrollView(
-                  physics: isScrollable ? null : NeverScrollableScrollPhysics(),
+                  physics: isScrollable
+                      ? null
+                      : const NeverScrollableScrollPhysics(),
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
                       minHeight: constraints.maxHeight,

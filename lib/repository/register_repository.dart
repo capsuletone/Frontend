@@ -29,11 +29,11 @@ class RegisterRepository {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("회원가입 성공"),
-            content: Text("로그인을 위해 로그인 화면으로 이동합니다."),
+            title: const Text("회원가입 성공"),
+            content: const Text("로그인을 위해 로그인 화면으로 이동합니다."),
             actions: [
               TextButton(
-                child: Text("확인"),
+                child: const Text("확인"),
                 onPressed: () {
                   Navigator.pop(context);
                   context.go('/login');
@@ -49,11 +49,11 @@ class RegisterRepository {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("회원가입 실패"),
-            content: Text("이미 등록된 ID입니다"),
+            title: const Text("회원가입 실패"),
+            content: const Text("이미 등록된 ID입니다"),
             actions: [
               TextButton(
-                child: Text("확인"),
+                child: const Text("확인"),
                 onPressed: () {
                   Navigator.pop(context);
                 },

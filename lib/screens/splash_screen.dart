@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
@@ -16,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void _initializeUser() {
-    Future.delayed(Duration(seconds: 2)).then((_) {
+    Future.delayed(const Duration(seconds: 2)).then((_) {
       User? user = FirebaseAuth.instance.currentUser;
 
       if (user != null) {
@@ -56,7 +58,8 @@ class _SplashScreenState extends State<SplashScreen> {
               ]));
 
           return SingleChildScrollView(
-              physics: isScrollable ? null : NeverScrollableScrollPhysics(),
+              physics:
+                  isScrollable ? null : const NeverScrollableScrollPhysics(),
               child: ConstrainedBox(
                 constraints: BoxConstraints(
                   minHeight: constraints.maxHeight,

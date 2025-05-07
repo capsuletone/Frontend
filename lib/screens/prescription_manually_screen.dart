@@ -5,6 +5,8 @@ import '../repository/saveuserdata_repository.dart';
 import 'prescription_manually_add_screen.dart';
 
 class PrescriptionManuallyScreen extends StatefulWidget {
+  const PrescriptionManuallyScreen({super.key});
+
   @override
   _PrescriptionScreenState createState() => _PrescriptionScreenState();
 }
@@ -33,11 +35,11 @@ class _PrescriptionScreenState extends State<PrescriptionManuallyScreen> {
             onTap: () {
               context.go('/root');
             },
-            child: Text("뒤로가기"),
+            child: const Text("뒤로가기"),
           ),
           Expanded(
             child: items.isEmpty
-                ? Center(
+                ? const Center(
                     child: Text(
                       "약 정보가 없어요",
                       style: TextStyle(fontSize: 18, color: Colors.grey),
@@ -48,8 +50,8 @@ class _PrescriptionScreenState extends State<PrescriptionManuallyScreen> {
                     itemBuilder: (context, index) {
                       final item = items[index];
                       return Container(
-                        margin: EdgeInsets.only(bottom: 12),
-                        padding: EdgeInsets.all(16),
+                        margin: const EdgeInsets.only(bottom: 12),
+                        padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
                           color: Colors.green.shade50,
                           borderRadius: BorderRadius.circular(10),
@@ -59,17 +61,17 @@ class _PrescriptionScreenState extends State<PrescriptionManuallyScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text('약 이름: ${item.medicineName ?? "없음"}',
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black)),
-                            SizedBox(height: 4),
+                            const SizedBox(height: 4),
                             Text('질병 코드: ${item.diseaseCode ?? "-"}',
-                                style: TextStyle(color: Colors.black87)),
+                                style: const TextStyle(color: Colors.black87)),
                             Text('복용 주기: ${item.totalDays ?? "-"}일',
-                                style: TextStyle(color: Colors.black87)),
+                                style: const TextStyle(color: Colors.black87)),
                             Text('복용 시작일: ${item.date ?? "-"}',
-                                style: TextStyle(color: Colors.black87)),
+                                style: const TextStyle(color: Colors.black87)),
                           ],
                         ),
                       );
@@ -82,7 +84,7 @@ class _PrescriptionScreenState extends State<PrescriptionManuallyScreen> {
               final newItem = await Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => AddMedicineItemScreen()),
+                    builder: (context) => const AddMedicineItemScreen()),
               );
 
               if (newItem != null && newItem is SaveUserDatabase) {
@@ -91,7 +93,7 @@ class _PrescriptionScreenState extends State<PrescriptionManuallyScreen> {
             },
             child: Container(
                 width: double.infinity,
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 color: Colors.green[400],
                 child: Text("추가하기",
                     textAlign: TextAlign.center,
@@ -111,7 +113,7 @@ class _PrescriptionScreenState extends State<PrescriptionManuallyScreen> {
             },
             child: Container(
                 width: double.infinity,
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 color: Colors.green[400],
                 child: Text("작성 완료하기",
                     textAlign: TextAlign.center,

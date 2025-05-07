@@ -17,9 +17,7 @@ class _PrescriptionAddScreenState extends State<PrescriptionAddScreen> {
   @override
   Widget build(BuildContext context) {
     final pixel = MediaQuery.of(context).size.width / 375 * 0.97;
-    if (_formattedDate == null) {
-      _formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    }
+    _formattedDate ??= DateFormat('yyyy-MM-dd').format(DateTime.now());
     return GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus(); // 포커스 해제 및 키보드 내리기
@@ -52,7 +50,9 @@ class _PrescriptionAddScreenState extends State<PrescriptionAddScreen> {
                       ]));
 
               return SingleChildScrollView(
-                  physics: isScrollable ? null : NeverScrollableScrollPhysics(),
+                  physics: isScrollable
+                      ? null
+                      : const NeverScrollableScrollPhysics(),
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
                       minHeight: constraints.maxHeight,

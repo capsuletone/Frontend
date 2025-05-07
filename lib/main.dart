@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'provider/date_provider.dart';
+import 'provider/email_provider.dart';
 import 'provider/tablet_provider.dart';
 import 'utils/gorouter.dart';
 import 'firebase_options.dart';
@@ -28,6 +29,7 @@ void main() async {
 
   runApp(MultiProvider(
     providers: [
+      ChangeNotifierProvider(create: (_) => EmailProvider()),
       ChangeNotifierProvider(
           create: (BuildContext context) => UserDiseaseProvider()),
       ChangeNotifierProvider(

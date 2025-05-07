@@ -1,5 +1,6 @@
 import 'package:capsuleton_flutter/screens/capsule_detail_screen.dart';
 import 'package:capsuleton_flutter/screens/root_screen.dart';
+import 'package:capsuleton_flutter/screens/setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../screens/login_screen.dart';
@@ -7,6 +8,7 @@ import '../screens/prescription_manually_screen.dart';
 import '../screens/prescription_screen.dart';
 import '../screens/register_screen.dart';
 import '../screens/scan_camera_screen.dart';
+import '../screens/setting_push_screen.dart';
 import '../screens/splash_screen.dart';
 import '../screens/home_screen.dart';
 
@@ -33,12 +35,12 @@ class AppRouter {
         _createRoute(
           path: RoutePaths.login,
           name: RouteNames.login,
-          builder: (_, state) => LoginScreen(),
+          builder: (_, state) => const LoginScreen(),
         ),
         _createRoute(
           path: RoutePaths.register,
           name: RoutePaths.register,
-          builder: (state, _) => RegisterScreen(),
+          builder: (state, _) => const RegisterScreen(),
         ),
         _createRoute(
             path: RoutePaths.root,
@@ -46,14 +48,25 @@ class AppRouter {
             builder: (_, state) => RootTab(),
             routes: [
               _createRoute(
+                  path: RoutePaths.setting,
+                  name: RouteNames.setting,
+                  builder: (_, state) => const SettingScreen(),
+                  routes: [
+                    _createRoute(
+                      path: RoutePaths.settingPush,
+                      name: RouteNames.settingPush,
+                      builder: (_, state) => SettingPushScreen(),
+                    )
+                  ]),
+              _createRoute(
                   path: RoutePaths.home,
                   name: RouteNames.home,
-                  builder: (_, state) => HomeScreen(),
+                  builder: (_, state) => const HomeScreen(),
                   routes: [
                     _createRoute(
                       path: RoutePaths.detail,
                       name: RouteNames.detail,
-                      builder: (_, state) => CapsuleDetailScreen(
+                      builder: (_, state) => const CapsuleDetailScreen(
                         itemName: '',
                       ),
                     ),
@@ -61,7 +74,7 @@ class AppRouter {
               _createRoute(
                   path: RoutePaths.preescriptionAdd,
                   name: RoutePaths.preescriptionAdd,
-                  builder: (state, _) => PrescriptionAddScreen(),
+                  builder: (state, _) => const PrescriptionAddScreen(),
                   routes: [
                     _createRoute(
                       path: RoutePaths.camera,
@@ -104,6 +117,8 @@ class RoutePaths {
   static const preescriptionResult = '/preescriptionResult';
   static const preescriptionEdit = '/prescriptionEdit';
   static const prescriptionManually = '/prescriptionManually';
+  static const setting = '/setting';
+  static const settingPush = '/settingPush';
 }
 
 // 라우트 이름 상수를 정의
@@ -119,4 +134,6 @@ class RouteNames {
   static const preescriptionResult = 'preescriptionResultScreen';
   static const preescriptionEdit = 'PrescriptionEditScreen';
   static const prescriptionManually = 'PrescriptionManuallyScreen';
+  static const setting = 'settingScreen';
+  static const settingPush = 'settingPushScreen';
 }

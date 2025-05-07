@@ -29,11 +29,11 @@ class LoginRepository {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("로그인 실패"),
-            content: Text("입력 정보를 확인하고 다시 시도하십시요"),
+            title: const Text("로그인 실패"),
+            content: const Text("입력 정보를 확인하고 다시 시도하십시요"),
             actions: [
               TextButton(
-                child: Text("확인"),
+                child: const Text("확인"),
                 onPressed: () {
                   Navigator.pop(context);
                 },

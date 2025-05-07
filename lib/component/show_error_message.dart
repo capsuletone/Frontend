@@ -26,7 +26,7 @@ class ShowErrorMessage {
               onPressed: () {
                 Navigator.of(context).pop(); // 다이얼로그 닫기
               },
-              child: Text('Close', style: const TextStyle(color: Colors.white)),
+              child: const Text('Close', style: TextStyle(color: Colors.white)),
             ),
           ],
         );

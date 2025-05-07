@@ -17,7 +17,7 @@ Widget homeQrcodeScanContainer(
         child: Center(
           child: Text(
             text,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 24, // 텍스트 크기
               fontWeight: FontWeight.bold, // 텍스트 두께
               color: Colors.black, // 텍스트 색상

@@ -13,21 +13,28 @@ Widget homeCapsuleTimeContainer(
   List<String> allMedicineNames = [];
   List<String> allMedicineDescription = [];
 
-  final DateTime today = DateTime.now();
+  DateTime stripTime(DateTime date) =>
+      DateTime(date.year, date.month, date.day);
+
+  final DateTime today = stripTime(DateTime.now());
 
   for (var disease in diseaseList) {
     for (var med in disease.medicines!) {
-      DateTime startDate = DateTime.parse(med.date);
-      DateTime endDate = startDate.add(Duration(days: med.totalDays));
-      DateTime today = DateTime.now();
+      DateTime startDate = stripTime(DateTime.parse(med.date));
+      DateTime endDate =
+          stripTime(startDate.add(Duration(days: med.totalDays - 1)));
 
-// 시작일은 오늘보다 전, 종료일은 오늘과 같거나 이후
-      if (startDate.isBefore(today) && !endDate.isBefore(today)) {
+      if (!today.isBefore(startDate) && !today.isAfter(endDate)) {
         allMedicineNames.add(med.medicineName);
         allMedicineDescription.add(med.time);
       }
     }
   }
+
+  print("오늘 복용 약: $allMedicineNames");
+  print("복용 시간: $allMedicineDescription");
+
+  print("오늘 복용 약: $allMedicineDescription");
 
   return Container(
     width: widthSize, // 가로 크기
@@ -62,20 +69,20 @@ Widget homeCapsuleTimeContainer(
                       child: Container(
                           child: Row(
                         children: [
-                          CircleAvatar(
+                          const CircleAvatar(
                             radius: 30, // 원형 아바타 크기
                             backgroundImage: NetworkImage(''), // 아바타 이미지 URL
                           ),
-                          SizedBox(width: 10),
+                          const SizedBox(width: 10),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text('약 이름: ${allMedicineNames[index]}',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold)),
                               Text('설명: ${allMedicineDescription[index]}',
-                                  style: TextStyle(fontSize: 14)),
+                                  style: const TextStyle(fontSize: 14)),
                             ],
                           ),
                         ],

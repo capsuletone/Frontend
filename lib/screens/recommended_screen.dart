@@ -10,8 +10,8 @@ class RecommendedScreen extends StatefulWidget {
 }
 
 class _RecommendedScreenState extends State<RecommendedScreen> {
-  List<String> _symptoms = ['콧물', '가래', '기침', '목 아픔', '두통', '발열'];
-  List<String> _selectedSymptoms = [];
+  final List<String> _symptoms = ['콧물', '가래', '기침', '목 아픔', '두통', '발열'];
+  final List<String> _selectedSymptoms = [];
   bool _isLoading = false;
   String _errorMessage = '';
   Map<String, dynamic>? _parsedJson;
@@ -101,7 +101,8 @@ class _RecommendedScreenState extends State<RecommendedScreen> {
             children: [
               Text(
                 '현재 앓고 있는 증상을 선택하세요',
-                style: TextStyle(fontSize: 18 * pixel, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontSize: 18 * pixel, fontWeight: FontWeight.bold),
               ),
               Wrap(
                 spacing: 8.0,
@@ -113,7 +114,8 @@ class _RecommendedScreenState extends State<RecommendedScreen> {
                       backgroundColor: isSelected ? Colors.blue : Colors.white,
                       foregroundColor: isSelected ? Colors.white : Colors.blue,
                       side: const BorderSide(color: Colors.blue),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5)),
                     ),
                     child: Text(symptom),
                   );
@@ -131,11 +133,13 @@ class _RecommendedScreenState extends State<RecommendedScreen> {
                   backgroundColor: Colors.green,
                   foregroundColor: Colors.white,
                   padding: EdgeInsets.symmetric(vertical: 15 * pixel),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5)),
                 ),
                 child: _isLoading
                     ? const CircularProgressIndicator(color: Colors.white)
-                    : const Text('증상 전송 및 AI 가이드 받기', style: TextStyle(fontSize: 16)),
+                    : const Text('증상 전송 및 AI 가이드 받기',
+                        style: TextStyle(fontSize: 16)),
               ),
               SizedBox(height: 30 * pixel),
               if (_parsedJson != null) ...[
@@ -143,11 +147,14 @@ class _RecommendedScreenState extends State<RecommendedScreen> {
                 SizedBox(height: 20 * pixel),
                 _buildMedicines(_parsedJson!['medicines']),
                 SizedBox(height: 20 * pixel),
-                _buildNote(_parsedJson!['note'], _parsedJson!['additional_warning'] ?? ""),
+                _buildNote(_parsedJson!['note'],
+                    _parsedJson!['additional_warning'] ?? ""),
               ],
               if (_errorMessage.isNotEmpty) ...[
                 SizedBox(height: 20 * pixel),
-                Text('오류:', style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
+                const Text('오류:',
+                    style: TextStyle(
+                        color: Colors.red, fontWeight: FontWeight.bold)),
                 Text(_errorMessage, style: const TextStyle(color: Colors.red)),
               ],
             ],
@@ -161,11 +168,12 @@ class _RecommendedScreenState extends State<RecommendedScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('생활 가이드라인', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        const Text('생활 가이드라인',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         ...guidelines.map((g) => Padding(
-          padding: const EdgeInsets.symmetric(vertical: 2.0),
-          child: Text("• $g"),
-        )),
+              padding: const EdgeInsets.symmetric(vertical: 2.0),
+              child: Text("• $g"),
+            )),
       ],
     );
   }
@@ -174,23 +182,25 @@ class _RecommendedScreenState extends State<RecommendedScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('추천 약품', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        const Text('추천 약품',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         ...medicines.map((m) => Card(
-          margin: const EdgeInsets.symmetric(vertical: 6),
-          child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(m['name'], style: const TextStyle(fontWeight: FontWeight.bold)),
-                Text("설명: ${m['description']}"),
-                Text("복용 방법: ${m['usage']}"),
-                Text("주의사항: ${m['caution']}"),
-                Text("추천도: ${m['confidence']}"),
-              ],
-            ),
-          ),
-        )),
+              margin: const EdgeInsets.symmetric(vertical: 6),
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(m['name'],
+                        style: const TextStyle(fontWeight: FontWeight.bold)),
+                    Text("설명: ${m['description']}"),
+                    Text("복용 방법: ${m['usage']}"),
+                    Text("주의사항: ${m['caution']}"),
+                    Text("추천도: ${m['confidence']}"),
+                  ],
+                ),
+              ),
+            )),
       ],
     );
   }
@@ -201,7 +211,8 @@ class _RecommendedScreenState extends State<RecommendedScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('주의사항 및 진료 권고', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        const Text('주의사항 및 진료 권고',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         const SizedBox(height: 8),
         if (isWarning)
           Container(
@@ -214,7 +225,8 @@ class _RecommendedScreenState extends State<RecommendedScreen> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Icon(Icons.warning_amber_rounded, color: Colors.orange, size: 24),
+                const Icon(Icons.warning_amber_rounded,
+                    color: Colors.orange, size: 24),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
@@ -234,5 +246,4 @@ class _RecommendedScreenState extends State<RecommendedScreen> {
       ],
     );
   }
-
 }

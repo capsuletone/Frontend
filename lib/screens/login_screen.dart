@@ -3,10 +3,13 @@ import 'package:capsuleton_flutter/database/requestuser_request_database.dart';
 import 'package:capsuleton_flutter/repository/requestUser_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:http/http.dart';
+import 'package:provider/provider.dart';
 import '../component/auth_login_button.dart';
 import '../component/auth_login_text_field.dart';
 import '../component/show_error_message.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../provider/email_provider.dart';
 import '../repository/login_repository.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -40,6 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
       loginRepository.loginUser(loginData, context);
       final reuqestData =
           RequestuserRequestDatabase(userid: emailController.text);
+      context.read<EmailProvider>().updateEmail(emailController.text);
       requestRepository.requestUser(reuqestData, context);
     } on FirebaseAuthException catch (e) {
       ShowErrorMessage(context: context, message: e.code).show();
@@ -93,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             LoginTextField(
                               controller: emailController,
-                              hintText: '이메일',
+                              hintText: '아이디',
                               obscureText: false,
                             ),
                             SizedBox(
@@ -111,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               text: _isLoading ? "" : "로그인",
                               onTap: _isLoading ? null : signUserIn,
                               child: _isLoading
-                                  ? CircularProgressIndicator(
+                                  ? const CircularProgressIndicator(
                                       color: Colors.green)
                                   : null,
                             ),
@@ -147,7 +151,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           ])));
 
               return SingleChildScrollView(
-                  physics: isScrollable ? null : NeverScrollableScrollPhysics(),
+                  physics: isScrollable
+                      ? null
+                      : const NeverScrollableScrollPhysics(),
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
                       minHeight: constraints.maxHeight,

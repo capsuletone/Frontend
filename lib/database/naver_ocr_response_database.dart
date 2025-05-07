@@ -1,5 +1,7 @@
+import 'package:intl/intl.dart';
+
 class NaverOcrResponseDatabase {
-  String? date;
+  DateFormat? date;
   String? diseaseCode;
   List<String?> medicineName;
   List<double?> dosesPerDay;

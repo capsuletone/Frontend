@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class AccountLogout extends StatefulWidget {
+  const AccountLogout({super.key});
+
   @override
   State<AccountLogout> createState() => _AccountLogoutState();
 }
@@ -33,7 +35,7 @@ class _AccountLogoutState extends State<AccountLogout> {
             Text(
               '로그아웃',
               style: TextStyle(
-                color: Color(0xFF191F28),
+                color: const Color(0xFF191F28),
                 fontSize: 18 * pixel,
                 fontFamily: 'Pretendard',
                 fontWeight: FontWeight.w600,
@@ -54,7 +56,7 @@ class _AccountLogoutState extends State<AccountLogout> {
               ),
             ),
           ])),
-          Container(
+          SizedBox(
             width: 297 * pixel,
             height: 50 * pixel,
             child: Row(
@@ -69,7 +71,7 @@ class _AccountLogoutState extends State<AccountLogout> {
                     width: 135 * pixel,
                     height: 50 * pixel,
                     decoration: ShapeDecoration(
-                      color: Color(0x7F191F28),
+                      color: const Color(0x7F191F28),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12 * pixel),
                       ),

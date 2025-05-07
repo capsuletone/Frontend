@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class ServiceLogout extends StatefulWidget {
+  const ServiceLogout({super.key});
+
   @override
   State<ServiceLogout> createState() => _ServiceLogoutState();
 }
@@ -40,7 +42,7 @@ class _ServiceLogoutState extends State<ServiceLogout> {
             Text('회원탈퇴',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Color(0xFF191F28),
+                  color: const Color(0xFF191F28),
                   fontSize: 18 * pixel,
                   fontFamily: 'Pretendard',
                   fontWeight: FontWeight.w600,

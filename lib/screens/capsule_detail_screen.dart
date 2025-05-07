@@ -32,7 +32,7 @@ class _CapsuleDetailScreenState extends State<CapsuleDetailScreen> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             // 데이터 로딩 중일 때 로딩 인디케이터 표시
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             // 오류 발생 시 메시지 표시
             return Padding(
@@ -64,7 +64,7 @@ class _CapsuleDetailScreenState extends State<CapsuleDetailScreen> {
                       SizedBox(
                         height: 40 * pixel,
                       ),
-                      Center(child: Text("약 정보를 찾을 수 없습니다.")),
+                      const Center(child: Text("약 정보를 찾을 수 없습니다.")),
                     ]));
           }
 
@@ -76,7 +76,7 @@ class _CapsuleDetailScreenState extends State<CapsuleDetailScreen> {
 
                 if (tablet == null) {
                   // 캐시된 데이터가 없으면 '약 정보를 찾을 수 없습니다.' 메시지 표시
-                  return Center(child: Text("약 정보를 찾을 수 없습니다."));
+                  return const Center(child: Text("약 정보를 찾을 수 없습니다."));
                 }
 
                 return Padding(
@@ -108,54 +108,54 @@ class _CapsuleDetailScreenState extends State<CapsuleDetailScreen> {
                       // 약 정보 표시
                       Text(
                         tablet.itemName ?? '알 수 없는 약',
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 28, fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       // 효능, 사용법 등 관련 정보 표시
-                      Text(
+                      const Text(
                         '효능',
                         style: TextStyle(
                             fontSize: 22, fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       Text(
                         tablet.efcyQesitm ?? '정보 없음',
-                        style: TextStyle(fontSize: 16),
+                        style: const TextStyle(fontSize: 16),
                       ),
-                      SizedBox(height: 16),
-                      Text(
+                      const SizedBox(height: 16),
+                      const Text(
                         '사용법',
                         style: TextStyle(
                             fontSize: 22, fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       Text(
                         tablet.useMethodQesitm ?? '정보 없음',
-                        style: TextStyle(fontSize: 16),
+                        style: const TextStyle(fontSize: 16),
                       ),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       // 기타 정보들도 동일하게 처리
-                      Text(
+                      const Text(
                         '주의사항 (경고)',
                         style: TextStyle(
                             fontSize: 22, fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       Text(
                         tablet.atpnWarnQesitm ?? '정보 없음',
-                        style: TextStyle(fontSize: 16),
+                        style: const TextStyle(fontSize: 16),
                       ),
-                      SizedBox(height: 16),
-                      Text(
+                      const SizedBox(height: 16),
+                      const Text(
                         '상호작용 (주의해야 할 약 또는 음식)',
                         style: TextStyle(
                             fontSize: 22, fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       Text(
                         tablet.intrcQesitm ?? '정보 없음',
-                        style: TextStyle(fontSize: 16),
+                        style: const TextStyle(fontSize: 16),
                       ),
                     ],
                   ),
