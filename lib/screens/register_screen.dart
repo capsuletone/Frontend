@@ -45,7 +45,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         username: userNameController.text,
         registerdate: DateFormat('yyyy-MM-dd').format(DateTime.now()),
       );
-      registerRepository.registerUser(register, context);
+      await registerRepository.registerUser(register, context);
     } catch (e) {
       print("에러 발생 $e");
     } finally {

@@ -14,13 +14,7 @@ import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  MaterialApp(locale: Locale('ko', 'KR'), localizationsDelegates: const [
-    GlobalMaterialLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-  ], supportedLocales: const [
-    Locale('ko', 'KR'),
-  ]);
+
   final appRouter = AppRouter();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -54,6 +48,15 @@ class MyApp extends StatelessWidget {
       routerDelegate: router.routerDelegate,
       title: 'capsuleton', // Optionally, add app title and theme as well
       theme: ThemeData(),
+      locale: const Locale('ko', 'KR'), // 기본 로케일을 한국어로 설정
+      supportedLocales: const [
+        Locale('ko', 'KR'), // 한국어
+      ],
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate, // 머티리얼 로컬라이제이션
+        GlobalWidgetsLocalizations.delegate, // 위젯 로컬라이제이션
+        GlobalCupertinoLocalizations.delegate, // 쿠퍼티노 로컬라이제이션
+      ],
     );
   }
 }

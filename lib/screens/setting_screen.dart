@@ -1,7 +1,6 @@
 import 'package:capsuleton_flutter/component/auth_logout_component.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../component/service_logout_component.dart';
 import '../component/highlight_text_component.dart';
 import '../component/setting_component.dart';
 import '../component/setting_line_component.dart';

@@ -27,11 +27,33 @@ class _CalanderScreenState extends State<CalanderScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
-
     super.initState();
     _selectedDay = _focusedDay;
-    _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final eventProvider = context.read<EventsProvider>();
+      final diseaseList = context.read<UserDiseaseProvider>().diseaseData;
+
+      DateTime stripTime(DateTime date) =>
+          DateTime(date.year, date.month, date.day);
+
+      eventProvider.clearEvents(); // 이벤트 초기화
+      for (var disease in diseaseList) {
+        for (var med in disease.medicines!) {
+          if (med.date != '') {
+            int cycle = med.totalDays;
+            String medicineName = med.medicineName;
+            DateTime startDate = stripTime(DateTime.parse(med.date));
+
+            eventProvider.setEvents(startDate, medicineName, cycle);
+          }
+        }
+      }
+
+      // 이벤트를 다시 가져와서 초기화
+      _selectedEvents.value = _getEventsForDay(_selectedDay!);
+    });
+
+    _selectedEvents = ValueNotifier([]);
   }
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {

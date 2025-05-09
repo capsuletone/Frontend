@@ -18,9 +18,12 @@ class NaverOcrRepository {
       // 여기에 실패 처리 로직 (예: 사용자에게 알림)
       return;
     }
-
     final result = NaverOcrResponseDatabase.fromJson(response.data);
 
-    print("ocr 데이터 : $result");
+    print("Date: ${result.date}");
+    print("Disease Code: ${result.diseaseCode}");
+    print("Medicine Name: ${result.medicineName}");
+    print("Doses Per Day: ${result.dosesPerDay}");
+    print("Total Days: ${result.totalDays}");
   }
 }
