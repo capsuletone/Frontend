@@ -30,7 +30,7 @@ class AppRouter {
         _createRoute(
           path: RoutePaths.splash,
           name: RouteNames.splash,
-          builder: (_, state) => SplashScreen(),
+          builder: (_, state) => const SplashScreen(),
         ),
         _createRoute(
           path: RoutePaths.login,
@@ -45,7 +45,7 @@ class AppRouter {
         _createRoute(
             path: RoutePaths.root,
             name: RouteNames.root,
-            builder: (_, state) => RootTab(),
+            builder: (_, state) => const RootTab(),
             routes: [
               _createRoute(
                   path: RoutePaths.setting,
@@ -79,12 +79,12 @@ class AppRouter {
                     _createRoute(
                       path: RoutePaths.camera,
                       name: RouteNames.camera,
-                      builder: (_, state) => CameraScreen(),
+                      builder: (_, state) => const CameraScreen(),
                     ),
                     _createRoute(
                       path: RoutePaths.prescriptionManually,
                       name: RouteNames.prescriptionManually,
-                      builder: (_, state) => PrescriptionManuallyScreen(),
+                      builder: (_, state) => const PrescriptionManuallyScreen(),
                     ),
                   ]),
             ]),

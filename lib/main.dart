@@ -1,6 +1,5 @@
 import 'package:capsuleton_flutter/provider/user_data_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -37,7 +36,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   final GoRouter router;
 
-  MyApp({required this.router});
+  const MyApp({super.key, required this.router});
 
   @override
   Widget build(BuildContext context) {

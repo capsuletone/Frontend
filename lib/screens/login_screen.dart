@@ -3,7 +3,6 @@ import 'package:capsuleton_flutter/database/requestuser_request_database.dart';
 import 'package:capsuleton_flutter/repository/requestUser_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import '../component/auth_login_button.dart';
 import '../component/auth_login_text_field.dart';

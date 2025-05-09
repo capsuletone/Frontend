@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import '../component/setting_line_component.dart';
 
 class SettingPushScreen extends StatefulWidget {
+  const SettingPushScreen({super.key});
+
   @override
   _SettingPushScreenState createState() => _SettingPushScreenState();
 }

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../component/home_capsule_time_component.dart';
 import '../component/home_header_component.dart';
-import '../component/home_qrcode_scan_component.dart';
 import '../provider/email_provider.dart';
 import '../provider/user_data_provider.dart';
 

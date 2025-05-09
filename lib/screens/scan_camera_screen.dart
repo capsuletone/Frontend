@@ -31,8 +31,8 @@ class _CameraScreenState extends State<CameraScreen> {
         base64Image = base64String;
       });
 
-      print("✅ Base64 이미지: ${base64String}"); // 긴 Base64는 일부만 출력
-      final reuqestData = NaverOcrRequestDatabase(base64img: base64String);
+      print("✅ Base64 이미지: $base64String"); // 긴 Base64는 일부만 출력
+      final reuqestData = NaverOcrRequestDatabase(base64: base64String);
       naverOcrRepository.ocrPicture(reuqestData, context);
     }
   }
@@ -51,9 +51,9 @@ class _CameraScreenState extends State<CameraScreen> {
         base64Image = base64String;
       });
 
-      print("✅ Base64 이미지: ${base64String}");
+      print("✅ Base64 이미지: $base64String");
 
-      final requestData = NaverOcrRequestDatabase(base64img: base64String);
+      final requestData = NaverOcrRequestDatabase(base64: base64String);
       naverOcrRepository.ocrPicture(requestData, context);
     }
   }

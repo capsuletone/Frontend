@@ -1,6 +1,5 @@
 import 'package:capsuleton_flutter/screens/prescription_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'calander_screen.dart';
 import 'home_screen.dart';
 import 'recommended_screen.dart';

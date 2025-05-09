@@ -21,7 +21,7 @@ class LoginButton extends StatelessWidget {
       child: Container(
         width: 298 * pixel,
         height: 40 * pixel,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.green,
         ),
         child: Center(

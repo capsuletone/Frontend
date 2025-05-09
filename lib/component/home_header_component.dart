@@ -10,7 +10,7 @@ Widget homeheader(double pixel, BuildContext context, String email) {
   return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
     Row(children: [
       Text(
-        '${email}님 ,',
+        '$email님 ,',
         style: TextStyle(fontSize: fontSize),
       ),
       SizedBox(width: spacing), // 'hi'와 'hello' 사이 간격
@@ -28,7 +28,7 @@ Widget homeheader(double pixel, BuildContext context, String email) {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20 * pixel),
                 ),
-                child: AccountLogout(),
+                child: const AccountLogout(),
               );
             },
           );

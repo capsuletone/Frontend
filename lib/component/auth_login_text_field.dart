@@ -15,7 +15,7 @@ class LoginTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final pixel = MediaQuery.of(context).size.width / 375 * 0.97;
-    return Container(
+    return SizedBox(
       width: 298 * pixel,
       height: 40 * pixel,
       child: TextField(
@@ -25,7 +25,7 @@ class LoginTextField extends StatelessWidget {
             enabledBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: Colors.white),
             ),
-            focusedBorder: OutlineInputBorder(
+            focusedBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: Colors.white),
             ),
             fillColor: Colors.white,

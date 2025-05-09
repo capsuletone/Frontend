@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class DateEditPopupContainer extends StatelessWidget {
   final Function(DateTime) onSelected;
 
-  DateEditPopupContainer({required this.onSelected});
+  DateEditPopupContainer({super.key, required this.onSelected});
 
   DateTime _selectedDate = DateTime.now();
 
@@ -31,7 +31,7 @@ class DateEditPopupContainer extends StatelessWidget {
                   "날짜 선택",
                   style: TextStyle(
                       fontSize: 14 * pixel,
-                      color: Color(0x7F191F28),
+                      color: const Color(0x7F191F28),
                       fontWeight: FontWeight.bold),
                 ),
               ),
@@ -61,7 +61,7 @@ class DateEditPopupContainer extends StatelessWidget {
                 child: Text(
                   '확인',
                   style: TextStyle(
-                    color: Color(0xFF007AFF),
+                    color: const Color(0xFF007AFF),
                     fontSize: 20 * pixel,
                     fontFamily: 'Pretendard',
                     fontWeight: FontWeight.w600,
@@ -91,7 +91,7 @@ class DateEditPopupContainer extends StatelessWidget {
                       '취소',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: Color(0xFF007AFF),
+                        color: const Color(0xFF007AFF),
                         fontSize: 20 * pixel,
                         fontFamily: 'Pretendard',
                         fontWeight: FontWeight.w600,

@@ -1,8 +1,4 @@
-import 'dart:math';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class PetSexEditPopupContainer extends StatefulWidget {
   final void Function(String) onSelected;

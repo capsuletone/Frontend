@@ -12,7 +12,7 @@ android {
     namespace = "com.example.capsuleton_flutter"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
-    
+  
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -21,7 +21,9 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8
     }
-
+  packagingOptions {
+          exclude'META-INF/*'
+    }
     defaultConfig {
      
         ndk {

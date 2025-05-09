@@ -4,7 +4,7 @@ Widget highlightText(double pixel, BuildContext context, String text) {
   double fontSize = 24.0 * pixel; // 글자 크기 설정
   double spacing = 10.0 * pixel; // 두 텍스트 사이의 간격 설정
 
-  return Container(
+  return SizedBox(
     height: 40.0 * pixel,
     child: Row(
       children: [

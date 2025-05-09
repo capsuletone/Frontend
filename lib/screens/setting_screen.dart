@@ -49,7 +49,7 @@ class _SettingScreenState extends State<SettingScreen> {
                                     borderRadius:
                                         BorderRadius.circular(20 * pixel),
                                   ),
-                                  child: AccountLogout(),
+                                  child: const AccountLogout(),
                                 );
                               },
                             ),
