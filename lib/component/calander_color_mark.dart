@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 
 Color getColorByIndex(int index) {
-  switch (index) {
-    case 0:
-      return Colors.green;
-    case 1:
-      return Colors.blue;
-    case 2:
-      return Colors.orange;
-    case 3:
-      return Colors.red;
-    default:
-      return Colors.grey;
-  }
+  final List<Color> colorPalette = [
+    Colors.green[500]!,
+    Colors.green[400]!,
+    Colors.green[300]!,
+    Colors.green[200]!,
+    Colors.green[100]!,
+  ];
+  return colorPalette[index % colorPalette.length];
 }

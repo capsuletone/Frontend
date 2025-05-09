@@ -3,23 +3,35 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'auth_logout_component.dart';
 
-Widget homeheader(double pixel, BuildContext context, String email) {
-  double fontSize = 24.0 * pixel; // 글자 크기 설정
-  double spacing = 10.0 * pixel; // 두 텍스트 사이의 간격 설정
+Widget homeHeader(double pixel, BuildContext context, String email) {
+  double fontSize = 24.0 * pixel;
+  double iconSize = 24.0 * pixel;
+  double spacing = 8.0 * pixel;
 
-  return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-    Row(children: [
-      Text(
-        '$email님 ,',
-        style: TextStyle(fontSize: fontSize),
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Row(
+        children: [
+          Text(
+            '$email님,',
+            style: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: Colors.black87,
+            ),
+          ),
+          SizedBox(width: spacing),
+          Text(
+            '안녕하세요!',
+            style: TextStyle(
+              fontSize: fontSize,
+              color: Colors.black54,
+            ),
+          ),
+        ],
       ),
-      SizedBox(width: spacing), // 'hi'와 'hello' 사이 간격
-      Text(
-        '안녕하세요',
-        style: TextStyle(fontSize: fontSize),
-      ),
-    ]),
-    GestureDetector(
+      GestureDetector(
         onTap: () {
           showDialog(
             context: context,
@@ -33,10 +45,22 @@ Widget homeheader(double pixel, BuildContext context, String email) {
             },
           );
         },
-        child: FaIcon(
-          FontAwesomeIcons.signOutAlt,
-          color: Colors.black,
-          size: 20 * pixel,
-        )),
-  ]);
+        child: MouseRegion(
+          // 웹 지원 시 마우스 커서
+          cursor: SystemMouseCursors.click,
+          child: Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.transparent,
+            ),
+            child: FaIcon(
+              FontAwesomeIcons.signOutAlt,
+              color: Colors.black,
+              size: iconSize,
+            ),
+          ),
+        ),
+      ),
+    ],
+  );
 }

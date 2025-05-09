@@ -19,19 +19,20 @@ class LoginButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 298 * pixel,
-        height: 40 * pixel,
-        decoration: const BoxDecoration(
+        width: 340 * pixel,
+        height: 50 * pixel,
+        decoration: BoxDecoration(
           color: Colors.green,
+          borderRadius: BorderRadius.circular(10 * pixel), // 여기에 직접 사용합니다!
         ),
         child: Center(
           child: child ??
               Text(
                 text,
-                style: const TextStyle(
+                style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
-                  fontSize: 16,
+                  fontSize: 16 * pixel,
                 ),
               ),
         ),

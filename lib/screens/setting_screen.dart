@@ -31,7 +31,7 @@ class _SettingScreenState extends State<SettingScreen> {
 
           final content = Container(
               child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 33 * pixel),
+                  padding: EdgeInsets.symmetric(horizontal: 24 * pixel),
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -39,6 +39,9 @@ class _SettingScreenState extends State<SettingScreen> {
                           height: 54 * pixel,
                         ),
                         highlightText(pixel, context, "마이페이지"),
+                        SizedBox(
+                          height: 20 * pixel,
+                        ),
                         SettingBox(
                           onTap: () => {
                             showDialog(
@@ -57,6 +60,7 @@ class _SettingScreenState extends State<SettingScreen> {
                           settingText: "로그아웃",
                         ),
                         settingLine(pixel),
+
                         SettingBox(
                           onTap: () => {
                             context.go('/root/setting/settingPush'),

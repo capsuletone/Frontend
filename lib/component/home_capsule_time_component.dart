@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../database/requestuser_response_extentions_database.dart';
 import '../screens/capsule_detail_screen.dart';
 
@@ -7,9 +8,6 @@ Widget homeCapsuleTimeContainer(
   double widthSize = 400 * pixel;
   double heightSize = 600 * pixel;
   double fontSize = 24.0 * pixel; // 글자 크기 설정
-  double spacing = 30.0 * pixel; // 두 텍스트 사이의 간격 설정
-  double itemHeight = (heightSize - 16 * pixel * 3) /
-      5; // 아이템 크기 계산 (패딩을 제외한 나머지 공간을 아이템 개수로 나눔)
   List<String> allMedicineNames = [];
   List<String> allMedicineDescription = [];
 
@@ -35,58 +33,106 @@ Widget homeCapsuleTimeContainer(
   print("복용 시간: $allMedicineDescription");
 
   print("오늘 복용 약: $allMedicineDescription");
-
   return Container(
-    width: widthSize, // 가로 크기
-    height: heightSize, // 세로 크기
+    width: widthSize,
+    height: heightSize,
     padding: EdgeInsets.all(16 * pixel),
-    color: Colors.green[300], // 배경색
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(20 * pixel),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black26,
+          blurRadius: 12 * pixel,
+          offset: Offset(0, 20),
+        ),
+      ],
+    ),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          '현재 복용중인 약',
-          style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold),
+        Text.rich(
+          TextSpan(
+            children: [
+              TextSpan(
+                text: '오늘,',
+                style: TextStyle(
+                  fontSize: fontSize,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.green[800], // 강조 색
+                ),
+              ),
+              TextSpan(
+                text: '복용할 약이에요',
+                style: TextStyle(
+                  fontSize: fontSize,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black87, // 일반 색
+                  letterSpacing: 0.5,
+                ),
+              ),
+            ],
+          ),
         ),
-        SizedBox(height: 16 * pixel),
+        SizedBox(height: 30 * pixel),
         Expanded(
           child: ListView.builder(
+            padding: EdgeInsets.only(bottom: 10 * pixel),
             itemCount: allMedicineNames.length,
             itemBuilder: (context, index) {
-              return Padding(
-                  padding: EdgeInsets.symmetric(
-                      vertical: 8.0 * pixel), // 각 Row 간의 간격 설정
-                  child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CapsuleDetailScreen(
-                                itemName: allMedicineNames[index]),
-                          ),
-                        );
-                      },
-                      child: Container(
-                          child: Row(
-                        children: [
-                          const CircleAvatar(
-                            radius: 30, // 원형 아바타 크기
-                            backgroundImage: NetworkImage(''), // 아바타 이미지 URL
-                          ),
-                          const SizedBox(width: 10),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('약 이름: ${allMedicineNames[index]}',
-                                  style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold)),
-                              Text('설명: ${allMedicineDescription[index]}',
-                                  style: const TextStyle(fontSize: 14)),
-                            ],
-                          ),
-                        ],
-                      ))));
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CapsuleDetailScreen(
+                        itemName: allMedicineNames[index],
+                      ),
+                    ),
+                  );
+                },
+                child: Container(
+                  margin: EdgeInsets.only(bottom: 12 * pixel),
+                  padding: EdgeInsets.all(12 * pixel),
+                  decoration: BoxDecoration(
+                    color: Colors.green[50],
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.green.shade200),
+                  ),
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                          radius: 30,
+                          backgroundColor: Colors.green[300],
+                          child: Icon(FontAwesomeIcons.pills,
+                              size: 25 * pixel, color: Colors.white)),
+                      SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${allMedicineNames[index]}',
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            SizedBox(height: 4),
+                            Text(
+                              '${allMedicineDescription[index]}',
+                              style: TextStyle(
+                                fontSize: 14 * pixel,
+                                color: Colors.grey[500],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
             },
           ),
         ),

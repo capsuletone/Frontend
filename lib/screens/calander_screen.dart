@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../component/calander_color_mark.dart';
+import '../component/highlight_text_component.dart';
 import '../provider/date_provider.dart';
 import '../provider/user_data_provider.dart';
 
@@ -109,38 +111,54 @@ class _CalanderScreenState extends State<CalanderScreen> {
               final isTablet = screenWidth >= 768; // 아이패드 여부 판단
 
               final content = Container(
-                  padding: EdgeInsets.symmetric(horizontal: 33 * pixel),
+                  padding: EdgeInsets.symmetric(horizontal: 24 * pixel),
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(height: 40 * pixel),
+                        SizedBox(height: 54 * pixel),
+                        highlightText(pixel, context, "달력"),
+                        SizedBox(height: 20 * pixel),
                         TableCalendar(
                           headerStyle: HeaderStyle(
-                            headerMargin: EdgeInsets.only(bottom: 10 * pixel),
                             titleTextStyle: TextStyle(
-                                color: Colors.white, fontSize: 20 * pixel),
-                            decoration: BoxDecoration(
-                              color: Colors.green[300],
-                              borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(10),
-                                topRight: Radius.circular(10),
-                              ),
+                              color: Colors.white,
+                              fontSize: 20 * pixel,
+                              fontWeight: FontWeight.bold,
                             ),
-                            formatButtonVisible: false,
                             titleCentered: true,
+                            formatButtonVisible: false,
                             leftChevronIcon: Icon(
                               Icons.chevron_left,
                               color: Colors.white,
-                              size: 28 * pixel,
+                              size: 30 * pixel,
                             ),
                             rightChevronIcon: Icon(
                               Icons.chevron_right,
                               color: Colors.white,
-                              size: 28 * pixel,
+                              size: 30 * pixel,
                             ),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Colors.green[400]!,
+                                  Colors.green[300]!
+                                ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              borderRadius: BorderRadius.circular(7 * pixel),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black12,
+                                  blurRadius: 8,
+                                  offset: Offset(0, 4),
+                                ),
+                              ],
+                            ),
+                            headerMargin: EdgeInsets.only(bottom: 10 * pixel),
                           ),
-                          rowHeight: 80 * pixel,
+                          rowHeight: 70 * pixel,
                           locale: 'ko-KR',
                           firstDay: DateTime.utc(2010, 10, 16),
                           lastDay: DateTime.utc(2030, 3, 14),
@@ -150,41 +168,56 @@ class _CalanderScreenState extends State<CalanderScreen> {
                               isSameDay(_selectedDay, day),
                           onDaySelected: _onDaySelected,
                           eventLoader: _getEventsForDay,
-                          calendarStyle: const CalendarStyle(
-                            markersAlignment: Alignment.bottomCenter,
-                            canMarkersOverflow: true,
-                            markersMaxCount: 2,
-                            markersAnchor: 0.7,
+                          calendarStyle: CalendarStyle(
+                            defaultTextStyle: TextStyle(
+                              fontSize: 15 * pixel, // rowHeight에 맞는 적절한 크기
+                              height: 1.2 * pixel, // 줄 간격 여유
+                            ),
                             todayDecoration: BoxDecoration(
-                              color: Color(0xff93bebd),
+                              color: Colors.green.withOpacity(0.5),
                               shape: BoxShape.circle,
                             ),
                             selectedDecoration: BoxDecoration(
-                              color: Colors.teal,
+                              color: Colors.green[500],
                               shape: BoxShape.circle,
                             ),
-                            weekendTextStyle: TextStyle(color: Colors.red),
+                            weekendTextStyle:
+                                TextStyle(color: Colors.redAccent),
                           ),
                           calendarBuilders: CalendarBuilders(
+                            dowBuilder: (context, day) {
+                              final text = DateFormat.E('ko').format(day);
+                              final isWeekend =
+                                  day.weekday == DateTime.saturday ||
+                                      day.weekday == DateTime.sunday;
+
+                              return Center(
+                                child: Text(
+                                  text,
+                                  style: TextStyle(
+                                    fontSize: 12 * pixel,
+                                    fontWeight: FontWeight.w600,
+                                    color: isWeekend
+                                        ? Colors.red
+                                        : Colors.grey[800],
+                                  ),
+                                ),
+                              );
+                            },
                             markerBuilder: (context, day, events) {
                               if (events.isNotEmpty) {
-                                List eventList = events;
-
                                 return Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children:
-                                      List.generate(eventList.length, (index) {
-                                    Map event = eventList[
-                                        index]; // { iconIndex, contents }
-
+                                      List.generate(events.length, (index) {
                                     return Container(
                                       margin: const EdgeInsets.symmetric(
-                                          horizontal: 1.5),
-                                      child: Icon(
-                                        Icons.circle,
-                                        size: 6 * pixel, // 점 크기
-                                        color:
-                                            getColorByIndex(event['iconIndex']),
+                                          horizontal: 2.0),
+                                      width: 8 * pixel,
+                                      height: 8 * pixel,
+                                      decoration: BoxDecoration(
+                                        color: getColorByIndex(index),
+                                        shape: BoxShape.circle,
                                       ),
                                     );
                                   }),
@@ -192,34 +225,15 @@ class _CalanderScreenState extends State<CalanderScreen> {
                               }
                               return null;
                             },
-                            dowBuilder: (context, day) {
-                              // 요일 텍스트의 크기와 위치를 조정
-                              final text = DateFormat.E('ko').format(day);
-                              return Center(
-                                child: Text(
-                                  text,
-                                  style: TextStyle(
-                                    color: day.weekday == DateTime.saturday ||
-                                            day.weekday == DateTime.sunday
-                                        ? Colors.red
-                                        : Colors.black,
-                                    fontSize: 12 * pixel, // 텍스트 크기 조정
-                                    fontWeight: FontWeight.bold, // 볼드 스타일
-                                  ),
-                                ),
-                              );
-                            },
                           ),
                           onFormatChanged: (format) {
                             if (_calendarFormat != format) {
-                              // Call `setState()` when updating calendar format
                               setState(() {
                                 _calendarFormat = format;
                               });
                             }
                           },
                           onPageChanged: (focusedDay) {
-                            // No need to call `setState()` here
                             _focusedDay = focusedDay;
                           },
                         ),
@@ -233,16 +247,33 @@ class _CalanderScreenState extends State<CalanderScreen> {
                                       itemBuilder: (context, index) {
                                         Map eventIconIndex = value[index];
                                         return Container(
-                                          margin: const EdgeInsets.symmetric(
-                                            horizontal: 12.0,
-                                            vertical: 4.0,
-                                          ),
+                                          margin: EdgeInsets.symmetric(
+                                              horizontal: 12.0 * pixel,
+                                              vertical: 6.0 * pixel),
                                           decoration: BoxDecoration(
-                                            border: Border.all(),
+                                            color: Colors.white,
                                             borderRadius:
-                                                BorderRadius.circular(12.0),
+                                                BorderRadius.circular(16),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.black12,
+                                                blurRadius: 8,
+                                                offset: Offset(0, 4),
+                                              ),
+                                            ],
                                           ),
                                           child: ListTile(
+                                            leading: Icon(
+                                                FontAwesomeIcons.pills,
+                                                color: getColorByIndex(
+                                                    eventIconIndex[
+                                                        'iconIndex'])),
+                                            title: Text(
+                                              '${eventIconIndex['contents']}',
+                                              style: TextStyle(
+                                                  fontSize: 15 * pixel,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
                                             onLongPress: () {
                                               setState(() {
                                                 context
@@ -251,8 +282,6 @@ class _CalanderScreenState extends State<CalanderScreen> {
                                                         _selectedDay, 0);
                                               });
                                             },
-                                            title: Text(
-                                                '${eventIconIndex['contents']}'),
                                           ),
                                         );
                                       });

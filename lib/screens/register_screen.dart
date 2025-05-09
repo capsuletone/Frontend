@@ -1,5 +1,7 @@
 import 'package:capsuleton_flutter/repository/register_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart'
+    show FontAwesomeIcons;
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import '../component/auth_login_button.dart';
@@ -59,96 +61,120 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final pixel = MediaQuery.of(context).size.width / 375 * 0.97;
     return Scaffold(
-      backgroundColor: Colors.grey[300],
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(height: 50),
+        backgroundColor: Colors.green[100],
+        body: LayoutBuilder(builder: (context, constraints) {
+          final isScrollable = constraints.maxHeight < 600;
+          final screenWidth = MediaQuery.of(context).size.width; // 화면 너비
+          final isTablet = screenWidth >= 768; // 아이패드 여부 판단
 
-                // logo
-                const Icon(
-                  Icons.gesture,
-                  size: 100,
-                  color: Colors.green,
-                ),
+          final content = Center(
+              child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24 * pixel),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                            width: 100 * pixel,
+                            height: 100 * pixel,
+                            decoration: BoxDecoration(
+                              color: Colors.green[300],
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black12,
+                                  blurRadius: 10,
+                                  offset: Offset(0, 4),
+                                )
+                              ],
+                            ),
+                            padding: const EdgeInsets.all(20),
+                            child: Icon(FontAwesomeIcons.pills,
+                                size: 60 * pixel, color: Colors.white)),
 
-                const SizedBox(height: 50),
+                        SizedBox(height: 30 * pixel),
 
-                // Let's create an account for you
-                Text(
-                  '캡슐톤에 로그인해,다양한 정보를 만나보세요!',
-                  style: TextStyle(
-                    color: Colors.grey[700],
-                    fontSize: 16,
-                  ),
-                ),
-
-                const SizedBox(height: 25),
-
-                // email textfield
-                LoginTextField(
-                  controller: emailController,
-                  hintText: '아이디',
-                  obscureText: false,
-                ),
-
-                const SizedBox(height: 10),
-                LoginTextField(
-                  controller: passwordController,
-                  hintText: '비밀번호',
-                  obscureText: true,
-                ),
-                const SizedBox(height: 10),
-                LoginTextField(
-                  controller: userNameController,
-                  hintText: '닉네임',
-                  obscureText: false,
-                ),
-
-                const SizedBox(height: 25),
-
-                // sign in button
-                LoginButton(
-                  text: _isLoading ? "" : "회원가입", // 로딩 중이면 텍스트를 숨깁니다.
-                  onTap: _isLoading ? null : signUserUp, // 로딩 중이면 버튼을 비활성화합니다.
-                  child: _isLoading
-                      ? const CircularProgressIndicator(color: Colors.white)
-                      : null, // 로딩 중이면 로딩 인디케이터를 표시합니다.
-                ),
-
-                const SizedBox(height: 100),
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      '이미 로그인 정보가 있나요?',
-                      style: TextStyle(color: Colors.grey[700]),
-                    ),
-                    const SizedBox(width: 4),
-                    GestureDetector(
-                      onTap: () {
-                        context.go('/login');
-                      },
-                      child: const Text(
-                        '로그인',
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
+                        Text(
+                          '캡슐톤에 가입하고 다양한 정보를 만나보세요!',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.grey[800],
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
+
+                        SizedBox(height: 30 * pixel),
+
+                        // 입력 필드들
+                        LoginTextField(
+                          controller: emailController,
+                          hintText: '아이디',
+                          obscureText: false,
+                        ),
+                        SizedBox(height: 12 * pixel),
+                        LoginTextField(
+                          controller: passwordController,
+                          hintText: '비밀번호',
+                          obscureText: true,
+                        ),
+                        SizedBox(height: 12 * pixel),
+                        LoginTextField(
+                          controller: userNameController,
+                          hintText: '닉네임',
+                          obscureText: false,
+                        ),
+
+                        SizedBox(height: 30 * pixel),
+
+                        // 회원가입 버튼
+                        LoginButton(
+                          text: _isLoading ? "" : "회원가입",
+                          onTap: _isLoading ? null : signUserUp,
+                          child: _isLoading
+                              ? const CircularProgressIndicator(
+                                  color: Colors.white)
+                              : null,
+                        ),
+
+                        const SizedBox(height: 60),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              '이미 계정이 있으신가요?',
+                              style: TextStyle(color: Colors.grey[700]),
+                            ),
+                            const SizedBox(width: 4),
+                            GestureDetector(
+                              onTap: () {
+                                context.go('/login');
+                              },
+                              child: const Text(
+                                '로그인',
+                                style: TextStyle(
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 20 * pixel),
+                      ])));
+
+          return SingleChildScrollView(
+              physics:
+                  isScrollable ? null : const NeverScrollableScrollPhysics(),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: constraints.maxHeight,
+                ),
+                child: content,
+              ));
+        }));
   }
 }

@@ -40,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(
                           height: 50 * pixel,
                         ),
-                        homeheader(pixel, context, email),
+                        homeHeader(pixel, context, email),
                         SizedBox(
                           height: 34 * pixel,
                         ),

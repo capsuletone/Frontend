@@ -29,25 +29,28 @@ class _PrescriptionAddScreenState extends State<PrescriptionAddScreen> {
               final screenWidth = MediaQuery.of(context).size.width; // 화면 너비
               final isTablet = screenWidth >= 768; // 아이패드 여부 판단
 
-              final content = Padding(
-                  padding: EdgeInsets.all(16.0 * pixel),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 54 * pixel),
-                        highlightText(pixel, context, "약 추가"),
-                        SizedBox(height: 24 * pixel),
-                        homeQrcodeScanContainer(() {
-                          context.go('/root/preescriptionAdd/camera');
-                        }, pixel, Colors.green[300], "처방전으로 약 추가"),
-                        SizedBox(
-                          height: 20 * pixel,
-                        ),
-                        homeQrcodeScanContainer(() {
-                          context.go(
-                              '/root/preescriptionAdd/prescriptionManually');
-                        }, pixel, Colors.green[400], "수동으로 약 추가"),
-                      ]));
+              final content = Container(
+                  child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 24 * pixel),
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              height: 54 * pixel,
+                            ),
+                            highlightText(pixel, context, "약 추가"),
+                            SizedBox(height: 24 * pixel),
+                            homeQrcodeScanContainer(() {
+                              context.go('/root/preescriptionAdd/camera');
+                            }, pixel, Colors.green[300], "처방전으로 약 추가"),
+                            SizedBox(
+                              height: 40 * pixel,
+                            ),
+                            homeQrcodeScanContainer(() {
+                              context.go(
+                                  '/root/preescriptionAdd/prescriptionManually');
+                            }, pixel, Colors.green[400], "수동으로 약 추가"),
+                          ])));
 
               return SingleChildScrollView(
                   physics: isScrollable
