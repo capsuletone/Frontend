@@ -22,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
       if (user != null) {
         context.go('/root');
       } else {
-        context.go('/login');
+        context.go('/root');
       }
     }).catchError((error) {
       print("Error during user initialization: $error");
