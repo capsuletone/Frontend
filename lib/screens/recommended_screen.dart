@@ -2,6 +2,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import 'package:provider/provider.dart';
+import '../provider/email_provider.dart';
+
+
 import '../component/highlight_text_component.dart';
 
 class RecommendedScreen extends StatefulWidget {
@@ -45,11 +49,32 @@ class _RecommendedScreenState extends State<RecommendedScreen> {
     final String symptomsData = _selectedSymptoms.join(', ');
     final Uri uri = Uri.parse('http://10.0.2.2:8080/chat'); // Emulator 전용 IP
 
+    // ✅ EmailProvider에서 이메일 가져오기
+    final emailProvider = Provider.of<EmailProvider>(context, listen: false);
+    final userEmail = emailProvider.email;
+
+    if (userEmail.isEmpty) {
+      setState(() {
+        _isLoading = false;
+        _errorMessage = '이메일 정보가 없습니다. 로그인 상태를 확인해주세요.';
+      });
+      return;
+    }
+
+    print('📨 전송할 데이터: ${jsonEncode({
+      'userMessage': symptomsData,
+      'userId': userEmail,
+    })}');
+
+
     try {
       final response = await http.post(
         uri,
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({'userMessage': symptomsData}),
+        body: jsonEncode({
+          'userMessage': symptomsData,
+          'userId': userEmail, // ✅ 이메일로 사용자 구분
+        }),
       );
 
       if (response.statusCode == 200) {
