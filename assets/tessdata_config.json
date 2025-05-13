@@ -1,0 +1,6 @@
+{
+    "engine_mode": "LSTM_ONLY",
+    "language": "kor",
+    "oem": 1,
+    "psm": 3
+}
