@@ -27,104 +27,157 @@ class _PrescriptionScreenState extends State<PrescriptionManuallyScreen> {
     final pixel = MediaQuery.of(context).size.width / 375 * 0.97;
 
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(children: [
-          // 리스트가 비었을 때와 있을 때 보여주는 화면 분기
-          GestureDetector(
-            onTap: () {
-              context.go('/root');
-            },
-            child: const Text("뒤로가기"),
-          ),
-          Expanded(
-            child: items.isEmpty
-                ? const Center(
-                    child: Text(
-                      "약 정보가 없어요",
-                      style: TextStyle(fontSize: 18, color: Colors.grey),
-                    ),
-                  )
-                : ListView.builder(
-                    itemCount: items.length,
-                    itemBuilder: (context, index) {
-                      final item = items[index];
-                      return Container(
-                        margin: const EdgeInsets.only(bottom: 12),
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: Colors.green.shade50,
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Colors.green.shade200),
-                        ),
+      backgroundColor: const Color(0xFFF5F6FA),
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 24 * pixel),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(height: 54 * pixel),
+
+              ///  Back Button
+              GestureDetector(
+                onTap: () => context.go('/root'),
+                child: Icon(
+                  Icons.arrow_back_ios,
+                  size: 24.0 * pixel,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(height: 34 * pixel),
+              Expanded(
+                child: items.isEmpty
+                    ? Center(
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text('약 이름: ${item.medicineName ?? "없음"}',
-                                style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black)),
-                            const SizedBox(height: 4),
-                            Text('질병 코드: ${item.diseaseCode ?? "-"}',
-                                style: const TextStyle(color: Colors.black87)),
-                            Text('복용 주기: ${item.totalDays ?? "-"}일',
-                                style: const TextStyle(color: Colors.black87)),
-                            Text('복용 시작일: ${item.date ?? "-"}',
-                                style: const TextStyle(color: Colors.black87)),
+                            Icon(Icons.medication_outlined,
+                                size: 64, color: Colors.grey[400]),
+                            SizedBox(height: 12),
+                            const Text(
+                              "약 정보가 없어요",
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
                           ],
                         ),
-                      );
-                    },
+                      )
+                    : ListView.builder(
+                        itemCount: items.length,
+                        itemBuilder: (context, index) {
+                          final item = items[index];
+                          return Container(
+                            margin: EdgeInsets.only(bottom: 12 * pixel),
+                            padding: EdgeInsets.all(16 * pixel),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12 * pixel),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black12,
+                                  blurRadius: 6 * pixel,
+                                  offset: Offset(0, 4),
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '약 이름: ${item.medicineName ?? "없음"}',
+                                  style: TextStyle(
+                                    fontSize: 16 * pixel,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                SizedBox(height: 6 * pixel),
+                                Text('질병 코드: ${item.diseaseCode ?? "-"}',
+                                    style: TextStyle(
+                                        fontSize: 14 * pixel,
+                                        color: Colors.black87)),
+                                Text('복용 주기: ${item.totalDays ?? "-"}일',
+                                    style: TextStyle(
+                                        fontSize: 14 * pixel,
+                                        color: Colors.black87)),
+                                Text('시작일: ${item.date ?? "-"}',
+                                    style: TextStyle(
+                                        fontSize: 14 * pixel,
+                                        color: Colors.black87)),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+              ),
+
+              SizedBox(height: 16 * pixel),
+              GestureDetector(
+                onTap: () async {
+                  final newItem = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const AddMedicineItemScreen()),
+                  );
+
+                  if (newItem != null && newItem is SaveUserDatabase) {
+                    addItem(newItem);
+                  }
+                },
+                child: Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(vertical: 16 * pixel),
+                  decoration: BoxDecoration(
+                    color: Colors.green[300],
+                    borderRadius: BorderRadius.circular(12 * pixel),
                   ),
-          ),
-
-          GestureDetector(
-            onTap: () async {
-              final newItem = await Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const AddMedicineItemScreen()),
-              );
-
-              if (newItem != null && newItem is SaveUserDatabase) {
-                addItem(newItem);
-              }
-            },
-            child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(16),
-                color: Colors.green[400],
-                child: Text("추가하기",
+                  child: Text(
+                    "추가하기",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 17 * pixel,
-                      fontFamily: 'Pretendard',
                       fontWeight: FontWeight.w500,
-                    ))),
-          ),
-          SizedBox(
-            height: 30 * pixel,
-          ),
-          GestureDetector(
-            onTap: () async {
-              saveUserRepository.saveUserData(items, context);
-            },
-            child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(16),
-                color: Colors.green[400],
-                child: Text("작성 완료하기",
+                    ),
+                  ),
+                ),
+              ),
+
+              SizedBox(height: 15 * pixel),
+
+              /// ✅ 완료하기 버튼
+              GestureDetector(
+                onTap: () async {
+                  saveUserRepository.saveUserData(items, context);
+                },
+                child: Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(vertical: 16 * pixel),
+                  decoration: BoxDecoration(
+                    color: Colors.green[500],
+                    borderRadius: BorderRadius.circular(12 * pixel),
+                  ),
+                  child: Text(
+                    "작성 완료하기",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 17 * pixel,
-                      fontFamily: 'Pretendard',
                       fontWeight: FontWeight.w500,
-                    ))),
+                    ),
+                  ),
+                ),
+              ),
+
+              SizedBox(height: 34 * pixel),
+            ],
           ),
-        ]),
+        ),
       ),
     );
   }

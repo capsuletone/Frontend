@@ -71,7 +71,7 @@ class _AccountLogoutState extends State<AccountLogout> {
                     width: 135 * pixel,
                     height: 50 * pixel,
                     decoration: ShapeDecoration(
-                      color: const Color(0x7F191F28),
+                      color: Colors.grey[500],
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12 * pixel),
                       ),

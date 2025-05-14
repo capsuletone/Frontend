@@ -2,6 +2,7 @@ import 'package:capsuleton_flutter/database/naver_ocr_request_database.dart';
 import 'package:capsuleton_flutter/database/naver_ocr_response_database.dart';
 import 'package:flutter/material.dart';
 
+import '../screens/scan_result_screen.dart';
 import '../utils/endpoint.dart';
 
 class NaverOcrRepository {
@@ -25,5 +26,12 @@ class NaverOcrRepository {
     print("Medicine Name: ${result.medicineName}");
     print("Doses Per Day: ${result.dosesPerDay}");
     print("Total Days: ${result.totalDays}");
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => OcrresultPage(result: result),
+      ),
+    );
   }
 }

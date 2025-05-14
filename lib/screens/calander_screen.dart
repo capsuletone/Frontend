@@ -141,7 +141,7 @@ class _CalanderScreenState extends State<CalanderScreen> {
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
                                 colors: [
-                                  Colors.green[400]!,
+                                  Colors.green[600]!,
                                   Colors.green[300]!
                                 ],
                                 begin: Alignment.topLeft,
@@ -158,7 +158,7 @@ class _CalanderScreenState extends State<CalanderScreen> {
                             ),
                             headerMargin: EdgeInsets.only(bottom: 10 * pixel),
                           ),
-                          rowHeight: 70 * pixel,
+                          rowHeight: 50 * pixel,
                           locale: 'ko-KR',
                           firstDay: DateTime.utc(2010, 10, 16),
                           lastDay: DateTime.utc(2030, 3, 14),
@@ -213,8 +213,12 @@ class _CalanderScreenState extends State<CalanderScreen> {
                                     return Container(
                                       margin: const EdgeInsets.symmetric(
                                           horizontal: 2.0),
-                                      width: 8 * pixel,
-                                      height: 8 * pixel,
+                                      width: events.length > 3
+                                          ? 5 * pixel
+                                          : 8 * pixel,
+                                      height: events.length > 3
+                                          ? 5 * pixel
+                                          : 8 * pixel,
                                       decoration: BoxDecoration(
                                         color: getColorByIndex(index),
                                         shape: BoxShape.circle,
@@ -238,52 +242,60 @@ class _CalanderScreenState extends State<CalanderScreen> {
                           },
                         ),
                         SizedBox(
-                            height: 300 * pixel,
+                            height: 300 * pixel, // 고정 높이 설정
                             child: ValueListenableBuilder<List>(
-                                valueListenable: _selectedEvents,
+                                valueListenable:
+                                    _selectedEvents, // 데이터의 변화를 듣고 반영
                                 builder: (context, value, _) {
                                   return ListView.builder(
                                       itemCount: value.length,
                                       itemBuilder: (context, index) {
                                         Map eventIconIndex = value[index];
                                         return Container(
-                                          margin: EdgeInsets.symmetric(
-                                              horizontal: 12.0 * pixel,
-                                              vertical: 6.0 * pixel),
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(16),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.black12,
-                                                blurRadius: 8,
-                                                offset: Offset(0, 4),
+                                            margin: EdgeInsets.symmetric(
+                                                horizontal:
+                                                    6 * pixel, // 아이템 양 옆 여백 설정
+                                                vertical: 6.0 *
+                                                    pixel), // 아이템 위 아래 여백 설정
+                                            child: Container(
+                                              margin: EdgeInsets.symmetric(
+                                                  horizontal: 12.0 * pixel,
+                                                  vertical: 6.0 * pixel),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(16),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.black12,
+                                                    blurRadius: 8,
+                                                    offset: Offset(0, 4),
+                                                  ),
+                                                ],
                                               ),
-                                            ],
-                                          ),
-                                          child: ListTile(
-                                            leading: Icon(
-                                                FontAwesomeIcons.pills,
-                                                color: getColorByIndex(
-                                                    eventIconIndex[
-                                                        'iconIndex'])),
-                                            title: Text(
-                                              '${eventIconIndex['contents']}',
-                                              style: TextStyle(
-                                                  fontSize: 15 * pixel,
-                                                  fontWeight: FontWeight.w500),
-                                            ),
-                                            onLongPress: () {
-                                              setState(() {
-                                                context
-                                                    .read<EventsProvider>()
-                                                    .deleteEvents(
-                                                        _selectedDay, 0);
-                                              });
-                                            },
-                                          ),
-                                        );
+                                              child: ListTile(
+                                                leading: Icon(
+                                                    FontAwesomeIcons.pills,
+                                                    color: getColorByIndex(
+                                                        eventIconIndex[
+                                                            'iconIndex'])),
+                                                title: Text(
+                                                  '${eventIconIndex['contents']}',
+                                                  style: TextStyle(
+                                                      fontSize: 15 * pixel,
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                ),
+                                                onLongPress: () {
+                                                  setState(() {
+                                                    context
+                                                        .read<EventsProvider>()
+                                                        .deleteEvents(
+                                                            _selectedDay, 0);
+                                                  });
+                                                },
+                                              ),
+                                            ));
                                       });
                                 }))
                       ]));

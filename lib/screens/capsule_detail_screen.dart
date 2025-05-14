@@ -35,7 +35,7 @@ class _CapsuleDetailScreenState extends State<CapsuleDetailScreen> {
           } else if (snapshot.hasError) {
             // 오류 발생 시 메시지 표시
             return Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: EdgeInsets.symmetric(horizontal: 24 * pixel),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -63,7 +63,25 @@ class _CapsuleDetailScreenState extends State<CapsuleDetailScreen> {
                       SizedBox(
                         height: 40 * pixel,
                       ),
-                      const Center(child: Text("약 정보를 찾을 수 없습니다.")),
+                      Expanded(
+                          child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.medication_outlined,
+                                size: 64, color: Colors.grey[400]),
+                            SizedBox(height: 12),
+                            const Text(
+                              "약 정보를 찾을 수 없어요.",
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )),
                     ]));
           }
 
@@ -75,7 +93,25 @@ class _CapsuleDetailScreenState extends State<CapsuleDetailScreen> {
 
                 if (tablet == null) {
                   // 캐시된 데이터가 없으면 '약 정보를 찾을 수 없습니다.' 메시지 표시
-                  return const Center(child: Text("약 정보를 찾을 수 없습니다."));
+                  return Expanded(
+                      child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.medication_outlined,
+                            size: 64, color: Colors.grey[400]),
+                        SizedBox(height: 12),
+                        const Text(
+                          "약 정보를 찾을 수 없어요.",
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ));
                 }
 
                 return Padding(

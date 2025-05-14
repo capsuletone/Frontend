@@ -38,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(
-                          height: 50 * pixel,
+                          height: 54 * pixel,
                         ),
                         homeHeader(pixel, context, email),
                         SizedBox(

@@ -79,7 +79,9 @@ class AppRouter {
                     _createRoute(
                       path: RoutePaths.camera,
                       name: RouteNames.camera,
-                      builder: (_, state) => const CameraScreen(),
+                      builder: (_, state) => const CameraScreen(
+                        userId: "",
+                      ),
                     ),
                     _createRoute(
                       path: RoutePaths.prescriptionManually,

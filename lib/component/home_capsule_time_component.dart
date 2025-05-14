@@ -41,10 +41,29 @@ Widget homeCapsuleTimeContainer(
       color: Colors.white,
       borderRadius: BorderRadius.circular(20 * pixel),
       boxShadow: [
+        // 아래쪽 그림자
         BoxShadow(
           color: Colors.black26,
           blurRadius: 12 * pixel,
           offset: Offset(0, 20),
+        ),
+        // 위쪽 그림자
+        BoxShadow(
+          color: Colors.black12,
+          blurRadius: 8 * pixel,
+          offset: Offset(0, -10),
+        ),
+        // 왼쪽 그림자
+        BoxShadow(
+          color: Colors.black12,
+          blurRadius: 8 * pixel,
+          offset: Offset(-10, 0),
+        ),
+        // 오른쪽 그림자 (선택적으로)
+        BoxShadow(
+          color: Colors.black12,
+          blurRadius: 8 * pixel,
+          offset: Offset(10, 0),
         ),
       ],
     ),
@@ -67,7 +86,7 @@ Widget homeCapsuleTimeContainer(
                 style: TextStyle(
                   fontSize: fontSize,
                   fontWeight: FontWeight.w500,
-                  color: Colors.black87, // 일반 색
+                  color: Colors.grey[700],
                   letterSpacing: 0.5,
                 ),
               ),
@@ -76,65 +95,76 @@ Widget homeCapsuleTimeContainer(
         ),
         SizedBox(height: 30 * pixel),
         Expanded(
-          child: ListView.builder(
-            padding: EdgeInsets.only(bottom: 10 * pixel),
-            itemCount: allMedicineNames.length,
-            itemBuilder: (context, index) {
-              return GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => CapsuleDetailScreen(
-                        itemName: allMedicineNames[index],
-                      ),
+          child: allMedicineNames.isEmpty
+              ? Center(
+                  child: Text(
+                    "약 정보가 없습니다.\n추가 페이지에서 약을 등록하세요",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 15 * pixel,
+                      color: Colors.grey[500],
                     ),
-                  );
-                },
-                child: Container(
-                  margin: EdgeInsets.only(bottom: 12 * pixel),
-                  padding: EdgeInsets.all(12 * pixel),
-                  decoration: BoxDecoration(
-                    color: Colors.green[50],
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.green.shade200),
                   ),
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                          radius: 30,
-                          backgroundColor: Colors.green[300],
-                          child: Icon(FontAwesomeIcons.pills,
-                              size: 25 * pixel, color: Colors.white)),
-                      SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '${allMedicineNames[index]}',
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                              ),
+                )
+              : ListView.builder(
+                  padding: EdgeInsets.only(bottom: 10 * pixel),
+                  itemCount: allMedicineNames.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CapsuleDetailScreen(
+                              itemName: allMedicineNames[index],
                             ),
-                            SizedBox(height: 4),
-                            Text(
-                              '${allMedicineDescription[index]}',
-                              style: TextStyle(
-                                fontSize: 14 * pixel,
-                                color: Colors.grey[500],
+                          ),
+                        );
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(bottom: 12 * pixel),
+                        padding: EdgeInsets.all(12 * pixel),
+                        decoration: BoxDecoration(
+                          color: Colors.green[50],
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: Colors.green.shade200),
+                        ),
+                        child: Row(
+                          children: [
+                            CircleAvatar(
+                                radius: 30,
+                                backgroundColor: Colors.green[300],
+                                child: Icon(FontAwesomeIcons.pills,
+                                    size: 25 * pixel, color: Colors.white)),
+                            SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '${allMedicineNames[index]}',
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  SizedBox(height: 4),
+                                  Text(
+                                    '${allMedicineDescription[index]}',
+                                    style: TextStyle(
+                                      fontSize: 14 * pixel,
+                                      color: Colors.grey[500],
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
                         ),
                       ),
-                    ],
-                  ),
+                    );
+                  },
                 ),
-              );
-            },
-          ),
         ),
       ],
     ),

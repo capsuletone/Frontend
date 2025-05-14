@@ -44,18 +44,20 @@ class _SplashScreenState extends State<SplashScreen> {
           final screenWidth = MediaQuery.of(context).size.width; // 화면 너비
           final isTablet = screenWidth >= 768; // 아이패드 여부 판단
 
-          final content = Container(
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                Center(
-                    child: Icon(
-                  Icons.medication, // 원하는 아이콘 설정
-                  size: 200 * pixel, // 크기 조절
-                  color: Colors.white, // 색상 지정
-                ))
-              ]));
+          final content = Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24 * pixel),
+              child: Container(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                    Center(
+                        child: Icon(
+                      Icons.medication, // 원하는 아이콘 설정
+                      size: 200 * pixel, // 크기 조절
+                      color: Colors.white, // 색상 지정
+                    ))
+                  ])));
 
           return SingleChildScrollView(
               physics:

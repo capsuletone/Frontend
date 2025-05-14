@@ -39,7 +39,7 @@ class _PrescriptionAddScreenState extends State<PrescriptionAddScreen> {
                               height: 54 * pixel,
                             ),
                             highlightText(pixel, context, "약 추가"),
-                            SizedBox(height: 24 * pixel),
+                            SizedBox(height: 60 * pixel),
                             homeQrcodeScanContainer(() {
                               context.go('/root/preescriptionAdd/camera');
                             }, pixel, Colors.green[300], "처방전으로 약 추가"),
