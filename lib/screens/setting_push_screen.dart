@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
-import '../component/setting_line_component.dart';
 import '../repository/notification_repository.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import '../provider/email_provider.dart';
