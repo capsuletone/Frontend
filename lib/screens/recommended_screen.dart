@@ -16,7 +16,7 @@ class RecommendedScreen extends StatefulWidget {
 }
 
 class _RecommendedScreenState extends State<RecommendedScreen> {
-  final List<String> _symptoms = ['콧물', '가래', '기침', '목 아픔', '두통', '발열'];
+  final List<String> _symptoms = ['콧물', '가래', '기침', '목 아픔', '두통', '발열', '소화불량', '속쓰림', '설사', '변비', '근육통', '몸살', '가려움', '눈의 피로'];
   final List<String> _selectedSymptoms = [];
   bool _isLoading = false;
   String _errorMessage = '';
