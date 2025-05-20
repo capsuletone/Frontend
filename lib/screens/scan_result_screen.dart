@@ -46,28 +46,44 @@ class _PrescriptionScreenState extends State<OcrresultPage> {
     final pixel = MediaQuery.of(context).size.width / 375 * 0.97;
 
     return Scaffold(
-      appBar: AppBar(title: Text('처방 결과')),
+      appBar: AppBar(
+        title: Text('처방 결과'),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+      ),
+      backgroundColor: Colors.white,
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.0 * pixel),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("📅 날짜: ${widget.result.date}",
-                style: TextStyle(fontSize: 18)),
-            Text("🦠 질병 코드: ${widget.result.diseaseCode}",
-                style: TextStyle(fontSize: 18)),
-            SizedBox(height: 12),
+            Text(" 날짜: ${widget.result.date}",
+                style: TextStyle(fontSize: 18, color: Colors.black)),
+            SizedBox(height: 4),
+            Text(" 질병 코드: ${widget.result.diseaseCode}",
+                style: TextStyle(fontSize: 18, color: Colors.black)),
+            SizedBox(height: 20),
             Text("💊 약 정보:",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                style: TextStyle(
+                    fontSize: 20 * pixel,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black)),
+            SizedBox(height: 20 * pixel),
             ...List.generate(widget.result.medicineName.length, (index) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 6.0),
+              return Container(
+                margin: EdgeInsets.symmetric(vertical: 4 * pixel),
+                padding: EdgeInsets.all(12 * pixel),
+                decoration: BoxDecoration(
+                  color: Colors.green[50],
+                  borderRadius: BorderRadius.circular(8 * pixel),
+                ),
                 child: Text(
-                  "- ${widget.result.medicineName[index]} | 1일 ${widget.result.dosesPerDay[index]}회 | ${widget.result.totalDays[index]}일 복용",
-                  style: TextStyle(fontSize: 16),
+                  "${widget.result.medicineName[index]} | 1일 ${widget.result.dosesPerDay[index].toInt()}회 | ${widget.result.totalDays[index]}일 복용",
+                  style: TextStyle(fontSize: 16 * pixel, color: Colors.black),
                 ),
               );
             }),
+            Spacer(),
             GestureDetector(
               onTap: () async {
                 saveUserRepository.saveUserData(items, context);
@@ -76,7 +92,7 @@ class _PrescriptionScreenState extends State<OcrresultPage> {
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(vertical: 16 * pixel),
                 decoration: BoxDecoration(
-                  color: Colors.green[500],
+                  color: Colors.green[400],
                   borderRadius: BorderRadius.circular(12 * pixel),
                 ),
                 child: Text(
@@ -85,10 +101,13 @@ class _PrescriptionScreenState extends State<OcrresultPage> {
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 17 * pixel,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
+            ),
+            SizedBox(
+              height: 18 * pixel,
             ),
           ],
         ),

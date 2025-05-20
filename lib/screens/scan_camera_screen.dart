@@ -42,7 +42,7 @@ class _CameraScreenState extends State<CameraScreen> {
     }
   }
 
-  Future<void> handleImage() async {
+  Future<void> handleImage(double pixel) async {
     final ImagePicker picker = ImagePicker();
     final XFile? photo = await picker.pickImage(source: ImageSource.gallery);
 
@@ -55,6 +55,46 @@ class _CameraScreenState extends State<CameraScreen> {
         _imageFile = imageFile;
         base64Image = base64String;
       });
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return Center(
+            child: Container(
+              width: 375 * pixel,
+              height: 620 * pixel,
+              padding: EdgeInsets.all(24 * pixel),
+              margin: EdgeInsets.symmetric(horizontal: 40 * pixel),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12 * pixel),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 10 * pixel,
+                    offset: Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(
+                    color: Colors.green,
+                  ),
+                  SizedBox(height: 16 * pixel),
+                  Text(
+                    '처방전 결과를 로딩 중...',
+                    style: TextStyle(fontSize: 16 * pixel, color: Colors.black),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      );
 
       print("✅ Base64 이미지: $base64String");
 
@@ -62,57 +102,6 @@ class _CameraScreenState extends State<CameraScreen> {
       naverOcrRepository.ocrPicture(requestData, context);
     }
   }
-
-//   void processAndSaveUserData({
-//     required String userId,
-//     required DateTime date,
-//     required String diseaseCode,
-//     required List<String?> medicineName,
-//     required List<double?> dosesPerDay,
-//     required List<int?> totalDays,
-//   }) {
-//     final formattedDate = "$date";
-
-//     for (int i = 0; i < medicineName.length; i++) {
-//       final name = medicineName[i];
-//       final doses = dosesPerDay[i] ?? 0;
-//       final days = totalDays[i] ?? 0;
-
-//       // 복용 횟수에 따라 시간대 분할
-//       List<String> times = _getTimesByDoses(doses);
-
-//       for (String time in times) {
-//         final data = {
-//           'userId': userId,
-//           'diseaseCode': diseaseCode,
-//           'medicineName': name,
-//           'time': time,
-//           'totalDays': days,
-//           'date': formattedDate,
-//         };
-
-//         saveUserData(data);
-//       }
-//     }
-//   }
-
-// // 복용 횟수에 따라 시간대 정하기
-//   List<String> _getTimesByDoses(double doses) {
-//     if (doses == 3.0) {
-//       return ['아침', '점심', '저녁'];
-//     } else if (doses == 2.0) {
-//       return ['아침', '저녁'];
-//     } else if (doses == 1.0) {
-//       return ['점심'];
-//     } else {
-//       return ['알수없음'];
-//     }
-//   }
-
-//   void saveUserData(Map<String, dynamic> data) {
-//     print("Saving user data: $data");
-//     // 실제 저장 처리 로직을 여기에 구현
-//   }
 
   @override
   Widget build(BuildContext context) {
@@ -206,7 +195,9 @@ class _CameraScreenState extends State<CameraScreen> {
                           ),
                           SizedBox(width: 24 * pixel), // 버튼 간 간격 확대
                           ElevatedButton.icon(
-                            onPressed: handleImage,
+                            onPressed: () {
+                              handleImage(pixel);
+                            },
                             icon: Icon(
                               Icons.photo_library_outlined,
                               size: 28 * pixel,

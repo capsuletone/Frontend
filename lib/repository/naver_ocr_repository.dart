@@ -8,30 +8,62 @@ import '../utils/endpoint.dart';
 class NaverOcrRepository {
   Future<void> ocrPicture(
       NaverOcrRequestDatabase ocrData, BuildContext context) async {
-    final ApiResponse response = await apiCall(
-      'Naverocr',
-      method: 'POST',
-      body: ocrData.toJson(),
-    );
+    try {
+      final ApiResponse response = await apiCall(
+        'Naverocr',
+        method: 'POST',
+        body: ocrData.toJson(),
+      );
 
-    if (response.errorMessage != null) {
-      print('API Error: ${response.errorMessage}');
-      // 여기에 실패 처리 로직 (예: 사용자에게 알림)
-      return;
+      Navigator.of(context, rootNavigator: true).pop();
+
+      if (response.errorMessage != null) {
+        print('API Error: ${response.errorMessage}');
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('오류'),
+            content: Text('OCR 처리 중 문제가 발생했습니다. 다시 시도해주세요.'),
+            actions: [
+              TextButton(
+                child: Text('확인'),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          ),
+        );
+        return;
+      }
+      final result = NaverOcrResponseDatabase.fromJson(response.data);
+
+      print("Date: ${result.date}");
+      print("Disease Code: ${result.diseaseCode}");
+      print("Medicine Name: ${result.medicineName}");
+      print("Doses Per Day: ${result.dosesPerDay}");
+      print("Total Days: ${result.totalDays}");
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => OcrresultPage(result: result),
+        ),
+      );
+    } catch (e) {
+      print("예외 발생: $e");
+
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('에러 발생'),
+          content: Text('알 수 없는 오류가 발생했습니다.'),
+          actions: [
+            TextButton(
+              child: Text('닫기'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        ),
+      );
     }
-    final result = NaverOcrResponseDatabase.fromJson(response.data);
-
-    print("Date: ${result.date}");
-    print("Disease Code: ${result.diseaseCode}");
-    print("Medicine Name: ${result.medicineName}");
-    print("Doses Per Day: ${result.dosesPerDay}");
-    print("Total Days: ${result.totalDays}");
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => OcrresultPage(result: result),
-      ),
-    );
   }
 }
