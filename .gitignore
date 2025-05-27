@@ -18,12 +18,12 @@ migrate_working_dir/
 *.iws
 .idea/
 windows
-web
+
 macos
 linux
 android
- proguard-rules.pro
- pubspec.lock
+proguard-rules.pro
+pubspec.lock
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
 # is commented out by default.
