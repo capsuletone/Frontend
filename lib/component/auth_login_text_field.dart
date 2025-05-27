@@ -18,6 +18,8 @@ class LoginTextField extends StatelessWidget {
     return Container(
       width: 340 * pixel,
       height: 50 * pixel,
+      padding:
+          EdgeInsets.symmetric(horizontal: 16 * pixel, vertical: 8 * pixel),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(14 * pixel), // 여기에 직접 사용합니다!
@@ -31,12 +33,12 @@ class LoginTextField extends StatelessWidget {
         ),
         decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.white),
+            borderSide: BorderSide(color: Colors.transparent),
           ),
           focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.white),
+            borderSide: BorderSide(color: Colors.transparent),
           ),
-          fillColor: Colors.white12,
+          fillColor: Colors.transparent,
           filled: true,
           hintText: hintText,
           hintStyle: TextStyle(fontSize: 14 * pixel, color: Colors.grey[600]),

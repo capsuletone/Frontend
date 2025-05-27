@@ -10,101 +10,101 @@ class DateEditPopupContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pixel = MediaQuery.of(context).size.width / 393 * 0.97;
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Container(
-          width: 377 * pixel,
-          height: 290 * pixel,
-          decoration: ShapeDecoration(
-            color: Colors.grey[300],
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(13 * pixel),
+    final screenWidth = MediaQuery.of(context).size.width;
+    final pixel = screenWidth / 375 * 0.97;
+
+    return Center(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxWidth: screenWidth > 600 ? 500 : double.infinity, // 웹/태블릿에서 최대 너비
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Container(
+              margin: EdgeInsets.symmetric(
+                horizontal: 12 * pixel,
+              ),
+              width: 400 * pixel,
+              height: 340 * pixel, // 살짝 키움
+              decoration: ShapeDecoration(
+                color: Colors.grey[300],
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(13 * pixel),
+                ),
+              ),
+              child: Column(
+                children: [
+                  SizedBox(height: 16 * pixel),
+                  Text(
+                    "날짜 선택",
+                    style: TextStyle(
+                      fontSize: 16 * pixel,
+                      color: const Color(0xFF191F28),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 12 * pixel),
+                  SizedBox(
+                    height: 200 * pixel, // 높이 살짝 키움
+                    child: CupertinoDatePicker(
+                      mode: CupertinoDatePickerMode.date,
+                      initialDateTime: _selectedDate ?? DateTime.now(),
+                      onDateTimeChanged: (DateTime newDate) {
+                        _selectedDate = newDate;
+                      },
+                    ),
+                  ),
+                  Divider(
+                    height: 14.0 * pixel,
+                    color: Colors.grey[850],
+                    thickness: 0.5 * pixel,
+                  ),
+                  CupertinoButton(
+                    onPressed: () => onSelected(_selectedDate),
+                    child: Text(
+                      '확인',
+                      style: TextStyle(
+                        fontSize: 22 * pixel,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.blueAccent,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          child: Column(
-            children: [
-              SizedBox(height: 10 * pixel),
-              Center(
-                child: Text(
-                  "날짜 선택",
-                  style: TextStyle(
-                      fontSize: 14 * pixel,
-                      color: const Color(0x7F191F28),
-                      fontWeight: FontWeight.bold),
+            SizedBox(height: 10 * pixel),
+            Container(
+              margin: EdgeInsets.symmetric(
+                horizontal: 12 * pixel,
+              ),
+              width: double.infinity,
+              height: 60 * pixel,
+              decoration: ShapeDecoration(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(13 * pixel),
                 ),
               ),
-              SizedBox(height: 5 * pixel),
-              SizedBox(
-                height: 180 * pixel,
-                child: CupertinoDatePicker(
-                  mode: CupertinoDatePickerMode.date, // 날짜 선택 모드
-                  initialDateTime: _selectedDate ?? DateTime.now(),
-
-                  onDateTimeChanged: (DateTime newDate) {
-                    _selectedDate = newDate;
-                  },
-                ),
-              ),
-              Divider(
-                height: 10.0 * pixel, // margin top & bottom
-                color: Colors.grey[850],
-                thickness: 0.5 * pixel,
-              ),
-              CupertinoButton(
-                onPressed: () {
-                  onSelected(_selectedDate);
-
-                  print("선택된 날짜: $_selectedDate");
-                },
-                child: Text(
-                  '확인',
-                  style: TextStyle(
-                    color: Colors.blueAccent,
-                    fontSize: 20 * pixel,
-                    fontFamily: 'Pretendard',
-                    fontWeight: FontWeight.w600,
+              child: Center(
+                child: CupertinoButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text(
+                    '취소',
+                    style: TextStyle(
+                      fontSize: 20 * pixel,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
               ),
-            ],
-          ),
-        ),
-        SizedBox(height: 8 * pixel),
-        Container(
-          width: 377 * pixel,
-          height: 57 * pixel,
-          decoration: ShapeDecoration(
-            color: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(13 * pixel),
             ),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CupertinoButton(
-                  onPressed: () => Navigator.pop(context), // 취소 버튼
-                  child: Center(
-                    child: Text(
-                      '취소',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20 * pixel,
-                        fontFamily: 'Pretendard',
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  )),
-            ],
-          ),
+            SizedBox(height: 40 * pixel),
+          ],
         ),
-        SizedBox(
-          height: 34 * pixel,
-        )
-      ],
+      ),
     );
   }
 }

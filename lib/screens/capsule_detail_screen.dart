@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -39,7 +40,7 @@ class _CapsuleDetailScreenState extends State<CapsuleDetailScreen> {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 54 * pixel),
+                      SizedBox(height: kIsWeb ? 24 * pixel : 54 * pixel),
                       Container(
                           height: 40.0 * pixel, // AppBar 높이
                           color: Colors.white, // 배경색

@@ -1,4 +1,5 @@
 import 'package:capsuleton_flutter/component/auth_logout_component.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../component/highlight_text_component.dart';
@@ -26,18 +27,16 @@ class _SettingScreenState extends State<SettingScreen> {
         backgroundColor: Colors.white,
         body: LayoutBuilder(builder: (context, constraints) {
           final isScrollable = constraints.maxHeight < 600;
-          final screenWidth = MediaQuery.of(context).size.width; // 화면 너비
-          final isTablet = screenWidth >= 768; // 아이패드 여부 판단
-
+          final screenWidth = MediaQuery.of(context).size.width;
+          final isTablet = screenWidth >= 768;
+          final pixel = screenWidth / 375 * 0.97;
           final content = Container(
               child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 24 * pixel),
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        SizedBox(
-                          height: 54 * pixel,
-                        ),
+                        SizedBox(height: kIsWeb ? 24 * pixel : 54 * pixel),
                         highlightText(pixel, context, "마이페이지"),
                         SizedBox(
                           height: 20 * pixel,

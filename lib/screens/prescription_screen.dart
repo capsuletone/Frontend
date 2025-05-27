@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
@@ -35,16 +36,14 @@ class _PrescriptionAddScreenState extends State<PrescriptionAddScreen> {
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            SizedBox(
-                              height: 54 * pixel,
-                            ),
+                            SizedBox(height: kIsWeb ? 24 * pixel : 54 * pixel),
                             highlightText(pixel, context, "약 추가"),
-                            SizedBox(height: 60 * pixel),
+                            if (!kIsWeb) SizedBox(height: 60 * pixel),
                             homeQrcodeScanContainer(() {
                               context.go('/root/preescriptionAdd/camera');
                             }, pixel, Colors.green[300], "처방전으로 약 추가"),
                             SizedBox(
-                              height: 40 * pixel,
+                              height: kIsWeb ? 5 * pixel : 40 * pixel,
                             ),
                             homeQrcodeScanContainer(() {
                               context.go(

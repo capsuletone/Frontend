@@ -6,8 +6,8 @@ import '../screens/scan_result_screen.dart';
 import '../utils/endpoint.dart';
 
 class NaverOcrRepository {
-  Future<void> ocrPicture(
-      NaverOcrRequestDatabase ocrData, BuildContext context) async {
+  Future<void> ocrPicture(NaverOcrRequestDatabase ocrData, BuildContext context,
+      double pixel) async {
     try {
       final ApiResponse response = await apiCall(
         'Naverocr',
@@ -54,11 +54,20 @@ class NaverOcrRepository {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('에러 발생'),
-          content: Text('알 수 없는 오류가 발생했습니다.'),
+          title: Text(
+            '에러 발생',
+            style: TextStyle(fontSize: 16 * pixel),
+          ),
+          content: Text(
+            '알 수 없는 오류가 발생했습니다.',
+            style: TextStyle(fontSize: 16 * pixel),
+          ),
           actions: [
             TextButton(
-              child: Text('닫기'),
+              child: Text(
+                '닫기',
+                style: TextStyle(fontSize: 14 * pixel),
+              ),
               onPressed: () => Navigator.of(context).pop(),
             ),
           ],

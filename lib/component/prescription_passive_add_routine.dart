@@ -27,7 +27,7 @@ class _PetSexEditPopupContainerState extends State<PetSexEditPopupContainer> {
 
   @override
   Widget build(BuildContext context) {
-    final pixel = MediaQuery.of(context).size.width / 393 * 0.97;
+    final pixel = MediaQuery.of(context).size.width / 375 * 0.97;
 
     return Dialog(
       insetPadding: EdgeInsets.zero,

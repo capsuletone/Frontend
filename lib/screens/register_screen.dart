@@ -19,7 +19,7 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   // text editing controllers
-
+  final ScrollController _scrollController = ScrollController();
   final registerRepository = RegisterRepository();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -28,6 +28,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool _isLoading = false; // 로딩 상태를 추적하는 변수
 
   // sign user up method
+
+  @override
+  void dispose() {
+    _scrollController.dispose(); // 꼭 메모리 해제
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +60,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           username: userNameController.text,
           registerdate: DateFormat('yyyy-MM-dd').format(DateTime.now()),
         );
-        await registerRepository.registerUser(register, context);
+        await registerRepository.registerUser(register, context, pixel);
       } catch (e) {
         print("에러 발생 $e");
       } finally {
@@ -70,8 +76,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
         backgroundColor: Colors.green[100],
         body: LayoutBuilder(builder: (context, constraints) {
           final isScrollable = constraints.maxHeight < 600;
-          final screenWidth = MediaQuery.of(context).size.width; // 화면 너비
-          final isTablet = screenWidth >= 768; // 아이패드 여부 판단
+          final screenWidth = MediaQuery.of(context).size.width;
+          final isTablet = screenWidth >= 768;
+          final pixel = screenWidth / 375 * 0.97;
 
           final content = Center(
               child: Padding(
@@ -105,7 +112,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.grey[800],
-                            fontSize: 16,
+                            fontSize: 16 * pixel,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -143,23 +150,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               : null,
                         ),
 
-                        const SizedBox(height: 60),
+                        SizedBox(height: 60 * pixel),
 
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
                               '이미 계정이 있으신가요?',
-                              style: TextStyle(color: Colors.grey[700]),
+                              style: TextStyle(
+                                  fontSize: 14 * pixel,
+                                  color: Colors.grey[700]),
                             ),
-                            const SizedBox(width: 4),
+                            SizedBox(width: 4 * pixel),
                             GestureDetector(
                               onTap: () {
                                 context.go('/login');
                               },
-                              child: const Text(
+                              child: Text(
                                 '로그인',
                                 style: TextStyle(
+                                  fontSize: 14 * pixel,
                                   color: Colors.green,
                                   fontWeight: FontWeight.bold,
                                 ),

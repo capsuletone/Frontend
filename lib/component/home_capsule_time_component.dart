@@ -3,10 +3,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../database/requestuser_response_extentions_database.dart';
 import '../screens/capsule_detail_screen.dart';
 
-Widget homeCapsuleTimeContainer(
-    double pixel, List<RequestuserResponseExtentionsDatabase> diseaseList) {
+Widget homeCapsuleTimeContainer(double pixel,
+    List<RequestuserResponseExtentionsDatabase> diseaseList, bool kIsWeb) {
   double widthSize = 400 * pixel;
-  double heightSize = 600 * pixel;
+  double heightSize = kIsWeb ? 420 * pixel : 600 * pixel;
   double fontSize = 24.0 * pixel; // 글자 크기 설정
   List<String> allMedicineNames = [];
   List<String> allMedicineDescription = [];

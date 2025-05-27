@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../component/auth_login_button.dart';
 import '../component/auth_login_text_field.dart';
+import '../component/responsive_Wrapper.dart';
 import '../component/show_error_message.dart';
 import '../provider/email_provider.dart';
 import '../repository/login_repository.dart';
@@ -63,9 +64,9 @@ class _LoginScreenState extends State<LoginScreen> {
             backgroundColor: Colors.green[100],
             body: LayoutBuilder(builder: (context, constraints) {
               final isScrollable = constraints.maxHeight < 600;
-              final screenWidth = MediaQuery.of(context).size.width; // 화면 너비
-              final isTablet = screenWidth >= 768; // 아이패드 여부 판단
-
+              final screenWidth = MediaQuery.of(context).size.width;
+              final isTablet = screenWidth >= 768;
+              final pixel = screenWidth / 375 * 0.97;
               final content = Center(
                   child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 24 * pixel),
@@ -75,12 +76,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           children: [
                             Container(
                                 child: Column(children: [
-                              if (!isTablet && !isScrollable)
-                                Icon(
-                                  Icons.medication,
-                                  size: 200 * pixel,
-                                  color: Colors.white,
-                                )
+                              Icon(
+                                Icons.medication,
+                                size: 200 * pixel,
+                                color: Colors.white,
+                              )
                             ])),
                             SizedBox(height: 20 * pixel),
                             Container(

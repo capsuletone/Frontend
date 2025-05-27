@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:capsuleton_flutter/database/naver_ocr_request_database.dart';
 import 'package:capsuleton_flutter/repository/naver_ocr_repository.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
@@ -82,7 +83,7 @@ class _CameraScreenState extends State<CameraScreen> {
       );
       print("✅ Base64 이미지: $base64String");
       final reuqestData = NaverOcrRequestDatabase(base64: base64String);
-      naverOcrRepository.ocrPicture(reuqestData, context);
+      naverOcrRepository.ocrPicture(reuqestData, context, pixel);
     }
   }
 
@@ -151,145 +152,166 @@ class _CameraScreenState extends State<CameraScreen> {
       print("✅ Base64 이미지: $base64String");
 
       final requestData = NaverOcrRequestDatabase(base64: base64String);
-      naverOcrRepository.ocrPicture(requestData, context);
+      naverOcrRepository.ocrPicture(requestData, context, pixel);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final pixel = MediaQuery.of(context).size.width / 393 * 0.97;
+    final pixel = MediaQuery.of(context).size.width / 375 * 0.97;
     return Scaffold(
         backgroundColor: const Color(0xFFF5F6FA),
-        body: SafeArea(
-            child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24 * pixel),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                    SizedBox(height: 54 * pixel),
-                    GestureDetector(
-                      onTap: () => context.go('/root'),
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                        size: 24.0 * pixel,
-                        color: Colors.black,
-                      ),
-                    ),
-                    Center(
-                        child:
-                            Column(mainAxisSize: MainAxisSize.min, children: [
-                      SizedBox(height: 40 * pixel), // 여백도 확대
-                      Container(
-                        width: 430 * pixel,
-                        height: 430 * pixel,
-                        decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          borderRadius: BorderRadius.circular(16),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black12,
-                              blurRadius: 6,
-                              offset: Offset(0, 3),
-                            ),
-                          ],
+        body: LayoutBuilder(builder: (context, constraints) {
+          final isScrollable = constraints.maxHeight < 600;
+          final screenWidth = MediaQuery.of(context).size.width;
+          final isTablet = screenWidth >= 768;
+          final pixel = screenWidth / 375 * 0.97;
+          final content = Padding(
+            padding: EdgeInsets.symmetric(horizontal: 24 * pixel),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                      SizedBox(height: kIsWeb ? 24 * pixel : 54 * pixel),
+                      GestureDetector(
+                        onTap: () => context.go('/root'),
+                        child: Icon(
+                          Icons.arrow_back_ios,
+                          size: 24.0 * pixel,
+                          color: Colors.black,
                         ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
-                          child: _imageFile != null
-                              ? Image.file(_imageFile!, fit: BoxFit.contain)
-                              : Center(
-                                  child: Text(
-                                    "아직 사진 없음",
-                                    style: TextStyle(
-                                      color: Colors.grey[500],
-                                      fontSize: 22 * pixel, // 🔍 더 크게
-                                      fontWeight: FontWeight.w700,
-                                      letterSpacing: 0.5,
+                      ),
+                      Center(
+                          child:
+                              Column(mainAxisSize: MainAxisSize.min, children: [
+                        SizedBox(height: 40 * pixel), // 여백도 확대
+                        Container(
+                          width: 430 * pixel,
+                          height: 430 * pixel,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(16),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black12,
+                                blurRadius: 6,
+                                offset: Offset(0, 3),
+                              ),
+                            ],
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(16),
+                            child: _imageFile != null
+                                ? Image.file(_imageFile!, fit: BoxFit.contain)
+                                : Center(
+                                    child: Text(
+                                      "아직 사진 없음",
+                                      style: TextStyle(
+                                        color: Colors.grey[500],
+                                        fontSize: 22 * pixel, // 🔍 더 크게
+                                        fontWeight: FontWeight.w700,
+                                        letterSpacing: 0.5,
+                                      ),
                                     ),
                                   ),
-                                ),
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 40 * pixel), // 버튼과 이미지 간 여백 확대
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ElevatedButton.icon(
-                            onPressed: () {
-                              takePicture(pixel, context);
-                            },
-                            icon: Icon(
-                              Icons.camera_alt_outlined,
-                              size: 28 * pixel,
-                              color: Colors.white,
-                            ),
-                            label: Text(
-                              "카메라",
-                              style: TextStyle(
+                        SizedBox(
+                            height: kIsWeb
+                                ? 10 * pixel
+                                : 40 * pixel), // 버튼과 이미지 간 여백 확대
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton.icon(
+                              onPressed: () {
+                                takePicture(pixel, context);
+                              },
+                              icon: Icon(
+                                Icons.camera_alt_outlined,
+                                size: 28 * pixel,
                                 color: Colors.white,
-                                fontSize: 18 * pixel,
-                                fontWeight: FontWeight.w600,
+                              ),
+                              label: Text(
+                                "카메라",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18 * pixel,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green[400],
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 28 * pixel,
+                                    vertical: 18 * pixel),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.circular(12 * pixel),
+                                ),
+                                elevation: 4,
                               ),
                             ),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.green[400],
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 28 * pixel, vertical: 18 * pixel),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              elevation: 4,
-                            ),
-                          ),
-                          SizedBox(width: 24 * pixel), // 버튼 간 간격 확대
-                          ElevatedButton.icon(
-                            onPressed: () {
-                              handleImage(pixel);
-                            },
-                            icon: Icon(
-                              Icons.photo_library_outlined,
-                              size: 28 * pixel,
-                              color: Colors.white,
-                            ),
-                            label: Text(
-                              "앨범",
-                              style: TextStyle(
+                            SizedBox(width: 24 * pixel), // 버튼 간 간격 확대
+                            ElevatedButton.icon(
+                              onPressed: () {
+                                handleImage(pixel);
+                              },
+                              icon: Icon(
+                                Icons.photo_library_outlined,
+                                size: 28 * pixel,
                                 color: Colors.white,
-                                fontSize: 18 * pixel,
-                                fontWeight: FontWeight.w600,
+                              ),
+                              label: Text(
+                                "앨범",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18 * pixel,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green[400],
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 28 * pixel,
+                                    vertical: 18 * pixel),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.circular(12 * pixel),
+                                ),
+                                elevation: 4,
                               ),
                             ),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.green[400],
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 28 * pixel, vertical: 18 * pixel),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              elevation: 4,
-                            ),
-                          ),
-                        ],
-                      )
-                    ]))
-                  ])),
-              Container(
-                  child: Column(children: [
-                SizedBox(
-                  height: 30 * pixel,
+                          ],
+                        )
+                      ]))
+                    ])),
+                Container(
+                    child: Column(children: [
+                  SizedBox(
+                    height: 30 * pixel,
+                  ),
+                  SizedBox(
+                    height: 34 * pixel,
+                  ),
+                ])),
+              ],
+            ),
+          );
+          return SingleChildScrollView(
+              physics:
+                  isScrollable ? null : const NeverScrollableScrollPhysics(),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: constraints.maxHeight,
                 ),
-                SizedBox(
-                  height: 34 * pixel,
-                ),
-              ])),
-            ],
-          ),
-        )));
+                child: content,
+              ));
+        }));
   }
 }

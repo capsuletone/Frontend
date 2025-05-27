@@ -5,7 +5,8 @@ import '../database/register_database.dart';
 import '../utils/endpoint.dart';
 
 class RegisterRepository {
-  Future<void> registerUser(Register registerData, BuildContext context) async {
+  Future<void> registerUser(
+      Register registerData, BuildContext context, double pixel) async {
     try {
       final ApiResponse response = await apiCall(
         'register',
@@ -71,11 +72,20 @@ class RegisterRepository {
           context: context,
           builder: (BuildContext dialogContext) {
             return AlertDialog(
-              title: const Text("회원가입 실패"),
-              content: const Text("알 수 없는 오류가 발생했습니다."),
+              title: Text(
+                "회원가입 실패",
+                style: TextStyle(fontSize: 16 * pixel),
+              ),
+              content: Text(
+                "알 수 없는 오류가 발생했습니다.",
+                style: TextStyle(fontSize: 16 * pixel),
+              ),
               actions: [
                 TextButton(
-                  child: const Text("확인"),
+                  child: Text(
+                    "확인",
+                    style: TextStyle(fontSize: 14 * pixel),
+                  ),
                   onPressed: () {
                     Navigator.pop(dialogContext);
                   },
@@ -93,16 +103,24 @@ class RegisterRepository {
           context: context,
           builder: (BuildContext dialogContext) {
             return AlertDialog(
-                title: const Text("오류"),
-                content: const Text("예기치 않은 오류가 발생했습니다."),
-                actions: [
-                  TextButton(
-                    child: const Text("확인"),
-                    onPressed: () {
-                      Navigator.pop(dialogContext);
-                    },
+              title: Text(
+                '에러 발생',
+                style: TextStyle(fontSize: 16 * pixel),
+              ),
+              content: Text(
+                '알 수 없는 오류가 발생했습니다.',
+                style: TextStyle(fontSize: 16 * pixel),
+              ),
+              actions: [
+                TextButton(
+                  child: Text(
+                    '닫기',
+                    style: TextStyle(fontSize: 14 * pixel),
                   ),
-                ]);
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+              ],
+            );
           });
     }
   }

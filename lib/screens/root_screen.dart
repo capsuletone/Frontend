@@ -1,4 +1,5 @@
 import 'package:capsuleton_flutter/screens/prescription_screen.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'calander_screen.dart';
 import 'home_screen.dart';
@@ -44,7 +45,7 @@ class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final pixel = MediaQuery.of(context).size.width / 393 * 0.97;
+    final pixel = MediaQuery.of(context).size.width / 375 * 0.97;
     return Scaffold(
         backgroundColor: Colors.white,
         body: Column(
@@ -55,7 +56,7 @@ class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
           ],
         ),
         bottomNavigationBar: SizedBox(
-          height: 83 * pixel,
+          height: kIsWeb ? 60 * pixel : 83 * pixel,
           child: Theme(
             data: Theme.of(context).copyWith(
               splashColor: Colors.transparent, // 터치 효과 제거

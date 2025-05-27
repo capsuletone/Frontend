@@ -11,7 +11,7 @@ class AccountLogout extends StatefulWidget {
 class _AccountLogoutState extends State<AccountLogout> {
   @override
   Widget build(BuildContext context) {
-    final pixel = MediaQuery.of(context).size.width / 393 * 0.97;
+    final pixel = MediaQuery.of(context).size.width / 375 * 0.97;
     return Container(
       width: 345 * pixel,
       height: 193 * pixel,

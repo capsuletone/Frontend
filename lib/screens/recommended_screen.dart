@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -132,125 +133,147 @@ class _RecommendedScreenState extends State<RecommendedScreen> {
     final pixel = MediaQuery.of(context).size.width / 375 * 0.97;
     return Scaffold(
         backgroundColor: Colors.white,
-        body: SingleChildScrollView(
-            child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24 * pixel),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 54 * pixel),
-                    highlightText(pixel, context, "증상 선택 & AI 가이드"),
-                    SizedBox(height: 20 * pixel),
-                    Text(
-                      '현재 앓고 있는 증상을 선택하세요',
+        body: LayoutBuilder(builder: (context, constraints) {
+          final isScrollable = constraints.maxHeight < 600;
+          final screenWidth = MediaQuery.of(context).size.width;
+          final isTablet = screenWidth >= 768;
+          final pixel = screenWidth / 375 * 0.97;
+          final content = Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24 * pixel),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: kIsWeb ? 24 * pixel : 54 * pixel),
+                  highlightText(
+                    pixel,
+                    context,
+                    "증상 선택 & AI 가이드",
+                  ),
+                  SizedBox(height: 20 * pixel),
+                  Text(
+                    '현재 앓고 있는 증상을 선택하세요',
+                    style: TextStyle(
+                        fontSize: 18 * pixel, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 20 * pixel),
+                  Wrap(
+                    runSpacing: 4.0 * pixel,
+                    spacing: 8.0 * pixel,
+                    children: _symptoms.map((symptom) {
+                      final isSelected = _selectedSymptoms.contains(symptom);
+                      return ElevatedButton(
+                          onPressed: () => _toggleSymptom(symptom),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                isSelected ? Colors.green[400] : Colors.white,
+                            foregroundColor:
+                                isSelected ? Colors.white : Colors.green,
+                            side: const BorderSide(color: Colors.green),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5 * pixel)),
+                          ),
+                          child: Text(
+                            symptom,
+                            style: TextStyle(
+                                fontSize: 14 * pixel,
+                                fontWeight: FontWeight.bold),
+                          ));
+                    }).toList(),
+                  ),
+                  SizedBox(height: 20 * pixel),
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.all(12 * pixel),
+                    margin: EdgeInsets.only(bottom: 20 * pixel),
+                    decoration: BoxDecoration(
+                      color: Colors.green.shade50,
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: Colors.green.shade200),
+                    ),
+                    child: Text(
+                      '선택한 증상: ${_selectedSymptoms.isNotEmpty ? _selectedSymptoms.join(', ') : '없음'}',
                       style: TextStyle(
-                          fontSize: 18 * pixel, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(height: 20 * pixel),
-                    Wrap(
-                      spacing: 8.0 * pixel,
-                      children: _symptoms.map((symptom) {
-                        final isSelected = _selectedSymptoms.contains(symptom);
-                        return ElevatedButton(
-                            onPressed: () => _toggleSymptom(symptom),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  isSelected ? Colors.green[400] : Colors.white,
-                              foregroundColor:
-                                  isSelected ? Colors.white : Colors.green,
-                              side: const BorderSide(color: Colors.green),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5)),
-                            ),
-                            child: Text(
-                              symptom,
-                            ));
-                      }).toList(),
-                    ),
-                    SizedBox(height: 20 * pixel),
-                    Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.all(12 * pixel),
-                      margin: EdgeInsets.only(bottom: 20 * pixel),
-                      decoration: BoxDecoration(
-                        color: Colors.green.shade50,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.green.shade200),
-                      ),
-                      child: Text(
-                        '선택한 증상: ${_selectedSymptoms.isNotEmpty ? _selectedSymptoms.join(', ') : '없음'}',
-                        style: TextStyle(
-                          fontSize: 16 * pixel,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w600,
-                        ),
+                        fontSize: 16 * pixel,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
+                  ),
 
 // 전송 버튼
-                    GestureDetector(
-                        onTap: _isLoading ? null : _submitSymptoms,
-                        child: Container(
-                          width: double.infinity,
-                          height: 50 * pixel,
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                Colors.green.shade500,
-                                Colors.green.shade400
-                              ],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.green.withOpacity(0.4),
-                                blurRadius: 10,
-                                offset: Offset(0, 5),
-                              ),
+                  GestureDetector(
+                      onTap: _isLoading ? null : _submitSymptoms,
+                      child: Container(
+                        width: double.infinity,
+                        height: 50 * pixel,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.green.shade500,
+                              Colors.green.shade400
                             ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
                           ),
-                          child: Center(
-                            child: _isLoading
-                                ? SizedBox(
-                                    width: 24 * pixel,
-                                    height: 24 * pixel,
-                                    child: CircularProgressIndicator(
-                                      color: Colors.white,
-                                    ),
-                                  )
-                                : Text(
-                                    '증상 전송 및 AI 가이드 받기',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      letterSpacing: 0.8,
-                                    ),
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.green.withOpacity(0.4),
+                              blurRadius: 10,
+                              offset: Offset(0, 5),
+                            ),
+                          ],
+                        ),
+                        child: Center(
+                          child: _isLoading
+                              ? SizedBox(
+                                  width: 24 * pixel,
+                                  height: 24 * pixel,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
                                   ),
-                          ),
-                        )),
-                    SizedBox(height: 30 * pixel),
-                    if (_parsedJson != null) ...[
-                      _buildGuidelines(_parsedJson!['guideline']),
-                      SizedBox(height: 20 * pixel),
-                      _buildMedicines(_parsedJson!['medicines']),
-                      SizedBox(height: 20 * pixel),
-                      _buildNote(_parsedJson!['note'],
-                          _parsedJson!['additional_warning'] ?? ""),
-                    ],
-                    if (_errorMessage.isNotEmpty) ...[
-                      SizedBox(height: 20 * pixel),
-                      const Text('오류:',
-                          style: TextStyle(
-                              color: Colors.red, fontWeight: FontWeight.bold)),
-                      Text(_errorMessage,
-                          style: const TextStyle(color: Colors.red)),
-                    ],
+                                )
+                              : Text(
+                                  '증상 전송 및 AI 가이드 받기',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16 * pixel,
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: 0.8,
+                                  ),
+                                ),
+                        ),
+                      )),
+                  SizedBox(height: 30 * pixel),
+                  if (_parsedJson != null) ...[
+                    _buildGuidelines(_parsedJson!['guideline']),
+                    SizedBox(height: 20 * pixel),
+                    _buildMedicines(_parsedJson!['medicines']),
+                    SizedBox(height: 20 * pixel),
+                    _buildNote(_parsedJson!['note'],
+                        _parsedJson!['additional_warning'] ?? ""),
                   ],
-                ))));
+                  if (_errorMessage.isNotEmpty) ...[
+                    SizedBox(height: 20 * pixel),
+                    const Text('오류:',
+                        style: TextStyle(
+                            color: Colors.red, fontWeight: FontWeight.bold)),
+                    Text(_errorMessage,
+                        style: const TextStyle(color: Colors.red)),
+                  ],
+                ],
+              ));
+          return SingleChildScrollView(
+              physics:
+                  isScrollable ? null : const NeverScrollableScrollPhysics(),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: constraints.maxHeight,
+                ),
+                child: content,
+              ));
+        }));
   }
 }
 

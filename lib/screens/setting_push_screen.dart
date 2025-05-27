@@ -55,7 +55,7 @@ class _SettingPushScreenState extends State<SettingPushScreen> {
   Future<void> _loadTimes() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      _morningController.text = prefs.getString('morning_time') ?? '08:00';
+      _morningController.text = prefs.getString('morning_time') ?? '8:00';
       _lunchController.text = prefs.getString('lunch_time') ?? '12:00';
       _dinnerController.text = prefs.getString('dinner_time') ?? '18:00';
     });
@@ -206,32 +206,77 @@ class _SettingPushScreenState extends State<SettingPushScreen> {
                             child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('아침 알림 시간'),
+                                  Text(
+                                    '아침 알림 시간',
+                                    style: TextStyle(
+                                      fontSize: 16 * pixel,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
                                   SizedBox(height: 10 * pixel),
                                   TextField(
                                     controller: _morningController,
-                                    decoration: const InputDecoration(
-                                      hintText: '08:00',
+                                    style: TextStyle(
+                                      fontSize: 20 * pixel, // 입력 텍스트 크기 키우기
+                                    ),
+                                    decoration: InputDecoration(
+                                      hintText: '8:00',
+                                      hintStyle: TextStyle(
+                                        fontSize: 20 * pixel,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400,
+                                      ),
                                       border: OutlineInputBorder(),
                                     ),
                                   ),
                                   SizedBox(height: 10 * pixel),
-                                  Text('점심 알림 시간'),
+                                  Text(
+                                    '점심 알림 시간',
+                                    style: TextStyle(
+                                      fontSize: 16 * pixel,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
                                   SizedBox(height: 10 * pixel),
                                   TextField(
                                     controller: _lunchController,
-                                    decoration: const InputDecoration(
+                                    style: TextStyle(
+                                      fontSize: 20 * pixel, // 입력 텍스트 크기 키우기
+                                    ),
+                                    decoration: InputDecoration(
                                       hintText: '12:00',
+                                      hintStyle: TextStyle(
+                                        fontSize: 20 * pixel,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400,
+                                      ),
                                       border: OutlineInputBorder(),
                                     ),
                                   ),
                                   SizedBox(height: 10 * pixel),
-                                  Text('저녁 알림 시간'),
+                                  Text(
+                                    '저녁 알림 시간',
+                                    style: TextStyle(
+                                      fontSize: 16 * pixel,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
                                   SizedBox(height: 10 * pixel),
                                   TextField(
                                     controller: _dinnerController,
-                                    decoration: const InputDecoration(
+                                    style: TextStyle(
+                                      fontSize: 20 * pixel, // 입력 텍스트 크기 키우기
+                                    ),
+                                    decoration: InputDecoration(
                                       hintText: '18:00',
+                                      hintStyle: TextStyle(
+                                        fontSize: 20 * pixel,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400,
+                                      ),
                                       border: OutlineInputBorder(),
                                     ),
                                   )

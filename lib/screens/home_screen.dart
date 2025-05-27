@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../component/home_capsule_time_component.dart';
@@ -27,24 +28,22 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.white,
         body: LayoutBuilder(builder: (context, constraints) {
           final isScrollable = constraints.maxHeight < 600;
-          final screenWidth = MediaQuery.of(context).size.width; // 화면 너비
-          final isTablet = screenWidth >= 768; // 아이패드 여부 판단
-
-          final content = Container(
+          final screenWidth = MediaQuery.of(context).size.width;
+          final isTablet = screenWidth >= 768;
+          final pixel = screenWidth / 375 * 0.97;
+          final content = Center(
               child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 24 * pixel),
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(
-                          height: 54 * pixel,
-                        ),
+                        SizedBox(height: kIsWeb ? 24 * pixel : 54 * pixel),
                         homeHeader(pixel, context, email),
                         SizedBox(
-                          height: 34 * pixel,
+                          height: kIsWeb ? 20 * pixel : 34 * pixel,
                         ),
-                        homeCapsuleTimeContainer(pixel, diseaseList),
+                        homeCapsuleTimeContainer(pixel, diseaseList, kIsWeb),
                         SizedBox(
                           height: 20 * pixel,
                         ),
