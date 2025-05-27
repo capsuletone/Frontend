@@ -62,7 +62,7 @@ class _RecommendedScreenState extends State<RecommendedScreen> {
 
     final String symptomsData = _selectedSymptoms.join(', ');
     final Uri uri =
-        Uri.parse('http://211.188.64.79:8080/chat'); // Emulator 전용 IP
+        Uri.parse('http://211.188.63.79:8080/chat'); // Emulator 전용 IP
 
     //EmailProvider에서 이메일 가져오기
     final emailProvider = Provider.of<EmailProvider>(context, listen: false);
