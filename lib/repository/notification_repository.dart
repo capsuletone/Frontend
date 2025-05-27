@@ -189,7 +189,7 @@ class NotificationRepository {
   /// 사용자 요청 및 알림 설정 (API 호출 포함)
   Future<List<RequestuserResponseExtentionsDatabase>?> requestUserAndNotify(
       String userid) async {
-    const url = 'http://10.0.2.2:8080/requestuserdata'; // 실제 API URL로 교체
+    const url = 'http://211.188.64.79:8080/requestuserdata'; // 실제 API URL로 교체
     final headers = {'Content-Type': 'application/json'};
     final body = json.encode({'userid': userid});
 

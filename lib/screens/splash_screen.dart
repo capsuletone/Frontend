@@ -1,5 +1,4 @@
 //splash
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -19,13 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void _initializeUser() {
     Future.delayed(const Duration(seconds: 2)).then((_) {
-      User? user = FirebaseAuth.instance.currentUser;
-
-      if (user != null) {
-        context.go('/root');
-      } else {
-        context.go('/login');
-      }
+      context.go('/login');
     }).catchError((error) {
       print("Error during user initialization: $error");
 

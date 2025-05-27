@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 import '../component/auth_login_button.dart';
 import '../component/auth_login_text_field.dart';
 import '../component/show_error_message.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import '../provider/email_provider.dart';
 import '../repository/login_repository.dart';
 
@@ -26,38 +25,35 @@ class _LoginScreenState extends State<LoginScreen> {
   final passwordController = TextEditingController();
   bool _isLoading = false;
 
-  void signUserIn() async {
-    // 입력 유효성 검사
-    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
-      ShowErrorMessage(
-              context: context,
-              message: 'Email and password must not be empty.')
-          .show();
-      return;
-    }
-
-    try {
-      final loginData = Login(
-          userid: emailController.text, password: passwordController.text);
-      loginRepository.loginUser(loginData, context);
-      final reuqestData =
-          RequestuserRequestDatabase(userid: emailController.text);
-      context.read<EmailProvider>().updateEmail(emailController.text);
-      requestRepository.requestUser(reuqestData, context);
-    } on FirebaseAuthException catch (e) {
-      ShowErrorMessage(context: context, message: e.code).show();
-    } finally {
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final pixel = MediaQuery.of(context).size.width / 375 * 0.97;
+
+    Future<void> signUserIn() async {
+      // 입력 유효성 검사
+      if (emailController.text.isEmpty || passwordController.text.isEmpty) {
+        ShowErrorMessage(
+                pixel: pixel, context: context, message: '모든 칸을 작성 완료하십시요.')
+            .show();
+        return;
+      }
+
+      try {
+        final loginData = Login(
+            userid: emailController.text, password: passwordController.text);
+        loginRepository.loginUser(loginData, context);
+        final reuqestData =
+            RequestuserRequestDatabase(userid: emailController.text);
+        context.read<EmailProvider>().updateEmail(emailController.text);
+        requestRepository.requestUser(reuqestData, context);
+      } finally {
+        if (mounted) {
+          setState(() {
+            _isLoading = false;
+          });
+        }
+      }
+    }
 
     return GestureDetector(
         onTap: () {
@@ -140,7 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         '로그인 정보가 없으면?',
                                         style: TextStyle(
                                           color: Colors.grey[700],
-                                          fontSize: 14,
+                                          fontSize: 14 * pixel,
                                         ),
                                       ),
                                       SizedBox(width: 6 * pixel),

@@ -19,6 +19,7 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   // text editing controllers
+
   final registerRepository = RegisterRepository();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -27,41 +28,44 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool _isLoading = false; // 로딩 상태를 추적하는 변수
 
   // sign user up method
-  Future signUserUp() async {
-    // 입력 유효성 검사 추가
-    if (emailController.text.isEmpty ||
-        passwordController.text.isEmpty ||
-        userNameController.text.isEmpty) {
-      ShowErrorMessage(context: context, message: '모든 칸을 작성 완료하십시요.').show();
-      return;
-    }
-
-    setState(() {
-      _isLoading = true; // 로딩 상태 관리를 위한 상태 변수 설정
-    });
-
-    try {
-      final register = Register(
-        userid: emailController.text,
-        password: passwordController.text,
-        username: userNameController.text,
-        registerdate: DateFormat('yyyy-MM-dd').format(DateTime.now()),
-      );
-      await registerRepository.registerUser(register, context);
-    } catch (e) {
-      print("에러 발생 $e");
-    } finally {
-      if (mounted) {
-        setState(() {
-          _isLoading = false; // 로딩 상태 관리를 위한 상태 변수 설정
-        });
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     final pixel = MediaQuery.of(context).size.width / 375 * 0.97;
+    Future signUserUp() async {
+      // 입력 유효성 검사 추가
+      if (emailController.text.isEmpty ||
+          passwordController.text.isEmpty ||
+          userNameController.text.isEmpty) {
+        ShowErrorMessage(
+                pixel: pixel, context: context, message: '모든 칸을 작성 완료하십시요.')
+            .show();
+        return;
+      }
+
+      setState(() {
+        _isLoading = true; // 로딩 상태 관리를 위한 상태 변수 설정
+      });
+
+      try {
+        final register = Register(
+          userid: emailController.text,
+          password: passwordController.text,
+          username: userNameController.text,
+          registerdate: DateFormat('yyyy-MM-dd').format(DateTime.now()),
+        );
+        await registerRepository.registerUser(register, context);
+      } catch (e) {
+        print("에러 발생 $e");
+      } finally {
+        if (mounted) {
+          setState(() {
+            _isLoading = false; // 로딩 상태 관리를 위한 상태 변수 설정
+          });
+        }
+      }
+    }
+
     return Scaffold(
         backgroundColor: Colors.green[100],
         body: LayoutBuilder(builder: (context, constraints) {

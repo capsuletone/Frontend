@@ -1,5 +1,4 @@
 import 'package:capsuleton_flutter/provider/user_data_provider.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -8,16 +7,13 @@ import 'provider/date_provider.dart';
 import 'provider/email_provider.dart';
 import 'provider/tablet_provider.dart';
 import 'utils/gorouter.dart';
-import 'firebase_options.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final appRouter = AppRouter();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+
   await initializeDateFormatting();
 
   runApp(MultiProvider(

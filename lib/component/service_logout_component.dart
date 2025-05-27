@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -13,14 +12,6 @@ class _ServiceLogoutState extends State<ServiceLogout> {
   @override
   Widget build(BuildContext context) {
     final pixel = MediaQuery.of(context).size.width / 375 * 0.97;
-    Future<void> deleteUserAccount() async {
-      User? user = FirebaseAuth.instance.currentUser;
-
-      if (user != null) {
-        await user.delete();
-        print('User 정보가 성공적으로 삭제되었습니다.');
-      }
-    }
 
     return LayoutBuilder(builder: (context, constraints) {
       return SingleChildScrollView(
@@ -93,7 +84,6 @@ class _ServiceLogoutState extends State<ServiceLogout> {
             ),
             GestureDetector(
                 onTap: () async {
-                  deleteUserAccount();
                   context.go('/login');
                 },
                 child: Text(

@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import '../provider/email_provider.dart';
 
-
 import '../component/highlight_text_component.dart';
 
 class RecommendedScreen extends StatefulWidget {
@@ -16,7 +15,22 @@ class RecommendedScreen extends StatefulWidget {
 }
 
 class _RecommendedScreenState extends State<RecommendedScreen> {
-  final List<String> _symptoms = ['콧물', '가래', '기침', '목 아픔', '두통', '발열', '소화불량', '속쓰림', '설사', '변비', '근육통', '몸살', '가려움', '눈의 피로'];
+  final List<String> _symptoms = [
+    '콧물',
+    '가래',
+    '기침',
+    '목 아픔',
+    '두통',
+    '발열',
+    '소화불량',
+    '속쓰림',
+    '설사',
+    '변비',
+    '근육통',
+    '몸살',
+    '가려움',
+    '눈의 피로'
+  ];
   final List<String> _selectedSymptoms = [];
   bool _isLoading = false;
   String _errorMessage = '';
@@ -47,9 +61,10 @@ class _RecommendedScreenState extends State<RecommendedScreen> {
     });
 
     final String symptomsData = _selectedSymptoms.join(', ');
-    final Uri uri = Uri.parse('http://10.0.2.2:8080/chat'); // Emulator 전용 IP
+    final Uri uri =
+        Uri.parse('http://211.188.64.79:8080/chat'); // Emulator 전용 IP
 
-    // ✅ EmailProvider에서 이메일 가져오기
+    //EmailProvider에서 이메일 가져오기
     final emailProvider = Provider.of<EmailProvider>(context, listen: false);
     final userEmail = emailProvider.email;
 
@@ -61,11 +76,10 @@ class _RecommendedScreenState extends State<RecommendedScreen> {
       return;
     }
 
-    print('📨 전송할 데이터: ${jsonEncode({
-      'userMessage': symptomsData,
-      'userId': userEmail,
-    })}');
-
+    print('전송할 데이터: ${jsonEncode({
+          'userMessage': symptomsData,
+          'userId': userEmail,
+        })}');
 
     try {
       final response = await http.post(
@@ -142,9 +156,9 @@ class _RecommendedScreenState extends State<RecommendedScreen> {
                             onPressed: () => _toggleSymptom(symptom),
                             style: ElevatedButton.styleFrom(
                               backgroundColor:
-                              isSelected ? Colors.green[400] : Colors.white,
+                                  isSelected ? Colors.green[400] : Colors.white,
                               foregroundColor:
-                              isSelected ? Colors.white : Colors.green,
+                                  isSelected ? Colors.white : Colors.green,
                               side: const BorderSide(color: Colors.green),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5)),
@@ -201,21 +215,21 @@ class _RecommendedScreenState extends State<RecommendedScreen> {
                           child: Center(
                             child: _isLoading
                                 ? SizedBox(
-                              width: 24 * pixel,
-                              height: 24 * pixel,
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
-                              ),
-                            )
+                                    width: 24 * pixel,
+                                    height: 24 * pixel,
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                    ),
+                                  )
                                 : Text(
-                              '증상 전송 및 AI 가이드 받기',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 0.8,
-                              ),
-                            ),
+                                    '증상 전송 및 AI 가이드 받기',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      letterSpacing: 0.8,
+                                    ),
+                                  ),
                           ),
                         )),
                     SizedBox(height: 30 * pixel),
@@ -247,9 +261,9 @@ Widget _buildGuidelines(List<dynamic> guidelines) {
       const Text('생활 가이드라인',
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
       ...guidelines.map((g) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 2.0),
-        child: Text("• $g"),
-      )),
+            padding: const EdgeInsets.symmetric(vertical: 2.0),
+            child: Text("• $g"),
+          )),
     ],
   );
 }
@@ -261,22 +275,22 @@ Widget _buildMedicines(List<dynamic> medicines) {
       const Text('추천 약품',
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
       ...medicines.map((m) => Card(
-        margin: const EdgeInsets.symmetric(vertical: 6),
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(m['name'],
-                  style: const TextStyle(fontWeight: FontWeight.bold)),
-              Text("설명: ${m['description']}"),
-              Text("복용 방법: ${m['usage']}"),
-              Text("주의사항: ${m['caution']}"),
-              Text("추천도: ${m['confidence']}"),
-            ],
-          ),
-        ),
-      )),
+            margin: const EdgeInsets.symmetric(vertical: 6),
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(m['name'],
+                      style: const TextStyle(fontWeight: FontWeight.bold)),
+                  Text("설명: ${m['description']}"),
+                  Text("복용 방법: ${m['usage']}"),
+                  Text("주의사항: ${m['caution']}"),
+                  Text("추천도: ${m['confidence']}"),
+                ],
+              ),
+            ),
+          )),
     ],
   );
 }

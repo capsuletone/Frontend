@@ -95,149 +95,180 @@ class _SettingPushScreenState extends State<SettingPushScreen> {
               return Padding(
                 padding: EdgeInsets.symmetric(horizontal: 24 * pixel),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if (!isScrollable || !isTablet)
-                      SizedBox(height: 54 * pixel),
-                    Column(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            context.go('/root');
-                          },
-                          child: const Text("뒤로가기"),
-                        ),
-                        Container(
-                          height: 120 * pixel,
-                          width: double.infinity,
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 16 * pixel, vertical: 18 * pixel),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                    Container(
+                      child: Column(children: [
+                        if (!isScrollable || !isTablet)
+                          SizedBox(height: 54 * pixel),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            GestureDetector(
+                              onTap: () => context.go('/root'),
+                              child: Icon(
+                                Icons.arrow_back_ios,
+                                size: 24.0 * pixel,
+                                color: Colors.black,
+                              ),
+                            ),
+                            Container(
+                              height: 120 * pixel,
+                              width: double.infinity,
+                              padding:
+                                  EdgeInsets.symmetric(vertical: 18 * pixel),
+                              child: Column(
                                 children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(
-                                        '케어 알림',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 30 * pixel,
-                                          fontFamily: 'Pretendard',
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                      SizedBox(height: 10 * pixel),
-                                      Text(
-                                        "약 먹을 시간에 알림",
-                                        style: TextStyle(
-                                          color: const Color(0x7F191F28),
-                                          fontSize: 13 * pixel,
-                                          fontFamily: 'Pretendard',
-                                          fontWeight: FontWeight.w300,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        _isToggled = !_isToggled;
-                                      });
-                                    },
-                                    child: AnimatedContainer(
-                                      duration:
-                                          const Duration(milliseconds: 300),
-                                      width: 50 * pixel,
-                                      height: 30 * pixel,
-                                      decoration: BoxDecoration(
-                                        color: _isToggled
-                                            ? Colors.green[300]
-                                            : Colors.grey,
-                                        borderRadius:
-                                            BorderRadius.circular(25 * pixel),
-                                      ),
-                                      child: Stack(
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          AnimatedAlign(
-                                            duration: const Duration(
-                                                milliseconds: 300),
-                                            alignment: _isToggled
-                                                ? Alignment.centerRight
-                                                : Alignment.centerLeft,
-                                            child: Padding(
-                                              padding:
-                                                  EdgeInsets.all(2.0 * pixel),
-                                              child: Container(
-                                                width: 27 * pixel,
-                                                height: 27 * pixel,
-                                                decoration: const BoxDecoration(
-                                                  color: Colors.white,
-                                                  shape: BoxShape.circle,
-                                                ),
-                                              ),
+                                          Text(
+                                            '케어 알림',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 30 * pixel,
+                                              fontFamily: 'Pretendard',
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                          SizedBox(height: 10 * pixel),
+                                          Text(
+                                            "알림을 받으시려면 토글을 켜고, 복용 시간을 설정해주세요.",
+                                            style: TextStyle(
+                                              color: Color(0x7F191F28),
+                                              fontSize: 12 * pixel,
+                                              fontFamily: 'Pretendard',
+                                              fontWeight: FontWeight.w300,
                                             ),
                                           ),
                                         ],
                                       ),
-                                    ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            _isToggled = !_isToggled;
+                                          });
+                                        },
+                                        child: AnimatedContainer(
+                                          duration:
+                                              const Duration(milliseconds: 300),
+                                          width: 50 * pixel,
+                                          height: 30 * pixel,
+                                          decoration: BoxDecoration(
+                                            color: _isToggled
+                                                ? Colors.green[300]
+                                                : Colors.grey,
+                                            borderRadius: BorderRadius.circular(
+                                                25 * pixel),
+                                          ),
+                                          child: Stack(
+                                            children: [
+                                              AnimatedAlign(
+                                                duration: const Duration(
+                                                    milliseconds: 300),
+                                                alignment: _isToggled
+                                                    ? Alignment.centerRight
+                                                    : Alignment.centerLeft,
+                                                child: Padding(
+                                                  padding: EdgeInsets.all(
+                                                      2.0 * pixel),
+                                                  child: Container(
+                                                    width: 27 * pixel,
+                                                    height: 27 * pixel,
+                                                    decoration:
+                                                        const BoxDecoration(
+                                                      color: Colors.white,
+                                                      shape: BoxShape.circle,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
-                            ],
+                            ),
+                          ],
+                        ),
+                        Padding(
+                            padding: EdgeInsets.symmetric(vertical: 8 * pixel),
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('아침 알림 시간'),
+                                  SizedBox(height: 10 * pixel),
+                                  TextField(
+                                    controller: _morningController,
+                                    decoration: const InputDecoration(
+                                      hintText: '08:00',
+                                      border: OutlineInputBorder(),
+                                    ),
+                                  ),
+                                  SizedBox(height: 10 * pixel),
+                                  Text('점심 알림 시간'),
+                                  SizedBox(height: 10 * pixel),
+                                  TextField(
+                                    controller: _lunchController,
+                                    decoration: const InputDecoration(
+                                      hintText: '12:00',
+                                      border: OutlineInputBorder(),
+                                    ),
+                                  ),
+                                  SizedBox(height: 10 * pixel),
+                                  Text('저녁 알림 시간'),
+                                  SizedBox(height: 10 * pixel),
+                                  TextField(
+                                    controller: _dinnerController,
+                                    decoration: const InputDecoration(
+                                      hintText: '18:00',
+                                      border: OutlineInputBorder(),
+                                    ),
+                                  )
+                                ]))
+                      ]),
+                    ),
+                    Container(
+                        child: Column(children: [
+                      GestureDetector(
+                        onTap: () async {
+                          await _saveTimes();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('알림 시간이 설정되었습니다.'),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.symmetric(vertical: 16 * pixel),
+                          decoration: BoxDecoration(
+                            color: Colors.green[300],
+                            borderRadius: BorderRadius.circular(12 * pixel),
+                          ),
+                          child: Text(
+                            "알림 시간 설정 완료",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 17 * pixel,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
-                      ],
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 8 * pixel),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('아침 알림 시간'),
-                          TextField(
-                            controller: _morningController,
-                            decoration: const InputDecoration(
-                              hintText: '08:00',
-                              border: OutlineInputBorder(),
-                            ),
-                          ),
-                          SizedBox(height: 10 * pixel),
-                          Text('점심 알림 시간'),
-                          TextField(
-                            controller: _lunchController,
-                            decoration: const InputDecoration(
-                              hintText: '12:00',
-                              border: OutlineInputBorder(),
-                            ),
-                          ),
-                          SizedBox(height: 10 * pixel),
-                          Text('저녁 알림 시간'),
-                          TextField(
-                            controller: _dinnerController,
-                            decoration: const InputDecoration(
-                              hintText: '18:00',
-                              border: OutlineInputBorder(),
-                            ),
-                          ),
-                          SizedBox(height: 20 * pixel),
-                          ElevatedButton(
-                            onPressed: () async {
-                              await _saveTimes();
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('알림 시간이 설정되었습니다.'),
-                                ),
-                              );
-                            },
-                            child: const Text('알림 시간 설정 완료'),
-                          ),
-                        ],
                       ),
-                    ),
+                      SizedBox(height: 68 * pixel)
+                    ])),
                   ],
                 ),
               );

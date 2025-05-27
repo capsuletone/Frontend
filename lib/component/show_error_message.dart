@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 class ShowErrorMessage {
+  final double pixel;
   final String message;
   final BuildContext context;
 
   ShowErrorMessage({
+    required this.pixel,
     required this.context,
     required this.message,
   });
@@ -14,11 +16,11 @@ class ShowErrorMessage {
       context: context,
       builder: (context) {
         return AlertDialog(
-          backgroundColor: Colors.purple,
+          backgroundColor: Colors.green[300],
           title: Center(
             child: Text(
               message,
-              style: const TextStyle(color: Colors.white),
+              style: TextStyle(fontSize: 20 * pixel, color: Colors.white),
             ),
           ),
           actions: [
@@ -26,7 +28,8 @@ class ShowErrorMessage {
               onPressed: () {
                 Navigator.of(context).pop(); // 다이얼로그 닫기
               },
-              child: const Text('Close', style: TextStyle(color: Colors.white)),
+              child: Text('닫기',
+                  style: TextStyle(fontSize: 14 * pixel, color: Colors.white)),
             ),
           ],
         );

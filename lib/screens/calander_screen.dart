@@ -208,23 +208,27 @@ class _CalanderScreenState extends State<CalanderScreen> {
                               if (events.isNotEmpty) {
                                 return Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  children:
-                                      List.generate(events.length, (index) {
-                                    return Container(
-                                      margin: const EdgeInsets.symmetric(
-                                          horizontal: 2.0),
-                                      width: events.length > 3
-                                          ? 5 * pixel
-                                          : 8 * pixel,
-                                      height: events.length > 3
-                                          ? 5 * pixel
-                                          : 8 * pixel,
-                                      decoration: BoxDecoration(
-                                        color: getColorByIndex(index),
-                                        shape: BoxShape.circle,
-                                      ),
-                                    );
-                                  }),
+                                  children: List.generate(
+                                    events.length > 4
+                                        ? 4
+                                        : events.length, // 최대 4개까지만 생성
+                                    (index) {
+                                      return Container(
+                                        margin: const EdgeInsets.symmetric(
+                                            horizontal: 2.0),
+                                        width: events.length > 3
+                                            ? 4 * pixel
+                                            : 8 * pixel,
+                                        height: events.length > 3
+                                            ? 4 * pixel
+                                            : 8 * pixel,
+                                        decoration: BoxDecoration(
+                                          color: getColorByIndex(index),
+                                          shape: BoxShape.circle,
+                                        ),
+                                      );
+                                    },
+                                  ),
                                 );
                               }
                               return null;

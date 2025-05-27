@@ -6,9 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../database/naver_ocr_response_database.dart';
-import 'scan_result_screen.dart';
-
 class CameraScreen extends StatefulWidget {
   final String userId;
   const CameraScreen({super.key, required this.userId});
@@ -22,7 +19,7 @@ class _CameraScreenState extends State<CameraScreen> {
   String? base64Image;
   File? _imageFile;
 
-  Future<void> takePicture() async {
+  Future<void> takePicture(double pixel, BuildContext context) async {
     final ImagePicker picker = ImagePicker();
     final XFile? photo = await picker.pickImage(source: ImageSource.camera);
 
@@ -35,8 +32,55 @@ class _CameraScreenState extends State<CameraScreen> {
         _imageFile = imageFile;
         base64Image = base64String;
       });
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+            insetPadding: EdgeInsets.zero,
+            backgroundColor: Colors.transparent,
+            child: Align(
+              alignment: Alignment.center, // 화면 가운데 정렬로 수정
 
-      print("✅ Base64 이미지: $base64String"); // 긴 Base64는 일부만 출력
+              child: Container(
+                width: 375 * pixel,
+                height: 620 * pixel,
+                padding: EdgeInsets.all(24 * pixel),
+                margin: EdgeInsets.symmetric(horizontal: 40 * pixel),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12 * pixel),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 10 * pixel,
+                      offset: Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(
+                      color: Colors.green,
+                    ),
+                    SizedBox(height: 16 * pixel),
+                    Text(
+                      '처방전 결과를 로딩 중...',
+                      style: TextStyle(
+                        fontSize: 16 * pixel,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      );
+      print("✅ Base64 이미지: $base64String");
       final reuqestData = NaverOcrRequestDatabase(base64: base64String);
       naverOcrRepository.ocrPicture(reuqestData, context);
     }
@@ -57,39 +101,47 @@ class _CameraScreenState extends State<CameraScreen> {
       });
       showDialog(
         context: context,
-        barrierDismissible: false,
-        builder: (context) {
-          return Center(
-            child: Container(
-              width: 375 * pixel,
-              height: 620 * pixel,
-              padding: EdgeInsets.all(24 * pixel),
-              margin: EdgeInsets.symmetric(horizontal: 40 * pixel),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12 * pixel),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black26,
-                    blurRadius: 10 * pixel,
-                    offset: Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CircularProgressIndicator(
-                    color: Colors.green,
-                  ),
-                  SizedBox(height: 16 * pixel),
-                  Text(
-                    '처방전 결과를 로딩 중...',
-                    style: TextStyle(fontSize: 16 * pixel, color: Colors.black),
-                  ),
-                ],
+        builder: (BuildContext context) {
+          return Dialog(
+            insetPadding: EdgeInsets.zero,
+            backgroundColor: Colors.transparent,
+            child: Align(
+              alignment: Alignment.center, // 화면 가운데 정렬로 수정
+
+              child: Container(
+                width: 375 * pixel,
+                height: 620 * pixel,
+                padding: EdgeInsets.all(24 * pixel),
+                margin: EdgeInsets.symmetric(horizontal: 40 * pixel),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12 * pixel),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 10 * pixel,
+                      offset: Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(
+                      color: Colors.green,
+                    ),
+                    SizedBox(height: 16 * pixel),
+                    Text(
+                      '처방전 결과를 로딩 중...',
+                      style: TextStyle(
+                        fontSize: 16 * pixel,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           );
@@ -169,7 +221,9 @@ class _CameraScreenState extends State<CameraScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           ElevatedButton.icon(
-                            onPressed: takePicture,
+                            onPressed: () {
+                              takePicture(pixel, context);
+                            },
                             icon: Icon(
                               Icons.camera_alt_outlined,
                               size: 28 * pixel,

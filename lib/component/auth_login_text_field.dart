@@ -25,17 +25,22 @@ class LoginTextField extends StatelessWidget {
       child: TextField(
         controller: controller,
         obscureText: obscureText,
+        style: TextStyle(
+          fontSize: 20.0 * pixel, // 텍스트 크기를 여기서 설정
+          color: Colors.black, // 텍스트 색상도 필요하면 설정 가능
+        ),
         decoration: InputDecoration(
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.white),
-            ),
-            focusedBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.white),
-            ),
-            fillColor: Colors.white12,
-            filled: true,
-            hintText: hintText,
-            hintStyle: TextStyle(color: Colors.grey[600])),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
+          ),
+          focusedBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
+          ),
+          fillColor: Colors.white12,
+          filled: true,
+          hintText: hintText,
+          hintStyle: TextStyle(fontSize: 14 * pixel, color: Colors.grey[600]),
+        ),
       ),
     );
   }
