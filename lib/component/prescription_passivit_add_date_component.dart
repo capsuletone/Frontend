@@ -25,7 +25,7 @@ class DateEditPopupContainer extends StatelessWidget {
               margin: EdgeInsets.symmetric(
                 horizontal: 12 * pixel,
               ),
-              width: 400 * pixel,
+              width: double.infinity,
               height: 340 * pixel, // 살짝 키움
               decoration: ShapeDecoration(
                 color: Colors.grey[300],
@@ -80,7 +80,7 @@ class DateEditPopupContainer extends StatelessWidget {
                 horizontal: 12 * pixel,
               ),
               width: double.infinity,
-              height: 60 * pixel,
+              height: 56 * pixel,
               decoration: ShapeDecoration(
                 color: Colors.white,
                 shape: RoundedRectangleBorder(
@@ -101,7 +101,7 @@ class DateEditPopupContainer extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 40 * pixel),
+            SizedBox(height: 34 * pixel),
           ],
         ),
       ),

@@ -103,184 +103,198 @@ class _SettingPushScreenState extends State<SettingPushScreen> {
                         if (!isScrollable || !isTablet)
                           SizedBox(height: 54 * pixel),
                         Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            GestureDetector(
-                              onTap: () => context.go('/root'),
-                              child: Icon(
-                                Icons.arrow_back_ios,
-                                size: 24.0 * pixel,
-                                color: Colors.black,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              GestureDetector(
+                                onTap: () => context.go('/root'),
+                                child: Icon(
+                                  Icons.arrow_back_ios,
+                                  size: 24.0 * pixel,
+                                  color: Colors.black,
+                                ),
                               ),
-                            ),
-                            Container(
-                              height: 120 * pixel,
-                              width: double.infinity,
-                              padding:
-                                  EdgeInsets.symmetric(vertical: 18 * pixel),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            '케어 알림',
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 30 * pixel,
-                                              fontFamily: 'Pretendard',
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                          SizedBox(height: 10 * pixel),
-                                          Text(
-                                            "알림을 받으시려면 토글을 켜고, 복용 시간을 설정해주세요.",
-                                            style: TextStyle(
-                                              color: Color(0x7F191F28),
-                                              fontSize: 12 * pixel,
-                                              fontFamily: 'Pretendard',
-                                              fontWeight: FontWeight.w300,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            _isToggled = !_isToggled;
-                                          });
-                                        },
-                                        child: AnimatedContainer(
-                                          duration:
-                                              const Duration(milliseconds: 300),
-                                          width: 50 * pixel,
-                                          height: 30 * pixel,
-                                          decoration: BoxDecoration(
-                                            color: _isToggled
-                                                ? Colors.green[300]
-                                                : Colors.grey,
-                                            borderRadius: BorderRadius.circular(
-                                                25 * pixel),
-                                          ),
-                                          child: Stack(
+                              Container(
+                                height: 120 * pixel,
+                                width: double.infinity,
+                                padding:
+                                    EdgeInsets.symmetric(vertical: 18 * pixel),
+                                child: Column(
+                                  children: [
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
-                                              AnimatedAlign(
-                                                duration: const Duration(
-                                                    milliseconds: 300),
-                                                alignment: _isToggled
-                                                    ? Alignment.centerRight
-                                                    : Alignment.centerLeft,
-                                                child: Padding(
-                                                  padding: EdgeInsets.all(
-                                                      2.0 * pixel),
-                                                  child: Container(
-                                                    width: 27 * pixel,
-                                                    height: 27 * pixel,
-                                                    decoration:
-                                                        const BoxDecoration(
-                                                      color: Colors.white,
-                                                      shape: BoxShape.circle,
-                                                    ),
-                                                  ),
+                                              Text(
+                                                '케어 알림',
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 30 * pixel,
+                                                  fontFamily: 'Pretendard',
+                                                  fontWeight: FontWeight.w500,
                                                 ),
                                               ),
-                                            ],
+                                              GestureDetector(
+                                                onTap: () {
+                                                  setState(() {
+                                                    _isToggled = !_isToggled;
+                                                  });
+                                                },
+                                                child: AnimatedContainer(
+                                                  duration: const Duration(
+                                                      milliseconds: 300),
+                                                  width: 50 * pixel,
+                                                  height: 30 * pixel,
+                                                  decoration: BoxDecoration(
+                                                    color: _isToggled
+                                                        ? Colors.green[300]
+                                                        : Colors.grey,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            25 * pixel),
+                                                  ),
+                                                  child: Stack(
+                                                    children: [
+                                                      AnimatedAlign(
+                                                        duration:
+                                                            const Duration(
+                                                                milliseconds:
+                                                                    300),
+                                                        alignment: _isToggled
+                                                            ? Alignment
+                                                                .centerRight
+                                                            : Alignment
+                                                                .centerLeft,
+                                                        child: Padding(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  2.0 * pixel),
+                                                          child: Container(
+                                                            width: 27 * pixel,
+                                                            height: 27 * pixel,
+                                                            decoration:
+                                                                const BoxDecoration(
+                                                              color:
+                                                                  Colors.white,
+                                                              shape: BoxShape
+                                                                  .circle,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              )
+                                            ]),
+                                        SizedBox(height: 10 * pixel),
+                                        Text(
+                                          "알림을 받으시려면 토글을 켜고, 복용 시간을 설정해주세요.",
+                                          style: TextStyle(
+                                            color: Colors.black87,
+                                            fontSize: 12 * pixel,
+                                            fontFamily: 'Pretendard',
+                                            fontWeight: FontWeight.w300,
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                        Padding(
-                            padding: EdgeInsets.symmetric(vertical: 8 * pixel),
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '아침 알림 시간',
-                                    style: TextStyle(
-                                      fontSize: 16 * pixel,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  SizedBox(height: 10 * pixel),
-                                  TextField(
-                                    controller: _morningController,
-                                    style: TextStyle(
-                                      fontSize: 20 * pixel, // 입력 텍스트 크기 키우기
-                                    ),
-                                    decoration: InputDecoration(
-                                      hintText: '8:00',
-                                      hintStyle: TextStyle(
-                                        fontSize: 20 * pixel,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                      border: OutlineInputBorder(),
-                                    ),
-                                  ),
-                                  SizedBox(height: 10 * pixel),
-                                  Text(
-                                    '점심 알림 시간',
-                                    style: TextStyle(
-                                      fontSize: 16 * pixel,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  SizedBox(height: 10 * pixel),
-                                  TextField(
-                                    controller: _lunchController,
-                                    style: TextStyle(
-                                      fontSize: 20 * pixel, // 입력 텍스트 크기 키우기
-                                    ),
-                                    decoration: InputDecoration(
-                                      hintText: '12:00',
-                                      hintStyle: TextStyle(
-                                        fontSize: 20 * pixel,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                      border: OutlineInputBorder(),
-                                    ),
-                                  ),
-                                  SizedBox(height: 10 * pixel),
-                                  Text(
-                                    '저녁 알림 시간',
-                                    style: TextStyle(
-                                      fontSize: 16 * pixel,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  SizedBox(height: 10 * pixel),
-                                  TextField(
-                                    controller: _dinnerController,
-                                    style: TextStyle(
-                                      fontSize: 20 * pixel, // 입력 텍스트 크기 키우기
-                                    ),
-                                    decoration: InputDecoration(
-                                      hintText: '18:00',
-                                      hintStyle: TextStyle(
-                                        fontSize: 20 * pixel,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                      border: OutlineInputBorder(),
-                                    ),
-                                  )
-                                ]))
+                              Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(vertical: 8 * pixel),
+                                  child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          '아침 알림 시간',
+                                          style: TextStyle(
+                                            fontSize: 16 * pixel,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                        SizedBox(height: 10 * pixel),
+                                        TextField(
+                                          controller: _morningController,
+                                          style: TextStyle(
+                                            fontSize:
+                                                20 * pixel, // 입력 텍스트 크기 키우기
+                                          ),
+                                          decoration: InputDecoration(
+                                            hintText: '8:00',
+                                            hintStyle: TextStyle(
+                                              fontSize: 20 * pixel,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                            border: OutlineInputBorder(),
+                                          ),
+                                        ),
+                                        SizedBox(height: 10 * pixel),
+                                        Text(
+                                          '점심 알림 시간',
+                                          style: TextStyle(
+                                            fontSize: 16 * pixel,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                        SizedBox(height: 10 * pixel),
+                                        TextField(
+                                          controller: _lunchController,
+                                          style: TextStyle(
+                                            fontSize:
+                                                20 * pixel, // 입력 텍스트 크기 키우기
+                                          ),
+                                          decoration: InputDecoration(
+                                            hintText: '12:00',
+                                            hintStyle: TextStyle(
+                                              fontSize: 20 * pixel,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                            border: OutlineInputBorder(),
+                                          ),
+                                        ),
+                                        SizedBox(height: 10 * pixel),
+                                        Text(
+                                          '저녁 알림 시간',
+                                          style: TextStyle(
+                                            fontSize: 16 * pixel,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                        SizedBox(height: 10 * pixel),
+                                        TextField(
+                                          controller: _dinnerController,
+                                          style: TextStyle(
+                                            fontSize:
+                                                20 * pixel, // 입력 텍스트 크기 키우기
+                                          ),
+                                          decoration: InputDecoration(
+                                            hintText: '18:00',
+                                            hintStyle: TextStyle(
+                                              fontSize: 20 * pixel,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                            border: OutlineInputBorder(),
+                                          ),
+                                        )
+                                      ]))
+                            ]),
                       ]),
                     ),
                     Container(

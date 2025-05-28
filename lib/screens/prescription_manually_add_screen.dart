@@ -144,8 +144,6 @@ class _AddMedicineItemScreenState extends State<AddMedicineItemScreen> {
                           ),
                         ),
                       ),
-
-                      SizedBox(height: 40 * pixel),
                     ])),
                 Container(
                   child: Column(children: [

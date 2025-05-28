@@ -175,14 +175,13 @@ class _CalanderScreenState extends State<CalanderScreen> {
                               eventLoader: _getEventsForDay,
 
                               daysOfWeekStyle: DaysOfWeekStyle(
-                                // ✅ 요일 스타일 명시
                                 weekdayStyle: TextStyle(
-                                  fontSize: 13 * pixel,
+                                  fontSize: 13 * pixel, // 적절한 크기로 수정
                                   fontWeight: FontWeight.w600,
                                   color: Colors.black87,
                                 ),
                                 weekendStyle: TextStyle(
-                                  fontSize: 13 * pixel,
+                                  fontSize: 13 * pixel, // 동일하게 수정
                                   fontWeight: FontWeight.w600,
                                   color: Colors.red,
                                 ),
@@ -190,7 +189,7 @@ class _CalanderScreenState extends State<CalanderScreen> {
 
                               calendarStyle: CalendarStyle(
                                 defaultTextStyle: TextStyle(
-                                  fontSize: 15 * pixel,
+                                  fontSize: 13 * pixel,
                                   height: 1.2,
                                 ),
                                 outsideTextStyle: TextStyle(
@@ -223,7 +222,7 @@ class _CalanderScreenState extends State<CalanderScreen> {
 
                               calendarBuilders: CalendarBuilders(
                                 dowBuilder: (context, day) {
-                                  final text = DateFormat.E('ko').format(day);
+                                  final text = DateFormat.E('en').format(day);
                                   final isWeekend =
                                       day.weekday == DateTime.saturday ||
                                           day.weekday == DateTime.sunday;

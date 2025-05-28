@@ -16,7 +16,7 @@ class DatePickerPopupComponent extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Container(
-          width: 377 * pixel,
+          width: double.infinity,
           height: 287 * pixel,
           decoration: ShapeDecoration(
             color: Colors.grey[300],
