@@ -18,11 +18,11 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void _initializeUser() {
     Future.delayed(const Duration(seconds: 2)).then((_) {
-      context.go('/root');
+      context.go('/login');
     }).catchError((error) {
       print("Error during user initialization: $error");
 
-      context.go('/root');
+      context.go('/login');
     });
   }
 

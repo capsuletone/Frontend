@@ -18,7 +18,7 @@
 
     <application
         android:name="${applicationName}"
-        android:label="capsuleton_flutter"
+        android:label="capsuleton"
         android:icon="@mipmap/ic_launcher">
 
         <!-- 메인 액티비티 -->

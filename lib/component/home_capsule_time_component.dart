@@ -82,7 +82,7 @@ Widget homeCapsuleTimeContainer(double pixel,
                 ),
               ),
               TextSpan(
-                text: '복용할 약이에요',
+                text: ' 복용할 약이에요',
                 style: TextStyle(
                   fontSize: fontSize,
                   fontWeight: FontWeight.w500,
