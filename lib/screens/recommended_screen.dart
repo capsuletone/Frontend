@@ -134,7 +134,7 @@ class _RecommendedScreenState extends State<RecommendedScreen> {
     return Scaffold(
         backgroundColor: Colors.white,
         body: LayoutBuilder(builder: (context, constraints) {
-          final isScrollable = constraints.maxHeight < 600;
+          final isScrollable = constraints.maxHeight < 400;
           final screenWidth = MediaQuery.of(context).size.width;
           final isTablet = screenWidth >= 768;
           final pixel = screenWidth / 375 * 0.97;
@@ -266,7 +266,7 @@ class _RecommendedScreenState extends State<RecommendedScreen> {
               ));
           return SingleChildScrollView(
               physics:
-                  isScrollable ? null : const NeverScrollableScrollPhysics(),
+                 const AlwaysScrollableScrollPhysics(),
               child: ConstrainedBox(
                 constraints: BoxConstraints(
                   minHeight: constraints.maxHeight,

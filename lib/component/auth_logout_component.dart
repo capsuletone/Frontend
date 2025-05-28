@@ -17,7 +17,7 @@ class _AccountLogoutState extends State<AccountLogout> {
       height: 193 * pixel,
       padding: EdgeInsets.symmetric(
         vertical: 30 * pixel,
-        horizontal: 22 * pixel,
+        horizontal: 12* pixel,
       ),
       clipBehavior: Clip.antiAlias,
       decoration: ShapeDecoration(
