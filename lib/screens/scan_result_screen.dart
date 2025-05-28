@@ -18,25 +18,27 @@ class OcrresultPage extends StatefulWidget {
 class _PrescriptionScreenState extends State<OcrresultPage> {
   List<SaveUserDatabase> items = [];
   final saveUserRepository = SaveuserdataRepository();
-
-  bool hasSaved = false; // ✅ 저장 중복 방지
+  bool hasSaved = false; // ✅ 중복 저장 방지
 
   @override
   void initState() {
     super.initState();
 
-    // 저장은 딱 한 번만 실행
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!hasSaved) {
         hasSaved = true;
+        final userId = context.read<EmailProvider>().email;
+
         processAndSaveUserData(
-          userId: context.read<EmailProvider>().email,
+          userId: userId,
           date: widget.result.date,
-          diseaseCode: widget.result.diseaseCode!,
+          diseaseCode: widget.result.diseaseCode ?? '알수없음',
           medicineName: widget.result.medicineName,
           dosesPerDay: widget.result.dosesPerDay,
           totalDays: widget.result.totalDays,
         );
+
+        setState(() {}); // ✅ items가 추가된 후 리빌드
       }
     });
   }
@@ -44,6 +46,12 @@ class _PrescriptionScreenState extends State<OcrresultPage> {
   @override
   Widget build(BuildContext context) {
     final pixel = MediaQuery.of(context).size.width / 375 * 0.97;
+
+    final minLength = [
+      widget.result.medicineName.length,
+      widget.result.dosesPerDay.length,
+      widget.result.totalDays.length,
+    ].reduce((a, b) => a < b ? a : b); // ✅ 배열 길이 불일치 방지
 
     return Scaffold(
       appBar: AppBar(
@@ -60,7 +68,7 @@ class _PrescriptionScreenState extends State<OcrresultPage> {
             Text(" 날짜: ${widget.result.date}",
                 style: TextStyle(fontSize: 18, color: Colors.black)),
             SizedBox(height: 4),
-            Text(" 질병 코드: ${widget.result.diseaseCode}",
+            Text(" 질병 코드: ${widget.result.diseaseCode ?? '알수없음'}",
                 style: TextStyle(fontSize: 18, color: Colors.black)),
             SizedBox(height: 20),
             Text("💊 약 정보:",
@@ -69,7 +77,11 @@ class _PrescriptionScreenState extends State<OcrresultPage> {
                     fontWeight: FontWeight.bold,
                     color: Colors.black)),
             SizedBox(height: 20 * pixel),
-            ...List.generate(widget.result.medicineName.length, (index) {
+            ...List.generate(minLength, (index) {
+              final name = widget.result.medicineName[index];
+              final dose = _parseDose(widget.result.dosesPerDay[index]);
+              final days = _parseDays(widget.result.totalDays[index]);
+
               return Container(
                 margin: EdgeInsets.symmetric(vertical: 4 * pixel),
                 padding: EdgeInsets.all(12 * pixel),
@@ -78,7 +90,7 @@ class _PrescriptionScreenState extends State<OcrresultPage> {
                   borderRadius: BorderRadius.circular(8 * pixel),
                 ),
                 child: Text(
-                  "${widget.result.medicineName[index]} | 1일 ${widget.result.dosesPerDay[index].toInt()}회 | ${widget.result.totalDays[index]}일 복용",
+                  "$name | 1일 ${dose}회 | ${days}일 복용",
                   style: TextStyle(fontSize: 16 * pixel, color: Colors.black),
                 ),
               );
@@ -86,7 +98,13 @@ class _PrescriptionScreenState extends State<OcrresultPage> {
             Spacer(),
             GestureDetector(
               onTap: () async {
-                saveUserRepository.saveUserData(items, context);
+                if (items.isNotEmpty) {
+                  saveUserRepository.saveUserData(items, context);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('저장할 데이터가 없습니다.')),
+                  );
+                }
               },
               child: Container(
                 width: double.infinity,
@@ -106,29 +124,22 @@ class _PrescriptionScreenState extends State<OcrresultPage> {
                 ),
               ),
             ),
-            SizedBox(
-              height: 18 * pixel,
-            ),
+            SizedBox(height: 18 * pixel),
           ],
         ),
       ),
     );
   }
 
-  // 복용 시간대 계산
+  // ✅ 복용 횟수에 따른 시간대 계산
   List<String> _getTimesByDoses(double doses) {
-    if (doses == 3.0) {
-      return ['아침', '점심', '저녁'];
-    } else if (doses == 2.0) {
-      return ['아침', '저녁'];
-    } else if (doses == 1.0) {
-      return ['점심'];
-    } else {
-      return ['알수없음'];
-    }
+    if (doses == 3.0) return ['아침', '점심', '저녁'];
+    if (doses == 2.0) return ['아침', '저녁'];
+    if (doses == 1.0) return ['점심'];
+    return ['알수없음'];
   }
 
-  // 유저 데이터 저장 처리
+  // ✅ 유저 데이터 가공 및 저장용 리스트 구성
   void processAndSaveUserData({
     required String? userId,
     required String? date,
@@ -138,44 +149,50 @@ class _PrescriptionScreenState extends State<OcrresultPage> {
     required List<dynamic> totalDays,
   }) {
     final formattedDate = "$date";
-    final Set<String> addedMedicineNames = {}; // ✅ 중복 방지용 Set
+    final Set<String> addedMedicineNames = {};
 
-    for (int i = 0; i < medicineName.length; i++) {
+    final minLength = [
+      medicineName.length,
+      dosesPerDay.length,
+      totalDays.length
+    ].reduce((a, b) => a < b ? a : b);
+
+    for (int i = 0; i < minLength; i++) {
       final name = medicineName[i];
-      final doses = dosesPerDay[i] ?? 0;
-      final days = totalDays[i] ?? 0;
+      final dose = _parseDose(dosesPerDay[i]).toDouble();
+      final days = _parseDays(totalDays[i]);
 
-      // ✅ 약 이름 중복 검사
-      if (addedMedicineNames.contains(name)) {
-        continue; // 중복이면 건너뜀
-      }
+      if (addedMedicineNames.contains(name)) continue;
       addedMedicineNames.add(name);
 
-      // ✅ 복용 시간대 계산
-      List<String> times = _getTimesByDoses(doses);
+      final times = _getTimesByDoses(dose).join(", ");
 
-      // "아침", "점심", "저녁"을 하나의 객체에 저장하기 위해
-      // 여러 시간대를 하나의 "time" 값에 담기
-      final timeString = times.join(", "); // "아침, 점심, 저녁" 형태로 합침
-
-      // 하나의 데이터 객체로 저장
       final data = SaveUserDatabase(
         userid: userId ?? '',
         diseaseCode: diseaseCode,
         medicineName: name,
-        time: timeString, // 시간대들을 쉼표로 구분하여 하나의 필드에 저장
+        time: times,
         totalDays: days,
         date: formattedDate,
       );
 
-      items.add(data); // 중복 아닌 경우에만 추가
+      items.add(data);
     }
-
-    // ✅ 모든 데이터 수집 후 한 번만 저장 호출
   }
 
-  // 실제 저장 처리 (지금은 print로 확인)
-  void saveUserData(Map<String, dynamic> data) {
-    print("💾 Saving user data: $data");
+  // ✅ 복용 횟수 파싱
+  int _parseDose(dynamic dose) {
+    if (dose is int) return dose;
+    if (dose is double) return dose.toInt();
+    if (dose is String) return int.tryParse(dose) ?? 0;
+    return 0;
+  }
+
+  // ✅ 복용 일수 파싱
+  int _parseDays(dynamic days) {
+    if (days is int) return days;
+    if (days is double) return days.toInt();
+    if (days is String) return int.tryParse(days) ?? 0;
+    return 0;
   }
 }
