@@ -16,13 +16,18 @@ class Tablet {
   });
 
   factory Tablet.fromJson(Map<String, dynamic> json) {
+    String? clean(String? value) {
+      if (value == null) return null;
+      return value.replaceAll(RegExp(r'\\n|\n|\\\\|\\|nn|n'), '').trim();
+    }
+
     return Tablet(
-      itemName: json['itemName'],
-      efcyQesitm: json['efcyQesitm'],
-      useMethodQesitm: json['useMethodQesitm'],
-      atpnWarnQesitm: json['atpnWarnQesitm'],
-      atpnQesitm: json['atpnQesitm'],
-      intrcQesitm: json['intrcQesitm'],
+      itemName: clean(json['itemName']),
+      efcyQesitm: clean(json['efcyQesitm']),
+      useMethodQesitm: clean(json['useMethodQesitm']),
+      atpnWarnQesitm: clean(json['atpnWarnQesitm']),
+      atpnQesitm: clean(json['atpnQesitm']),
+      intrcQesitm: clean(json['intrcQesitm']),
     );
   }
 
